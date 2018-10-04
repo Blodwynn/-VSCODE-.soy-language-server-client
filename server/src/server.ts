@@ -121,7 +121,8 @@ documents.onDidChangeContent(change => {
 
 const errorPatterns = [
 	{ pattern: /\b[A-Z]{2,}\b/g, message: 'CAPS stuff' },
-	{ pattern: /\d{4}/g,         message: '4 numbers' }
+	{ pattern: /\d{4}/g,         message: '4 numbers' },
+	{ pattern: /\{\s*let .*?kind=.*?[^/]}/ig,   message: 'Unnecessary closing tag for LET opening tag'}
 ];
 
 const warningPatterns = [
@@ -129,7 +130,7 @@ const warningPatterns = [
 	{ pattern: /TODO/ig,             message: 'To be checked for followups' }
 ];
 
-function validateWithPattern(errorItem: any, text: string, textDocument: TextDocument) {
+function validateWithPattern(errorItem: any, text: string, textDocument: TextDocument, severity: DiagnosticSeverity) {
 	const pattern = errorItem.pattern;
 	const message = errorItem.message;
 	let diagnosticResults : Diagnostic[] = [];
@@ -137,7 +138,7 @@ function validateWithPattern(errorItem: any, text: string, textDocument: TextDoc
 
 	while (m = pattern.exec(text)) {
 		diagnosticResults.push({
-			severity: DiagnosticSeverity.Error,
+			severity: severity,
 			range: {
 				start: textDocument.positionAt(m.index),
 				end: textDocument.positionAt(m.index + m[0].length)
@@ -150,30 +151,25 @@ function validateWithPattern(errorItem: any, text: string, textDocument: TextDoc
 	return diagnosticResults;
 }
 
+function validatePatterns(errorItems: any[], text: string, textDocument: TextDocument, severity: DiagnosticSeverity) {
+	let diagnosticResults : Diagnostic[] = [];
+
+	errorItems.forEach(errorItem  => {
+		diagnosticResults = diagnosticResults.concat(validateWithPattern(errorItem, text, textDocument, severity));
+	});
+
+	return diagnosticResults;
+}
+
 async function validateSoyDocument(textDocument: TextDocument): Promise<void> {
 	let settings = await getDocumentSettings(textDocument.uri);
 	let text = textDocument.getText();
 
 	let problems = 0;
-	let diagnostics: Diagnostic[] = [];
-
-	errorPatterns.forEach(errorItem => {
-		const diagnosticResults = validateWithPattern(errorItem, text, textDocument);
-
-		if (diagnosticResults) {
-			problems += diagnosticResults.length;
-			diagnostics = diagnostics.concat(diagnosticResults);
-		}
-	});
-
-	warningPatterns.forEach(errorItem => {
-		const diagnostic = validateWithPattern(errorItem, text, textDocument);
-
-		if (diagnostic) {
-			problems += diagnostic.length;
-			diagnostics = diagnostics.concat(diagnostic);
-		}
-	});
+	let diagnostics: Diagnostic[] = [
+		...validatePatterns(errorPatterns, text, textDocument, DiagnosticSeverity.Error),
+		...validatePatterns(warningPatterns, text, textDocument, DiagnosticSeverity.Warning)
+	];
 
 	if (problems < settings.maxNumberOfProblems) {
 		// meh
