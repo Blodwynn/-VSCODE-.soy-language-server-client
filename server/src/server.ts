@@ -28,7 +28,6 @@ let documents: TextDocuments = new TextDocuments();
 
 let hasConfigurationCapability: boolean = false;
 let hasWorkspaceFolderCapability: boolean = false;
-let hasDiagnosticRelatedInformationCapability: boolean = false;
 
 connection.onInitialize((params: InitializeParams) => {
 	let capabilities = params.capabilities;
@@ -39,10 +38,6 @@ connection.onInitialize((params: InitializeParams) => {
 		capabilities.workspace && !!capabilities.workspace.configuration;
 	hasWorkspaceFolderCapability =
 		capabilities.workspace && !!capabilities.workspace.workspaceFolders;
-	hasDiagnosticRelatedInformationCapability =
-		capabilities.textDocument &&
-		capabilities.textDocument.publishDiagnostics &&
-		capabilities.textDocument.publishDiagnostics.relatedInformation;
 
 	return {
 		capabilities: {
@@ -124,54 +119,66 @@ documents.onDidChangeContent(change => {
 	validateSoyDocument(change.document);
 });
 
-const warningPatterns : RegExp[] = [
-
+const errorPatterns = [
+	{ pattern: /\b[A-Z]{2,}\b/g, message: 'CAPS stuff' },
+	{ pattern: /\d{4}/g,         message: '4 numbers' }
 ];
 
-async function validateSoyDocument(textDocument: TextDocument): Promise<void> {
-	// In this simple example we get the settings for every validate run.
-	let settings = await getDocumentSettings(textDocument.uri);
+const warningPatterns = [
+	{ pattern: /breaking ?change/ig, message: 'To be checked for followups' },
+	{ pattern: /TODO/ig,             message: 'To be checked for followups' }
+];
 
-	// The validator creates diagnostics for all uppercase words length 2 and more
-	let text = textDocument.getText();
-	let pattern = /\b[A-Z]{2,}\b/g;
-	let m: RegExpExecArray;
+function validateWithPattern(errorItem: any, text: string, textDocument: TextDocument) {
+	const pattern = errorItem.pattern;
+	const message = errorItem.message;
+	let diagnosticResults : Diagnostic[] = [];
+	let m;
 
-	let problems = 0;
-	let diagnostics: Diagnostic[] = [];
-	while ((m = pattern.exec(text)) && problems < settings.maxNumberOfProblems) {
-		problems++;
-		let diagnosic: Diagnostic = {
-			severity: DiagnosticSeverity.Warning,
+	while (m = pattern.exec(text)) {
+		diagnosticResults.push({
+			severity: DiagnosticSeverity.Error,
 			range: {
 				start: textDocument.positionAt(m.index),
 				end: textDocument.positionAt(m.index + m[0].length)
 			},
-			message: `${m[0]} is all uppercase.`,
+			message: `${m[0]}: ${message}.`,
 			source: 'ex'
-		};
-		if (hasDiagnosticRelatedInformationCapability) {
-			diagnosic.relatedInformation = [
-				{
-					location: {
-						uri: textDocument.uri,
-						range: Object.assign({}, diagnosic.range)
-					},
-					message: 'Spelling matters'
-				},
-				{
-					location: {
-						uri: textDocument.uri,
-						range: Object.assign({}, diagnosic.range)
-					},
-					message: 'Particularly for names'
-				}
-			];
-		}
-		diagnostics.push(diagnosic);
+		});
 	}
 
-	// Send the computed diagnostics to VSCode.
+	return diagnosticResults;
+}
+
+async function validateSoyDocument(textDocument: TextDocument): Promise<void> {
+	let settings = await getDocumentSettings(textDocument.uri);
+	let text = textDocument.getText();
+
+	let problems = 0;
+	let diagnostics: Diagnostic[] = [];
+
+	errorPatterns.forEach(errorItem => {
+		const diagnosticResults = validateWithPattern(errorItem, text, textDocument);
+
+		if (diagnosticResults) {
+			problems += diagnosticResults.length;
+			diagnostics = diagnostics.concat(diagnosticResults);
+		}
+	});
+
+	warningPatterns.forEach(errorItem => {
+		const diagnostic = validateWithPattern(errorItem, text, textDocument);
+
+		if (diagnostic) {
+			problems += diagnostic.length;
+			diagnostics = diagnostics.concat(diagnostic);
+		}
+	});
+
+	if (problems < settings.maxNumberOfProblems) {
+		// meh
+	}
+
 	connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
 }
 
