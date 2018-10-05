@@ -4,7 +4,7 @@
     "displayName": ".soy syntax checker (Google closure template)",
 	"author": "Roland Orosz",
 	"license": "MIT",
-	"version": "1.0.1",
+	"version": "1.1.0",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/Blodwynn/-VSCODE-.soy-language-server-client"
@@ -21,6 +21,7 @@
 		"onLanguage:soy"
 	],
 	"main": "./client/out/extension",
+	"icon": "images/google_closure.png",
 	"contributes": {
 		"languages": [
 			{
