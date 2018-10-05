@@ -1,6 +1,7 @@
 {
-	"name": "lsp-sample",
-	"description": ".soy syntax checker (Google closure template) ",
+	"name": "soysyntaxchecker",
+	"description": ".soy syntax checker (Google closure template)",
+    "displayName": ".soy syntax checker (Google closure template)",
 	"author": "Roland Orosz",
 	"license": "MIT",
 	"version": "1.0.0",
