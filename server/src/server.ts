@@ -108,21 +108,28 @@ function getDocumentSettings(resource: string): Thenable<ExampleSettings> {
 	return result;
 }
 
-// Only keep settings for open documents
 documents.onDidClose(e => {
 	documentSettings.delete(e.document.uri);
 });
 
-// The content of a text document has changed. This event is emitted
-// when the text document first opened or when its content has changed.
 documents.onDidChangeContent(change => {
 	validateSoyDocument(change.document);
 });
 
 const errorPatterns = [
-	{ pattern: /\b[A-Z]{2,}\b/g, message: 'CAPS stuff' },
-	{ pattern: /\d{4}/g,         message: '4 numbers' },
-	{ pattern: /\{\s*let .*?kind=.*?[^/]}/ig,   message: 'Unnecessary closing tag for LET opening tag'}
+	// LET
+	{ pattern: /\{\s*let.*?kind=.*?\/\}/ig,  message: 'Unnecessary closing tag for LET opening tag'},
+	{ pattern: /\{\s*let\s+\w.*?\}/ig,       message: 'Missing $ sign for variable declaration'},
+	{ pattern: /\{\s*let.*?:.*?[^/]}/ig,     message: 'Missing closing tag for LET declaration'},
+	{ pattern: /\{\s*let.*?\/ }/ig,          message: 'Extra spacing before closing tag'},
+
+	// PARAM
+	{ pattern: /\{\s*param.*?kind=.*?\/\}/ig,  message: 'Unnecessary closing tag for PARAM opening tag'},
+	{ pattern: /\{\s*param.*?:.*?[^/]}/ig,     message: 'Missing closing tag for parameter'},
+	{ pattern: /\{\s*param.*?\/ }/ig,          message: 'Extra spacing before closing tag'},
+
+	{ pattern: /\{template.*?\/\s*\}/ig,     message: 'Self closing is not applicable for templates' },
+	{ pattern: /\{deltemplate.*?\/\s*\}/ig,  message: 'Self closing is not applicable for deltemplates' }
 ];
 
 const warningPatterns = [
