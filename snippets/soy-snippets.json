@@ -1,0 +1,129 @@
+{
+    "foreach": {
+        "prefix": "sfor",
+        "body": [
+            "{foreach $${1:variable} in $${2:collection}}",
+            "    ${3:statements}",
+            "{/foreach}",
+            ""
+        ]
+    },
+    "if": {
+        "prefix": "sif",
+        "body": [
+            "{if ${1:condition}}",
+            "    ${2:statements}",
+            "{/if}",
+            ""
+        ]
+    },
+    "if-else": {
+        "prefix": "sife",
+        "body": [
+            "{if ${1:condition}}",
+            "    ${2:statements}",
+            "{else}",
+            "    ${3:statements}",
+            "{/if}",
+            ""
+        ]
+    },
+    "let": {
+        "prefix": "sl",
+        "body": [
+            "{let $${1:name}: ${2:value} /}",
+            ""
+        ]
+    },
+    "let-block": {
+        "prefix": "slb",
+        "body": [
+            "{let $${1:name} kind=\"${2:text OR html}\"}",
+            "    ${3:value}",
+            "{/let}",
+            ""
+        ]
+    },
+    "param": {
+        "prefix": "sp",
+        "body": [
+            "{param $${1:paramName}: ${2:paramValue} /}"
+        ]
+    },
+    "param-block": {
+        "prefix": "spb",
+        "body": [
+            "{param $${1:paramName} kind=\"${2:text OR html}\"}",
+            "    ${3:statements}",
+            "{/param}",
+            ""
+        ]
+    },
+    "param-signature": {
+        "prefix": "sps",
+        "body": [
+            " * @param $${1:paramName}"
+        ]
+    },
+    "call": {
+        "prefix": "sc",
+        "body": [
+            "{call ${1:namespace.template.name}}",
+            "    ${2:parameters}",
+            "{/call}",
+            ""
+        ]
+    },
+    "delcall": {
+        "prefix": "sdelc",
+        "body": [
+            "{delcall ${1:namespace.template.name}}",
+            "    ${2:parameters}",
+            "{/delcall}",
+            ""
+        ]
+    },
+    "delcall-empty-default": {
+        "prefix": "sdelcempty",
+        "body": [
+            "{delcall ${1:namespace.template.name} allowemptydefault=\"true\" /}"
+        ]
+    },
+    "template-skeleton": {
+        "prefix": "stemp",
+        "body": [
+            "{namespace ${1:your.namespace}}",
+            "",
+            "/**",
+            " * ${2:Informative comment about the template}",
+            " *",
+            " * @param ${3:value}",
+            " *",
+            "${4: * @client - remove if not necessary}",
+            " */",
+            "{template .${5:templateName}}",
+            "    ${6:template content}",
+            "{/template}",
+            ""
+        ]
+    },
+    "deltemplate-skeleton": {
+        "prefix": "sdeltemp",
+        "body": [
+            "{delpackage ${1:package}}",
+            "{namespace ${2:your.namespace}}",
+            "",
+            "/**",
+            " * ${3:Informative comment about the template}",
+            " *",
+            " * @param ${4:paramName}",
+            " *",
+            "${5: * @client - remove if not necessary}",
+            " */",
+            "{deltemplate .${6:templateName}}",
+            "    ${7:template content}",
+            "{/deltemplate}",
+            ""
+        ]
+    }
+}
