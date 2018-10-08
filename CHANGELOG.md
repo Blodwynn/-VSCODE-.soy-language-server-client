@@ -12,3 +12,6 @@ All notable changes to this extension will be documented in this file.
 
 ## 1.2.0
 - Adding snippets :)
+
+### 1.2.1
+- fixing the name and description of the extension
