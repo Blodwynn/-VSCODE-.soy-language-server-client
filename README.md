@@ -14,3 +14,21 @@ Provides inline error and warning highlight in the VS Code editor window
 ### Warning highlights
 - `TODO` comments
 - `Breaking Change` comments
+
+### Snippets
+All snippets start with the character `s` to be able to quickly search for them.
+
+**Snippets**:
+- **sfor** - `foreach` block
+- **sif** - `if` block
+- **sife** - `if-else` block
+- **sl** - `let` statement - single line
+- **slb** - `let` statement - block
+- **sp** - `param` statement - single line
+- **spb** - `param` statement - block
+- **sps** - `param` signature
+- **sc** - `call` block
+- **sdelc** - `delcall` block
+- **sdelcempty** - `delcall` block with `allowemptydefault="true"`
+- **stemp** - `template` skeleton
+- **sdeltemp** - `deltemplate` skeleton

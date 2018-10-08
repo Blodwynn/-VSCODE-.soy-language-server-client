@@ -4,7 +4,7 @@
     "displayName": ".soy syntax checker (Google closure template)",
 	"author": "Roland Orosz",
 	"license": "MIT",
-	"version": "1.1.1",
+	"version": "1.2.0",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/Blodwynn/-VSCODE-.soy-language-server-client"
@@ -56,7 +56,11 @@
 					"description": "Traces the communication between VS Code and the language server."
 				}
 			}
-		}
+		},
+        "snippets": [{
+            "language": "soy",
+            "path": "./snippets/soy-snippets.json"
+        }]
 	},
 	"scripts": {
 		"vscode:prepublish": "cd client && npm run update-vscode && cd .. && npm run compile",
