@@ -35,6 +35,14 @@
 							"match": "(deltemplate|template|call|delcall|client|if|switch|case|let|param) "
 						},
 						{
+							"match": "(kind)=",
+							"captures": {
+								"1": {
+									"name": "support.function"
+								}
+							}
+						},
+						{
 							"match": "(namespace|package) (.*)",
 							"captures": {
 								"1": {
