@@ -125,5 +125,12 @@
             "{/deltemplate}",
             ""
         ]
+    },
+    "noAutoEscape": {
+        "prefix": "|noAutoescape",
+        "body": [
+            "|noAutoescape"
+        ],
+        "description": "noAutoescape tag"
     }
 }

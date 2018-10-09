@@ -55,11 +55,39 @@
 					"default": "off",
 					"description": "Traces the communication between VS Code and the language server."
 				}
-			}
+			},
+			"comments": {
+				"lineComment": "//",
+				"blockComment": [ "/*", "*/" ]
+			},
+			"brackets": [
+				["{", "}"],
+				["[", "]"],
+				["(", ")"]
+			],
+			"autoClosingPairs": [
+				["{", "}"],
+				["[", "]"],
+				["(", ")"],
+				["\"", "\""],
+				["'", "'"]
+			],
+			"surroundingPairs": [
+				["{", "}"],
+				["[", "]"],
+				["(", ")"],
+				["\"", "\""],
+				["'", "'"]
+			]
 		},
         "snippets": [{
             "language": "soy",
             "path": "./snippets/soy-snippets.json"
+		}],
+        "grammars": [{
+            "language": "soy",
+            "scopeName": "source.soy",
+            "path": "./syntax/soy.tmLanguage.json"
         }]
 	},
 	"scripts": {
