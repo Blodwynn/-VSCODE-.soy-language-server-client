@@ -132,5 +132,12 @@
             "|noAutoescape"
         ],
         "description": "noAutoescape tag"
+    },
+    "autoEscape": {
+        "prefix": "autoescape",
+        "body": [
+            "autoescape=\"strict\""
+        ],
+        "description": "strict autoescape"
     }
 }
