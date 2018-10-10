@@ -94,7 +94,7 @@
 						},
 						{
 							"name": "entity.name.tag",
-							"match": "/(deltemplate|template|call|delcall|let|param|if|switch|literal)"
+							"match": "/(deltemplate|template|foreach|call|delcall|let|param|if|switch|literal)"
 						},
 						{
 							"name": "variable.parameter",
@@ -106,7 +106,7 @@
 						},
 						{
 							"name": "keyword.control",
-							"match": "(length|isFirst|isLast|index|isNonnull|keys|augmentMap|quoteKeysIfJs|round|floor}ceiling|min|max|randomInt|strContains|i18n)"
+							"match": "(length|isFirst|isLast|index|isNonnull|keys|augmentMap|quoteKeysIfJs|round|floor}ceiling|min|max|randomInt|strContains|i18n(JS)?|setClientData)"
 						},
 						{
 							"include": "#strings"
