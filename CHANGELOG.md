@@ -31,3 +31,9 @@ All notable changes to this extension will be documented in this file.
 
 ### 2.1.4
 - fixing comment area again
+
+## 2.2.0
+- adding `setClientData` and `i18nJS` to highlights
+
+### 2.2.1
+- fixing `forEach` closing highlight
