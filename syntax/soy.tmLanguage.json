@@ -149,13 +149,16 @@
 							}
 						},
 						{
-							"match": "(@param\\??) (.*)",
+							"match": "(@param\\??) ([\\w\\d]+) ?(.*)?",
 							"captures": {
 								"1": {
 									"name": "entity.name.type"
 								},
 								"2": {
 									"name": "variable.parameter"
+								},
+								"3": {
+									"name": "comment"
 								}
 							}
 						},
