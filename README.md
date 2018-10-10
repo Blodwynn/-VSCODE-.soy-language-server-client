@@ -2,7 +2,9 @@
 Checks `.soy` files for errors and warnings inline in the editor
 
 ## Functionality
-Provides inline error and warning highlight in the VS Code editor window
+- Syntax check: inline error and warning underline
+- Syntax highlight
+- Snippets
 
 ### Error highlights
 - Missing $ sign in variable declarations
@@ -14,6 +16,11 @@ Provides inline error and warning highlight in the VS Code editor window
 ### Warning highlights
 - `TODO` comments
 - `Breaking Change` comments
+
+TODOOOOOOOOOOOOO screenshot here
+
+### Syntax highlight
+TODOOOOOOOOOOOOO screenshot here
 
 ### Snippets
 All snippets start with the character `s` to be able to quickly search for them.
@@ -32,3 +39,5 @@ All snippets start with the character `s` to be able to quickly search for them.
 - **sdelcempty** - `delcall` block with `allowemptydefault="true"`
 - **stemp** - `template` skeleton
 - **sdeltemp** - `deltemplate` skeleton
+
+TODOOOOOOOOOOOOO screenshot here
