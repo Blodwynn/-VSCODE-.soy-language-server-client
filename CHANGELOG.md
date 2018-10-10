@@ -29,5 +29,5 @@ All notable changes to this extension will be documented in this file.
 ### 2.1.2
 - fixing comment area
 
-### 2.1.3
+### 2.1.4
 - fixing comment area again
