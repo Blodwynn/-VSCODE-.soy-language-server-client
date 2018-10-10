@@ -46,3 +46,6 @@ All notable changes to this extension will be documented in this file.
 
 ## 2.3.0
 - adding `noAutoescape` highlight
+
+## 2.4.0
+- adding `autoescape="strict"` snippet
