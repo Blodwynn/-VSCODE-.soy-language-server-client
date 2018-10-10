@@ -24,4 +24,4 @@ All notable changes to this extension will be documented in this file.
 - adding `kind` highlight
 
 ### 2.1.1
-- fixing boolean value highlights
+- fixing value highlights

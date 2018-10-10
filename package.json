@@ -4,7 +4,7 @@
 	"description": "Syntax highlight, syntax check and snippets for .soy files",
 	"author": "Roland Orosz",
 	"license": "MIT",
-	"version": "2.1.0",
+	"version": "2.1.1",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/Blodwynn/-VSCODE-.soy-language-server-client"
@@ -37,7 +37,7 @@
 			{
 				"id": "soy",
 				"aliases": [
-					"soy", "google closure", "closure template", "google closure template"
+					"soy", "google closure", "closure template", "google closure template", ".soy"
 				],
 				"extensions": [
 					".soy"

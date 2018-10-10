@@ -16,7 +16,6 @@
 		"soy": {
 			"patterns": [
 				{
-					"name": "",
 					"begin": "{",
 					"end": "}",
 					"beginCaptures": {
@@ -80,8 +79,15 @@
 							}
 						},
 						{
-							"name": "entity.name.type",
-							"match": "alias "
+							"match": "(alias) ([\\w.]*)",
+							"captures": {
+								"1": {
+									"name": "entity.name.type"
+								},
+								"2": {
+									"name": "constant.other"
+								}
+							}
 						},
 						{
 							"name": "entity.name.tag",
