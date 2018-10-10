@@ -17,10 +17,7 @@ Checks `.soy` files for errors and warnings inline in the editor
 - `TODO` comments
 - `Breaking Change` comments
 
-TODOOOOOOOOOOOOO screenshot here
-
 ### Syntax highlight
-TODOOOOOOOOOOOOO screenshot here
 
 ### Snippets
 All snippets start with the character `s` to be able to quickly search for them.
@@ -40,4 +37,3 @@ All snippets start with the character `s` to be able to quickly search for them.
 - **stemp** - `template` skeleton
 - **sdeltemp** - `deltemplate` skeleton
 
-TODOOOOOOOOOOOOO screenshot here

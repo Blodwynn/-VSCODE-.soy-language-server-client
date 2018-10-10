@@ -9,6 +9,9 @@
 			"include": "#soy"
 		},
 		{
+			"include": "#comments"
+		},
+		{
 			"include": "#html"
 		}
 	],
@@ -68,7 +71,7 @@
 							}
 						},
 						{
-							"match": "(namespace|package) (.*)",
+							"match": "(namespace|package) ([\\w\\d.]*)",
 							"captures": {
 								"1": {
 									"name": "entity.name.tag"
@@ -103,19 +106,26 @@
 						},
 						{
 							"name": "keyword.control",
-							"match": "(length|isFirst|isLast|index|isNonnull|keys|augmentMap|quoteKeysIfJs|round|floor}ceiling|min|max|randomInt|strContains)"
+							"match": "(length|isFirst|isLast|index|isNonnull|keys|augmentMap|quoteKeysIfJs|round|floor}ceiling|min|max|randomInt|strContains|i18n)"
 						},
 						{
 							"include": "#strings"
+						},
+						{
+							"include": "#comments"
 						}
 					]
-				},
+				}
+			]
+		},
+		"comments": {
+			"patterns": [
 				{
-					"name": "comment.line.double-slash",
+					"name": "comment",
 					"match": "//.*"
 				},
 				{
-					"name": "comment.block",
+					"name": "comment",
 					"begin": "/\\*\\*",
 					"end": "\\*/",
 					"patterns": [
@@ -163,6 +173,9 @@
 			"patterns": [
 				{
 					"include": "#soy"
+				},
+				{
+					"include": "#comments"
 				},
 				{
 					"include": "#strings"

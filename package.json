@@ -4,7 +4,7 @@
 	"description": "Syntax highlight, syntax check and snippets for .soy files",
 	"author": "Roland Orosz",
 	"license": "MIT",
-	"version": "2.1.1",
+	"version": "2.1.3",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/Blodwynn/-VSCODE-.soy-language-server-client"
@@ -12,17 +12,11 @@
 	"publisher": "Blodwynn",
 	"categories": [],
 	"keywords": [
-		"multi-root ready",
-		".soy",
 		"soy",
 		"closure template",
-		"google closure",
-		"google closure templates",
 		"syntax highlight",
-		"inline error",
 		"error check",
 		"snippets"
-
 	],
 	"engines": {
 		"vscode": "^1.23.0"
