@@ -37,3 +37,6 @@ All notable changes to this extension will be documented in this file.
 
 ### 2.2.1
 - fixing `forEach` closing highlight
+
+### 2.2.2
+- fixing `template` and `deltemplate` definition highlights
