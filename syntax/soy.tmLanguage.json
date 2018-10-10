@@ -120,6 +120,10 @@
 							"match": "(length|isFirst|isLast|index|isNonnull|keys|augmentMap|quoteKeysIfJs|round|floor}ceiling|min|max|randomInt|strContains|i18n(JS)?|setClientData)"
 						},
 						{
+							"name": "support.function",
+							"match": "(noAutoescape)"
+						},
+						{
 							"include": "#strings"
 						},
 						{

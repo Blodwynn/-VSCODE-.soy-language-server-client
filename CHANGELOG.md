@@ -43,3 +43,6 @@ All notable changes to this extension will be documented in this file.
 
 ### 2.2.3
 - fixing highlight for `param` comments
+
+## 2.3.0
+- adding `noAutoescape` highlight
