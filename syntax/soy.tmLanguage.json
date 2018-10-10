@@ -25,7 +25,7 @@
 					},
 					"endCaptures": {
 						"0": {
-							"name": "support.type"
+							"name": "support.variable"
 						}
 					},
 					"patterns": [
@@ -38,7 +38,7 @@
 							"match": "(deltemplate|template|foreach|if|switch|case|let)"
 						},
 						{
-							"match": "(call|delcall) ([^ ]+)?",
+							"match": "(call|delcall) ([\\w\\d.]+)?",
 							"captures": {
 								"1": {
 									"name": "entity.name.tag"
