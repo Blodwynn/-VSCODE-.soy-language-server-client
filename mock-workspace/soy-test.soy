@@ -1,4 +1,5 @@
 {namespace hcom.templates.pages.cop.bookingDetails.bdpHero.accordions}
+{alias hcom.templates.pages.cop.bookingDetails.bdpHero}
 
 /**
  * Displays the share-links section of the bdp-hero
@@ -20,6 +21,10 @@
             {/if}
         {/let}
 
+		{call hcom.templates.pages.cop.bookingDetails.bdpHero.accordions.valami /}
+		{call .valami /}
+		{call bdpHero.aliasTemplate /}
+		
         // CCAT-3138 breaking change, use the case where the link is present
         {let $customerServiceLinkClosingTag kind="html"}
             {if $gotAQuestion.customerServiceLink}
