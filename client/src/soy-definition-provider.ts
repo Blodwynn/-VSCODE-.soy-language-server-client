@@ -1,7 +1,7 @@
 import vscode = require('vscode');
+// import fs = require('fs');
+import glob = require('glob');
 import path = require('path');
-import fs = require('fs');
-import os = require('os');
 
 export interface SoyDefinitionInformation {
 	file: string;
@@ -11,20 +11,29 @@ export interface SoyDefinitionInformation {
 	declarationlines: string[];
 }
 
-export async function definitionLocation(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): Promise<SoyDefinitionInformation> {
+function getSoyFiles(document: vscode.TextDocument) {
+    const currentWorkspaceFolder = vscode.workspace.getWorkspaceFolder(document.uri);
+    const soyPathPattern = [
+        currentWorkspaceFolder.uri.fsPath,
+        '**',
+        '*.soy'
+    ];
+    const globalSoyFilesPath = path.join(...soyPathPattern);
+
+    return glob.sync(globalSoyFilesPath);
+}
+
+export function definitionLocation(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): Promise<SoyDefinitionInformation> {
+    const files = getSoyFiles(document);
     let wordRange = document.getWordRangeAtPosition(position, /[\w\d.]+/);
     let lineText = document.lineAt(position.line).text;
 
-    const rootPath = vscode.workspace.workspaceFolders[0].uri.fsPath;
-    await fs.readdir(rootPath, (err, files) => {
-        console.log(files);
-    });
+    console.log('files: ', files);
 
-    const currentWorkspaceFolder = vscode.workspace.getWorkspaceFolder(document.uri);
+    if (token) {
+        // do this later
+    }
 
-    // console.log('vscode.workspace: ', vscode.workspace);
-
-    // console.log('document: ', document);
 	if (!wordRange || lineText.startsWith('//')) {
 		return Promise.resolve(null);
 	}
