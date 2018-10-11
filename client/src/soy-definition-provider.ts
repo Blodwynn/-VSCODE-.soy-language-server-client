@@ -7,10 +7,9 @@ interface SoyDefinitionInformation {
 	file: string;
 	line: number;
 	column: number;
-	doc: string;
-	declarationlines: string[];
 }
 
+// TODO - add line number here
 interface TemplatePathMap {
     [template: string]: string
 }
@@ -38,6 +37,7 @@ function parseFile(file: string): TemplatePathMap {
         const namespace = m[1];
 
         while (n = templatePattern.exec(content)) {
+            console.log('templateMatch', n);
             templatePathMap[`${namespace}${n[1]}`] = file;
         }
     }
@@ -48,6 +48,7 @@ function parseFile(file: string): TemplatePathMap {
 function parseFiles(files: string[]) : TemplatePathMap {
     let allTemplatePathMaps: TemplatePathMap = {};
 
+    // TODO - refactor this
     files.forEach(file => {
         const parsedData = parseFile(file);
         if (parsedData) {
@@ -72,39 +73,41 @@ function getNamespace(documentText: string): string {
     return null;
 }
 
-// function getPathOfTemplate(template: string, parsedFiles: TemplatePathMap[]): string {
-//     return parsedFiles[template];
-// }
-
-export function definitionLocation(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): Promise<SoyDefinitionInformation> {
+function getPathOfTemplate(templateToSearchFor: string, templatePathMap: TemplatePathMap, document: vscode.TextDocument): string {
     const documentText: string = document.getText();
-    const wordRange: vscode.Range = document.getWordRangeAtPosition(position, /[\w\d.]+/);
-    const lineText: string = document.lineAt(position.line).text;
-    const files: string[] = getFiles(document);
-    const templatePathMap: TemplatePathMap = parseFiles(files);
-    const templateToSearchFor: string = document.getText(wordRange);
-    const namespace = getNamespace(documentText);
-    console.log('namespace: ', namespace);
-    console.log('templatePathMap: ', templatePathMap);
+    const namespace: string = getNamespace(documentText);
+    let path;
 
     if (templateToSearchFor.startsWith('.')) {
         const templateNamespace = `${namespace}${templateToSearchFor}`;
-        const path = templatePathMap[templateNamespace];
-        console.log('path', path);
-        // Finish this
+        path = templatePathMap[templateNamespace];
     } else {
-        let path = templatePathMap[templateToSearchFor];
-        if (path) {
-            console.log('fullpath', path);
-        } else {
+        path = templatePathMap[templateToSearchFor];
+        if (!path) {
             console.log('alias path');
             // search for alias + this
         }
     }
 
+    return path;
+}
+
+export function definitionLocation(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): Promise<SoyDefinitionInformation> {
+    const wordRange: vscode.Range = document.getWordRangeAtPosition(position, /[\w\d.]+/);
+    const lineText: string = document.lineAt(position.line).text;
+    const files: string[] = getFiles(document);
+    const templatePathMap: TemplatePathMap = parseFiles(files);
+    const templateToSearchFor: string = document.getText(wordRange);
+
+    const path = getPathOfTemplate(templateToSearchFor, templatePathMap, document);
 
     if (token) {
-        // do this later
+        // do this later on each read iterations
+        // we might not need this at all if we parse all .soy files on startup
+    }
+
+    if (!path) {
+        return Promise.reject(`Cannot find declaration for ${templateToSearchFor}`);
     }
 
 	if (!wordRange || lineText.startsWith('//')) {
@@ -114,9 +117,11 @@ export function definitionLocation(document: vscode.TextDocument, position: vsco
 		position = position.translate(0, -1);
     }
 
-    console.log('templateToSearchFor: ', templateToSearchFor);
-
-	return null;
+	return Promise.resolve(<SoyDefinitionInformation>{
+        file: path,
+        line: 0, // TODO / get line
+        column: 1
+    });
 }
 
 export class SoyDefinitionProvider implements vscode.DefinitionProvider {
