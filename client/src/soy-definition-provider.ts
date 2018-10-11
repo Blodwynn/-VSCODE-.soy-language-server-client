@@ -3,7 +3,7 @@ import fs = require('fs');
 import glob = require('glob');
 import path = require('path');
 
-export interface SoyDefinitionInformation {
+interface SoyDefinitionInformation {
 	file: string;
 	line: number;
 	column: number;
@@ -30,7 +30,7 @@ function getFiles(document: vscode.TextDocument) {
 function parseFile(file: string): TemplatePathMap[] {
     const namespacePattern: RegExp = /\{namespace ([\w\d.]+)/;
     const templatePattern: RegExp = /\{template ([\w\d.]+)/gm;
-    const content = fs.readFileSync(file, "utf8");
+    const content: string = fs.readFileSync(file, "utf8");
     let templatePathMap: TemplatePathMap[] = [];
     let m, n;
 
@@ -64,11 +64,37 @@ function parseFiles(files: string[]) : TemplatePathMap[] {
     return allTemplatePathMaps;
 }
 
+function getNamespace(documentText: string): string {
+    const namespacePattern: RegExp = /\{namespace\s*([\w\d.]+)/;
+    const namespaceMatch = namespacePattern.exec(documentText);
+
+    if (namespaceMatch) {
+        return namespaceMatch[1];
+    }
+
+    return null;
+}
+
+// function getPathOfTemplate(template: string, parsedFiles: TemplatePathMap[]): string {
+//     return parsedFiles[template];
+// }
+
 export function definitionLocation(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): Promise<SoyDefinitionInformation> {
-    const wordRange = document.getWordRangeAtPosition(position, /[\w\d.]+/);
-    const lineText = document.lineAt(position.line).text;
-    const files = getFiles(document);
-    const parsedFiles = parseFiles(files);
+    const documentText: string = document.getText();
+    const wordRange: vscode.Range = document.getWordRangeAtPosition(position, /[\w\d.]+/);
+    const lineText: string = document.lineAt(position.line).text;
+    const files: string[] = getFiles(document);
+    const parsedFiles: TemplatePathMap[] = parseFiles(files);
+    const templateToSearchFor: string = document.getText(wordRange);
+    const namespace = getNamespace(documentText);
+    console.log('namespace: ', namespace);
+
+    if (templateToSearchFor.startsWith('.')) {
+        // search for namespace + this
+    } else {
+        // search for this
+        // if not found search for alias + this
+    }
 
     console.log('parsedFiles: ', parsedFiles);
 
@@ -81,9 +107,11 @@ export function definitionLocation(document: vscode.TextDocument, position: vsco
 	}
 	if (position.isEqual(wordRange.end) && position.isAfter(wordRange.start)) {
 		position = position.translate(0, -1);
-	}
+    }
 
-	return null;
+    console.log('templateToSearchFor: ', templateToSearchFor);
+
+	return Promise.resolve(null);
 }
 
 export class SoyDefinitionProvider implements vscode.DefinitionProvider {
