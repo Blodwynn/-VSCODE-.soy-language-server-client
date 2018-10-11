@@ -154,7 +154,7 @@ function validateWithPattern(errorItem: any, text: string, textDocument: TextDoc
 
 	while (m = pattern.exec(text)) {
 		diagnosticResults.push({
-			severity: severity,
+			severity,
 			range: {
 				start: textDocument.positionAt(m.index),
 				end: textDocument.positionAt(m.index + m[0].length)
