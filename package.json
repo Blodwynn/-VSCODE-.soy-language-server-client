@@ -1,10 +1,10 @@
 {
 	"name": "soysyntaxchecker",
     "displayName": "Soy full file support (Google closure template)",
-	"description": "Syntax highlight, syntax check and snippets for .soy files",
+	"description": "Syntax highlight, syntax check, Go To Definiton and snippets for .soy files",
 	"author": "Roland Orosz",
 	"license": "MIT",
-	"version": "2.4.0",
+	"version": "3.0.0",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/Blodwynn/-VSCODE-.soy-language-server-client"
@@ -14,9 +14,9 @@
 	"keywords": [
 		"soy",
 		"closure template",
-		"syntax highlight",
-		"error check",
-		"snippets"
+		"syntax",
+		"snippets",
+		"definition"
 	],
 	"engines": {
 		"vscode": "^1.23.0"
