@@ -2,6 +2,7 @@ import vscode = require('vscode');
 import fs = require('fs');
 import glob = require('glob');
 import path = require('path');
+import linenumber = require('linenumber');
 
 interface SoyDefinitionInformation {
 	file: string;
@@ -42,9 +43,10 @@ function parseFile(file: string): TemplatePathMap {
         const namespace = m[1];
 
         while (n = templatePattern.exec(content)) {
+            const lineNr = linenumber(content, n[0]);
             templatePathMap[`${namespace}${n[1]}`] = {
                 path: file,
-                line: 0
+                line: lineNr[0].line - 1
             };
         }
     }
