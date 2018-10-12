@@ -1,73 +1,8 @@
 import vscode = require('vscode');
-import fs = require('fs');
 import glob = require('glob');
 import path = require('path');
-import linenumber = require('linenumber');
-
-interface SoyDefinitionInformation {
-	file: string;
-	line: number;
-}
-
-interface TemplatePathDescription {
-    path: string;
-    line: number;
-}
-
-interface TemplatePathMap {
-    [template: string]: TemplatePathDescription
-}
-
-function getFiles() {
-    const currentWorkspaceFolder = vscode.workspace.workspaceFolders[0].uri.fsPath;
-    const soyPathPattern = [
-        currentWorkspaceFolder,
-        '**',
-        '*.soy'
-    ];
-    const globalSoyFilesPath = path.join(...soyPathPattern);
-
-    return glob.sync(globalSoyFilesPath);
-}
-
-function parseFile(file: string): TemplatePathMap {
-    const namespacePattern: RegExp = /\{namespace ([\w\d.]+)/;
-    const templatePattern: RegExp = /\{template ([\w\d.]+)/gm;
-    const content: string = fs.readFileSync(file, "utf8");
-    let templatePathMap: TemplatePathMap = {};
-    let m, n;
-
-    if (m = namespacePattern.exec(content)) {
-        const namespace = m[1];
-
-        while (n = templatePattern.exec(content)) {
-            const lineNr = linenumber(content, n[0]);
-            templatePathMap[`${namespace}${n[1]}`] = {
-                path: file,
-                line: lineNr[0].line - 1
-            };
-        }
-    }
-
-    return templatePathMap;
-}
-
-function parseFiles(files: string[]) : TemplatePathMap {
-    let allTemplatePathMaps: TemplatePathMap = {};
-
-    // TODO - refactor this
-    files.forEach(file => {
-        const parsedData = parseFile(file);
-        if (parsedData) {
-            allTemplatePathMaps = Object.assign(
-                allTemplatePathMaps,
-                parsedData
-            );
-        }
-    });
-
-    return allTemplatePathMaps;
-}
+import { SoyDefinitionInformation, TemplatePathMap, TemplatePathDescription } from './interfaces';
+import { parseFiles } from './parse';
 
 function normalizeAliasTemplate(alias: string, template: string): string {
     const truncatedAliasPath: string = alias.substr(0, alias.lastIndexOf('.') + 1);
@@ -102,6 +37,25 @@ function getAliases(documentText: string): string[] {
     }
 
     return aliases;
+}
+
+function getSoyFiles() {
+    // const currentWorkspaceFolder = vscode.workspace.workspaceFolders[0].uri.fsPath;
+    let fileList: string[] = [];
+
+    vscode.workspace.workspaceFolders.forEach(wsFolder => {
+        const soyPathPattern = [
+            wsFolder.uri.fsPath,
+            '**',
+            '*.soy'
+        ];
+
+        const globalSoyFilesPath = path.join(...soyPathPattern);
+
+        fileList.push(...glob.sync(globalSoyFilesPath));
+    });
+
+    return fileList;
 }
 
 function getTemplateDescription(templateToSearchFor: string, templatePathMap: TemplatePathMap, document: vscode.TextDocument): TemplatePathDescription {
@@ -155,7 +109,7 @@ export class SoyDefinitionProvider implements vscode.DefinitionProvider {
     templatePathMap: any;
 
     constructor() {
-        this.files = getFiles();
+        this.files = getSoyFiles();
         this.templatePathMap = parseFiles(this.files);
 	}
 
