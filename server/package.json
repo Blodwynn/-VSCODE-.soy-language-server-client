@@ -1,5 +1,5 @@
 {
-	"name": "lsp-sample-server",
+	"name": "soy-language-server",
 	"description": "Soy language server.",
 	"version": "1.0.0",
 	"author": "Microsoft Corporation",
@@ -9,7 +9,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Microsoft/vscode-extension-samples"
+		"url": "https://github.com/Blodwynn/-VSCODE-.soy-language-server-client"
 	},
 	"dependencies": {
 		"vscode-languageserver": "^4.1.3"

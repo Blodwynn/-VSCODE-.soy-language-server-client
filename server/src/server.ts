@@ -74,7 +74,6 @@ connection.onDefinition((textDocumentIdentifier: any): Definition => {
     });
 });
 
-// The example settings
 interface ExampleSettings {
 	maxNumberOfProblems: number;
 }
