@@ -1,10 +1,17 @@
 # Google closure template syntax checker (.soy)
-Checks `.soy` files for errors and warnings inline in the editor
+Add full file support for `.soy` files. See section below. :)
 
 ## Functionality
-- Syntax check: inline error and warning underline
 - Syntax highlight
+- Syntax check: inline error and warning underline
+- Go to definition support
 - Snippets
+
+### Syntax highlight
+- Highlights keywords, variables and so :)
+
+### Go To Definition
+- Go to definion of given template with F12 / ctrl+click
 
 ### Error highlights
 - Missing `$` sign in variable declarations
@@ -16,8 +23,6 @@ Checks `.soy` files for errors and warnings inline in the editor
 ### Warning highlights
 - `TODO` comments
 - `Breaking Change` comments
-
-### Syntax highlight
 
 ### Snippets
 All snippets start with the character `s` to be able to quickly search for them.

@@ -49,3 +49,6 @@ All notable changes to this extension will be documented in this file.
 
 ## 2.4.0
 - adding `autoescape="strict"` snippet
+
+# 3.0.0
+- adding **Go to Definiton** support
