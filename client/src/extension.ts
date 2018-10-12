@@ -5,7 +5,9 @@
 'use strict';
 
 import * as path from 'path';
+import vscode = require('vscode');
 import { workspace, ExtensionContext } from 'vscode';
+import { SoyDefinitionProvider } from './soy-definition-provider';
 
 import {
 	LanguageClient,
@@ -15,6 +17,11 @@ import {
 } from 'vscode-languageclient';
 
 let client: LanguageClient;
+
+const soyDocFilter: vscode.DocumentFilter = {
+	language: 'soy',
+	scheme: 'file'
+};
 
 export function activate(context: ExtensionContext) {
 	// The server is implemented in node
@@ -35,6 +42,8 @@ export function activate(context: ExtensionContext) {
 			options: debugOptions
 		}
 	};
+
+	context.subscriptions.push(vscode.languages.registerDefinitionProvider(soyDocFilter, new SoyDefinitionProvider()));
 
 	// Options to control the language client
 	let clientOptions: LanguageClientOptions = {

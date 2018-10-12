@@ -15,7 +15,9 @@ import {
 	DidChangeConfigurationNotification,
 	CompletionItem,
 	CompletionItemKind,
-	TextDocumentPositionParams
+	TextDocumentPositionParams,
+	Definition,
+	Location
 } from 'vscode-languageserver';
 
 // Create a connection for the server. The connection uses Node's IPC as a transport.
@@ -42,10 +44,10 @@ connection.onInitialize((params: InitializeParams) => {
 	return {
 		capabilities: {
 			textDocumentSync: documents.syncKind,
-			// Tell the client that the server supports code completion
 			completionProvider: {
 				resolveProvider: true
-			}
+			},
+			definitionProvider: true
 		}
 	};
 });
@@ -63,6 +65,13 @@ connection.onInitialized(() => {
 			connection.console.log('Workspace folder change event received.');
 		});
 	}
+});
+
+connection.onDefinition((textDocumentIdentifier: any): Definition => {
+    return Location.create(textDocumentIdentifier.uri, {
+        start: { line: 2, character: 5 },
+        end: { line: 2, character: 6 }
+    });
 });
 
 // The example settings
@@ -145,7 +154,7 @@ function validateWithPattern(errorItem: any, text: string, textDocument: TextDoc
 
 	while (m = pattern.exec(text)) {
 		diagnosticResults.push({
-			severity: severity,
+			severity,
 			range: {
 				start: textDocument.positionAt(m.index),
 				end: textDocument.positionAt(m.index + m[0].length)
