@@ -69,6 +69,12 @@ function parseFiles(files: string[]) : TemplatePathMap {
     return allTemplatePathMaps;
 }
 
+function normalizeAliasTemplate(alias: string, template: string): string {
+    const truncatedAliasPath: string = alias.substr(0, alias.lastIndexOf('.') + 1);
+
+    return `${truncatedAliasPath}${template}`;
+}
+
 function getNamespace(documentText: string): string {
     const namespacePattern: RegExp = /\{namespace\s*([\w\d.]+)/;
     const namespaceMatch = namespacePattern.exec(documentText);
@@ -113,7 +119,8 @@ function getPathOfTemplate(templateToSearchFor: string, templatePathMap: Templat
 
         if (!path) {
             const alias: string = getMatchingAlias(templateToSearchFor, aliases);
-            console.log('alias: ', alias);
+            const fullTemplatePath: string = normalizeAliasTemplate(alias, templateToSearchFor);
+            path = templatePathMap[fullTemplatePath].path;
         }
     }
 
