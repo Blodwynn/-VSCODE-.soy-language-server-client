@@ -1,6 +1,6 @@
 {
 	"name": "soysyntaxchecker",
-    "displayName": "Soy full file support (Google closure template)",
+	"displayName": "Soy full file support (Google closure template)",
 	"description": "Syntax highlight, syntax check, Go To Definiton and snippets for .soy files",
 	"author": "Roland Orosz",
 	"license": "MIT",
@@ -31,7 +31,11 @@
 			{
 				"id": "soy",
 				"aliases": [
-					"soy", "google closure", "closure template", "google closure template", ".soy"
+					"soy",
+					"google closure",
+					"closure template",
+					"google closure template",
+					".soy"
 				],
 				"extensions": [
 					".soy"
@@ -62,37 +66,83 @@
 			},
 			"comments": {
 				"lineComment": "//",
-				"blockComment": [ "/*", "*/" ]
+				"blockComment": [
+					"/*",
+					"*/"
+				]
 			},
 			"brackets": [
-				["{", "}"],
-				["[", "]"],
-				["(", ")"]
+				[
+					"{",
+					"}"
+				],
+				[
+					"[",
+					"]"
+				],
+				[
+					"(",
+					")"
+				]
 			],
 			"autoClosingPairs": [
-				["{", "}"],
-				["[", "]"],
-				["(", ")"],
-				["\"", "\""],
-				["'", "'"]
+				[
+					"{",
+					"}"
+				],
+				[
+					"[",
+					"]"
+				],
+				[
+					"(",
+					")"
+				],
+				[
+					"\"",
+					"\""
+				],
+				[
+					"'",
+					"'"
+				]
 			],
 			"surroundingPairs": [
-				["{", "}"],
-				["[", "]"],
-				["(", ")"],
-				["\"", "\""],
-				["'", "'"]
+				[
+					"{",
+					"}"
+				],
+				[
+					"[",
+					"]"
+				],
+				[
+					"(",
+					")"
+				],
+				[
+					"\"",
+					"\""
+				],
+				[
+					"'",
+					"'"
+				]
 			]
 		},
-        "snippets": [{
-            "language": "soy",
-            "path": "./snippets/soy-snippets.json"
-		}],
-        "grammars": [{
-            "language": "soy",
-            "scopeName": "source.soy",
-            "path": "./syntax/soy.tmLanguage.json"
-        }]
+		"snippets": [
+			{
+				"language": "soy",
+				"path": "./snippets/soy-snippets.json"
+			}
+		],
+		"grammars": [
+			{
+				"language": "soy",
+				"scopeName": "source.soy",
+				"path": "./syntax/soy.tmLanguage.json"
+			}
+		]
 	},
 	"scripts": {
 		"vscode:prepublish": "cd client && npm run update-vscode && cd .. && npm run compile",
