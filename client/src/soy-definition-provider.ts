@@ -14,7 +14,6 @@ interface TemplatePathDescription {
     line: number;
 }
 
-// TODO - add line number here
 interface TemplatePathMap {
     [template: string]: TemplatePathDescription
 }
@@ -127,17 +126,12 @@ function getTemplateDescription(templateToSearchFor: string, templatePathMap: Te
     return templateData;
 }
 
-export function definitionLocation(document: vscode.TextDocument, position: vscode.Position, templatePathMap: TemplatePathMap, token: vscode.CancellationToken): Promise<SoyDefinitionInformation> {
+export function definitionLocation(document: vscode.TextDocument, position: vscode.Position, templatePathMap: TemplatePathMap): Promise<SoyDefinitionInformation> {
     const wordRange: vscode.Range = document.getWordRangeAtPosition(position, /[\w\d.]+/);
     const lineText: string = document.lineAt(position.line).text;
     const templateToSearchFor: string = document.getText(wordRange);
 
     const templateData = getTemplateDescription(templateToSearchFor, templatePathMap, document);
-
-    if (token) {
-        // do this later on each read iterations
-        // we might not need this at all if we parse all .soy files on startup
-    }
 
     if (!path) {
         return Promise.reject(`Cannot find declaration for ${templateToSearchFor}`);
@@ -165,8 +159,8 @@ export class SoyDefinitionProvider implements vscode.DefinitionProvider {
         this.templatePathMap = parseFiles(this.files);
 	}
 
-	public provideDefinition(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): Thenable<vscode.Location> {
-        return definitionLocation(document, position, this.templatePathMap, token)
+	public provideDefinition(document: vscode.TextDocument, position: vscode.Position): Thenable<vscode.Location> {
+        return definitionLocation(document, position, this.templatePathMap)
             .then(definitionInfo => {
                 if (definitionInfo == null || definitionInfo.file == null) return null;
                 let definitionResource = vscode.Uri.file(definitionInfo.file);
