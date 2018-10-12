@@ -7,7 +7,6 @@ import linenumber = require('linenumber');
 interface SoyDefinitionInformation {
 	file: string;
 	line: number;
-	column: number;
 }
 
 interface TemplatePathDescription {
@@ -155,8 +154,7 @@ export function definitionLocation(document: vscode.TextDocument, position: vsco
 
 	return Promise.resolve(<SoyDefinitionInformation>{
         file: templateData.path,
-        line: templateData.line,
-        column: 1
+        line: templateData.line
     });
 }
 
@@ -170,7 +168,7 @@ export class SoyDefinitionProvider implements vscode.DefinitionProvider {
             .then(definitionInfo => {
                 if (definitionInfo == null || definitionInfo.file == null) return null;
                 let definitionResource = vscode.Uri.file(definitionInfo.file);
-                let pos = new vscode.Position(definitionInfo.line, definitionInfo.column);
+                let pos = new vscode.Position(definitionInfo.line, 1);
                 return new vscode.Location(definitionResource, pos);
             }, err => {
                 if (err) {
