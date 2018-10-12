@@ -104,27 +104,26 @@ function getAliases(documentText: string): string[] {
     return aliases;
 }
 
-function getPathOfTemplate(templateToSearchFor: string, templatePathMap: TemplatePathMap, document: vscode.TextDocument): string {
+function getTemplateDescription(templateToSearchFor: string, templatePathMap: TemplatePathMap, document: vscode.TextDocument): TemplatePathDescription {
     const documentText: string = document.getText();
     const namespace: string = getNamespace(documentText);
     const aliases: string[] = getAliases(documentText);
-    let path: string;
+    let templateData: TemplatePathDescription;
 
     if (templateToSearchFor.startsWith('.')) {
         const templateNamespace = `${namespace}${templateToSearchFor}`;
-        path = templatePathMap[templateNamespace].path;
+        templateData = templatePathMap[templateNamespace];
     } else {
-        const templateData: TemplatePathDescription = templatePathMap[templateToSearchFor];
-        path = templateData && templateData.path;
+        templateData = templatePathMap[templateToSearchFor];
 
-        if (!path) {
+        if (!templateData || !templateData.path) {
             const alias: string = getMatchingAlias(templateToSearchFor, aliases);
             const fullTemplatePath: string = normalizeAliasTemplate(alias, templateToSearchFor);
-            path = templatePathMap[fullTemplatePath].path;
+            templateData = templatePathMap[fullTemplatePath];
         }
     }
 
-    return path;
+    return templateData;
 }
 
 export function definitionLocation(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): Promise<SoyDefinitionInformation> {
@@ -134,7 +133,7 @@ export function definitionLocation(document: vscode.TextDocument, position: vsco
     const templatePathMap: TemplatePathMap = parseFiles(files);
     const templateToSearchFor: string = document.getText(wordRange);
 
-    const path = getPathOfTemplate(templateToSearchFor, templatePathMap, document);
+    const templateData = getTemplateDescription(templateToSearchFor, templatePathMap, document);
 
     if (token) {
         // do this later on each read iterations
@@ -153,8 +152,8 @@ export function definitionLocation(document: vscode.TextDocument, position: vsco
     }
 
 	return Promise.resolve(<SoyDefinitionInformation>{
-        file: path,
-        line: 0, // TODO / get line
+        file: templateData.path,
+        line: templateData.line,
         column: 1
     });
 }
