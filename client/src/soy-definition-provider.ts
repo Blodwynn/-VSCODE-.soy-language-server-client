@@ -9,9 +9,14 @@ interface SoyDefinitionInformation {
 	column: number;
 }
 
+interface TemplatePathDescription {
+    path: string;
+    line: number;
+}
+
 // TODO - add line number here
 interface TemplatePathMap {
-    [template: string]: string
+    [template: string]: TemplatePathDescription
 }
 
 function getFiles(document: vscode.TextDocument) {
@@ -37,8 +42,10 @@ function parseFile(file: string): TemplatePathMap {
         const namespace = m[1];
 
         while (n = templatePattern.exec(content)) {
-            console.log('templateMatch', n);
-            templatePathMap[`${namespace}${n[1]}`] = file;
+            templatePathMap[`${namespace}${n[1]}`] = {
+                path: file,
+                line: 0
+            };
         }
     }
 
@@ -73,19 +80,40 @@ function getNamespace(documentText: string): string {
     return null;
 }
 
+function getMatchingAlias(template: string, aliases: string[]): string {
+    const matchingPart = template.split('.')[0];
+
+    return aliases.find(alias => alias.endsWith(matchingPart));
+}
+
+function getAliases(documentText: string): string[] {
+    const aliasPattern: RegExp = /\{alias\s*([\w\d.]+)/gm;
+    let aliases: string[] = [];
+    let m;
+
+    while (m = aliasPattern.exec(documentText)) {
+        aliases.push(m[1]);
+    }
+
+    return aliases;
+}
+
 function getPathOfTemplate(templateToSearchFor: string, templatePathMap: TemplatePathMap, document: vscode.TextDocument): string {
     const documentText: string = document.getText();
     const namespace: string = getNamespace(documentText);
-    let path;
+    const aliases: string[] = getAliases(documentText);
+    let path: string;
 
     if (templateToSearchFor.startsWith('.')) {
         const templateNamespace = `${namespace}${templateToSearchFor}`;
-        path = templatePathMap[templateNamespace];
+        path = templatePathMap[templateNamespace].path;
     } else {
-        path = templatePathMap[templateToSearchFor];
+        const templateData: TemplatePathDescription = templatePathMap[templateToSearchFor];
+        path = templateData && templateData.path;
+
         if (!path) {
-            console.log('alias path');
-            // search for alias + this
+            const alias: string = getMatchingAlias(templateToSearchFor, aliases);
+            console.log('alias: ', alias);
         }
     }
 
