@@ -1,7 +1,3 @@
-/* --------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- * ------------------------------------------------------------------------------------------ */
 'use strict';
 
 import * as path from 'path';
@@ -24,7 +20,6 @@ const soyDocFilter: vscode.DocumentFilter = {
 };
 
 export function activate(context: ExtensionContext) {
-	// The server is implemented in node
 	let serverModule = context.asAbsolutePath(
 		path.join('server', 'out', 'server.js')
 	);
@@ -59,8 +54,8 @@ export function activate(context: ExtensionContext) {
 
 	// Create the language client and start the client.
 	client = new LanguageClient(
-		'languageServerExample',
-		'Language Server Example',
+		'soyLanguageServer',
+		'Soy Language Server',
 		serverOptions,
 		clientOptions
 	);
