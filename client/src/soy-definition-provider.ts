@@ -19,10 +19,10 @@ interface TemplatePathMap {
     [template: string]: TemplatePathDescription
 }
 
-function getFiles(document: vscode.TextDocument) {
-    const currentWorkspaceFolder = vscode.workspace.getWorkspaceFolder(document.uri);
+function getFiles() {
+    const currentWorkspaceFolder = vscode.workspace.workspaceFolders[0].uri.fsPath;
     const soyPathPattern = [
-        currentWorkspaceFolder.uri.fsPath,
+        currentWorkspaceFolder,
         '**',
         '*.soy'
     ];
@@ -127,11 +127,9 @@ function getTemplateDescription(templateToSearchFor: string, templatePathMap: Te
     return templateData;
 }
 
-export function definitionLocation(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): Promise<SoyDefinitionInformation> {
+export function definitionLocation(document: vscode.TextDocument, position: vscode.Position, templatePathMap: TemplatePathMap, token: vscode.CancellationToken): Promise<SoyDefinitionInformation> {
     const wordRange: vscode.Range = document.getWordRangeAtPosition(position, /[\w\d.]+/);
     const lineText: string = document.lineAt(position.line).text;
-    const files: string[] = getFiles(document);
-    const templatePathMap: TemplatePathMap = parseFiles(files);
     const templateToSearchFor: string = document.getText(wordRange);
 
     const templateData = getTemplateDescription(templateToSearchFor, templatePathMap, document);
@@ -159,12 +157,16 @@ export function definitionLocation(document: vscode.TextDocument, position: vsco
 }
 
 export class SoyDefinitionProvider implements vscode.DefinitionProvider {
-	constructor() {
+    files: any;
+    templatePathMap: any;
 
+    constructor() {
+        this.files = getFiles();
+        this.templatePathMap = parseFiles(this.files);
 	}
 
 	public provideDefinition(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): Thenable<vscode.Location> {
-        return definitionLocation(document, position, token)
+        return definitionLocation(document, position, this.templatePathMap, token)
             .then(definitionInfo => {
                 if (definitionInfo == null || definitionInfo.file == null) return null;
                 let definitionResource = vscode.Uri.file(definitionInfo.file);
