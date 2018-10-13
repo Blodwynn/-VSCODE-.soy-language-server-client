@@ -16,8 +16,8 @@ import {
 	CompletionItem,
 	CompletionItemKind,
 	TextDocumentPositionParams,
-	Definition,
-	Location
+	// Definition,
+	// Location
 } from 'vscode-languageserver';
 
 // Create a connection for the server. The connection uses Node's IPC as a transport.
@@ -47,7 +47,9 @@ connection.onInitialize((params: InitializeParams) => {
 			completionProvider: {
 				resolveProvider: true
 			},
-			definitionProvider: true
+			// either this is true and use the onDefinition
+			// or just have the subscription in the extension
+			definitionProvider: false
 		}
 	};
 });
@@ -67,12 +69,12 @@ connection.onInitialized(() => {
 	}
 });
 
-connection.onDefinition((textDocumentIdentifier: any): Definition => {
-    return Location.create(textDocumentIdentifier.uri, {
-        start: { line: 2, character: 5 },
-        end: { line: 2, character: 6 }
-    });
-});
+// connection.onDefinition((textDocumentIdentifier: any): Definition => {
+//     return Location.create(textDocumentIdentifier.uri, {
+//         start: { line: textDocumentIdentifier.line, character: 1 },
+//         end: { line: textDocumentIdentifier.line, character: 2 }
+//     });
+// });
 
 interface ExampleSettings {
 	maxNumberOfProblems: number;
@@ -109,7 +111,7 @@ function getDocumentSettings(resource: string): Thenable<ExampleSettings> {
 	if (!result) {
 		result = connection.workspace.getConfiguration({
 			scopeUri: resource,
-			section: 'languageServerExample'
+			section: 'soyLanguageServer'
 		});
 		documentSettings.set(resource, result);
 	}
