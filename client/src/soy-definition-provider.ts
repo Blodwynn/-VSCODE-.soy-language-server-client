@@ -1,27 +1,7 @@
 import vscode = require('vscode');
-import glob = require('glob');
-import path = require('path');
 import { SoyDefinitionInformation, TemplatePathMap } from './interfaces';
 import { parseFiles } from './parse';
 import { getTemplateDescription } from './template';
-
-function getSoyFiles() {
-    let fileList: string[] = [];
-
-    vscode.workspace.workspaceFolders.forEach(wsFolder => {
-        const soyPathPattern = [
-            wsFolder.uri.fsPath,
-            '**',
-            '*.soy'
-        ];
-
-        const globalSoyFilesPath = path.join(...soyPathPattern);
-
-        fileList.push(...glob.sync(globalSoyFilesPath));
-    });
-
-    return fileList;
-}
 
 export function definitionLocation(document: vscode.TextDocument, position: vscode.Position, templatePathMap: TemplatePathMap): Promise<SoyDefinitionInformation> {
     const wordRange: vscode.Range = document.getWordRangeAtPosition(position, /[\w\d.]+/);
@@ -30,7 +10,7 @@ export function definitionLocation(document: vscode.TextDocument, position: vsco
 
     const templateData = getTemplateDescription(templateToSearchFor, templatePathMap, document);
 
-    if (!path) {
+    if (!templateData || !templateData.path) {
         return Promise.reject(`Cannot find declaration for ${templateToSearchFor}`);
     }
 
@@ -48,12 +28,10 @@ export function definitionLocation(document: vscode.TextDocument, position: vsco
 }
 
 export class SoyDefinitionProvider implements vscode.DefinitionProvider {
-    files: string[];
     templatePathMap: TemplatePathMap;
 
     constructor() {
-        this.files = getSoyFiles();
-        this.templatePathMap = parseFiles(this.files);
+        this.templatePathMap = parseFiles();
 	}
 
 	public provideDefinition(document: vscode.TextDocument, position: vscode.Position): Thenable<vscode.Location> {
