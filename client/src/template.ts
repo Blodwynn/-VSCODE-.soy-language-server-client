@@ -50,8 +50,11 @@ export function getTemplateDescription(templateToSearchFor: string, templatePath
 
         if (!templateData || !templateData.path) {
             const alias: string = getMatchingAlias(templateToSearchFor, aliases);
-            const fullTemplatePath: string = normalizeAliasTemplate(alias, templateToSearchFor);
-            templateData = templatePathMap[fullTemplatePath];
+
+            if (alias) {
+                const fullTemplatePath: string = normalizeAliasTemplate(alias, templateToSearchFor);
+                templateData = templatePathMap[fullTemplatePath];
+            }
         }
     }
 
