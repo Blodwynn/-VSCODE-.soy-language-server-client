@@ -10,7 +10,6 @@ const excludeFromFileSearch = [
 ]
 
 function getSoyFiles() {
-    console.time('files');
     let promises = [];
 
     vscode.workspace.workspaceFolders.forEach(wsFolder => {
@@ -24,7 +23,6 @@ function getSoyFiles() {
 
         promises.push(fg.async([globalSoyFilesPath, ...excludeFromFileSearch]));
     });
-    console.timeEnd('files');
 
     return Promise.all(promises);
 }
@@ -54,10 +52,8 @@ function parseFile(file: string): TemplatePathMap {
 export function parseFiles() : TemplatePathMap {
     let allTemplatePathMaps: TemplatePathMap = {};
 
-    console.time('all');
     getSoyFiles()
         .then(entries => {
-            console.time('parse');
             entries.forEach(entry => entry.forEach(e => {
                 const parsedData = parseFile(e);
                 if (parsedData) {
@@ -67,8 +63,6 @@ export function parseFiles() : TemplatePathMap {
                     );
                 }
             }));
-            console.timeEnd('parse');
-            console.timeEnd('all');
         });
 
     return allTemplatePathMaps;
