@@ -61,3 +61,6 @@ All notable changes to this extension will be documented in this file.
 
 ### 3.1.1
 - fixing `delpackage` highlight
+
+## 3.2.0
+- adding `delcall` Go To Definition support

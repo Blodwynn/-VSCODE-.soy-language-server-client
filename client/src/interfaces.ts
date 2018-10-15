@@ -9,5 +9,5 @@ export interface TemplatePathDescription {
 }
 
 export interface TemplatePathMap {
-    [template: string]: TemplatePathDescription
+    [template: string]: TemplatePathDescription|Array<TemplatePathDescription>
 }
