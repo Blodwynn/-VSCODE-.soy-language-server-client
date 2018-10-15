@@ -3,7 +3,7 @@ import fg = require('fast-glob');
 import path = require('path');
 import linenumber = require('linenumber');
 import fs = require('fs');
-import { TemplatePathMap } from './interfaces';
+import { TemplatePathMap, TemplatePathDescription } from './interfaces';
 
 const excludeFromFileSearch = [
     '!**/node_modules'
@@ -27,11 +27,10 @@ function getSoyFiles() {
     return Promise.all(promises);
 }
 
-function parseFile(file: string): TemplatePathMap {
+function parseFile(file: string, allTemplatePathMaps: TemplatePathMap) {
     const namespacePattern: RegExp = /\{namespace ([\w\d.]+)/;
-    const templatePattern: RegExp = /\{template ([\w\d.]+)/gm;
+    const templatePattern: RegExp = /\{(del)?template ([\w\d.]+)/gm;
     const content: string = fs.readFileSync(file, "utf8");
-    let templatePathMap: TemplatePathMap = {};
     let m, n;
 
     if (m = namespacePattern.exec(content)) {
@@ -39,14 +38,34 @@ function parseFile(file: string): TemplatePathMap {
 
         while (n = templatePattern.exec(content)) {
             const lineNr = linenumber(content, n[0]);
-            templatePathMap[`${namespace}${n[1]}`] = {
-                path: file,
-                line: lineNr[0].line - 1
-            };
+            const templateName = n[2];
+            const fullTemplateName = `${namespace}.${templateName}`;
+
+            if (n[1]) {
+                const newItem = {
+                    path: file,
+                    line: lineNr[0].line - 1
+                };
+
+                if (Array.isArray(allTemplatePathMaps[templateName])) {
+                    (<TemplatePathDescription[]>allTemplatePathMaps[templateName]).push(newItem);
+                } else {
+                    allTemplatePathMaps[templateName] = new Array(newItem);
+                }
+
+                if (Array.isArray(allTemplatePathMaps[fullTemplateName])) {
+                    (<TemplatePathDescription[]>allTemplatePathMaps[fullTemplateName]).push(newItem);
+                } else {
+                    allTemplatePathMaps[fullTemplateName] = new Array(newItem);
+                }
+            } else {
+                allTemplatePathMaps[`${namespace}${templateName}`] = {
+                    path: file,
+                    line: lineNr[0].line - 1
+                };
+            }
         }
     }
-
-    return templatePathMap;
 }
 
 export function parseFiles() : TemplatePathMap {
@@ -54,15 +73,11 @@ export function parseFiles() : TemplatePathMap {
 
     getSoyFiles()
         .then(wfFolders => {
-            wfFolders.forEach(files => files.forEach(file => {
-                const parsedData = parseFile(file);
-                if (parsedData) {
-                    allTemplatePathMaps = Object.assign(
-                        allTemplatePathMaps,
-                        parsedData
-                    );
-                }
-            }));
+            wfFolders.forEach(
+                files => files.forEach(
+                    file => parseFile(file, allTemplatePathMaps)
+                )
+            );
         });
 
     return allTemplatePathMaps;
