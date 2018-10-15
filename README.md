@@ -24,6 +24,8 @@ Add full file support for `.soy` files. See section below. :)
 - `TODO` comments
 - `Breaking Change` comments
 
+### Bracket closing pair autoinsertion
+
 ### Snippets
 All snippets start with the character `s` to be able to quickly search for them.
 
