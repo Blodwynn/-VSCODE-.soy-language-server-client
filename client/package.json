@@ -3,26 +3,23 @@
 	"description": "VSCode part of a language server",
 	"author": "Microsoft Corporation",
 	"license": "MIT",
-	"version": "0.0.1",
+	"version": "1.0.0",
 	"publisher": "vscode",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/Blodwynn/-VSCODE-.soy-language-server-client"
 	},
 	"engines": {
-		"vscode": "^1.23.0"
+		"vscode": "^1.22.0"
 	},
 	"scripts": {
 		"update-vscode": "vscode-install",
 		"postinstall": "vscode-install"
 	},
 	"dependencies": {
-		"fast-glob": "^2.2.3",
+		"fast-glob": "^2.2.2",
 		"linenumber": "^1.0.0",
-		"vscode": "^1.1.21",
+		"vscode": "^1.1.10",
 		"vscode-languageclient": "^4.1.4"
-	},
-	"devDependencies": {
-		"@types/glob": "^7.1.1"
 	}
 }
