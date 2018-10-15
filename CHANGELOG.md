@@ -55,3 +55,9 @@ All notable changes to this extension will be documented in this file.
 
 ### 3.0.4
 - fixes
+
+## 3.1.0
+- bracket closing pair autoinsertion
+
+### 3.1.1
+- fixing `delpackage` highlight

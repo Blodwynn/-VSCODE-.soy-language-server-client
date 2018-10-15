@@ -82,7 +82,7 @@
 							}
 						},
 						{
-							"match": "(namespace|package) ([\\w\\d.]*)",
+							"match": "(namespace|delpackage|package) ([\\w\\d.]*)",
 							"captures": {
 								"1": {
 									"name": "entity.name.tag"
