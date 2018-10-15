@@ -40,9 +40,9 @@ export function activate(context: ExtensionContext) {
 
 	context.subscriptions.push(vscode.languages.registerDefinitionProvider(soyDocFilter, new SoyDefinitionProvider()));
 
-	vscode.languages.setLanguageConfiguration('soy', {
-		wordPattern: /[\w\d.]+/g
-	});
+	// vscode.languages.setLanguageConfiguration('soy', {
+	// 	wordPattern: /[\w\d.]+/g
+	// });
 
 	// Options to control the language client
 	let clientOptions: LanguageClientOptions = {
