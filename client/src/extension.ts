@@ -41,7 +41,12 @@ export function activate(context: ExtensionContext) {
 	context.subscriptions.push(vscode.languages.registerDefinitionProvider(soyDocFilter, new SoyDefinitionProvider()));
 
 	vscode.languages.setLanguageConfiguration('soy', {
-		wordPattern: /[\w\d.]+/g
+		wordPattern: /[\w\d.]+/g,
+		brackets: [
+			[ '{', '}' ],
+			[ '(', ')' ],
+			[ '[', ']' ],
+		]
 	});
 
 	// Options to control the language client
