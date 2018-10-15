@@ -53,9 +53,9 @@ export function parseFiles() : TemplatePathMap {
     let allTemplatePathMaps: TemplatePathMap = {};
 
     getSoyFiles()
-        .then(entries => {
-            entries.forEach(entry => entry.forEach(e => {
-                const parsedData = parseFile(e);
+        .then(wfFolders => {
+            wfFolders.forEach(files => files.forEach(file => {
+                const parsedData = parseFile(file);
                 if (parsedData) {
                     allTemplatePathMaps = Object.assign(
                         allTemplatePathMaps,
