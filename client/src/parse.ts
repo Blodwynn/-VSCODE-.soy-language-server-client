@@ -1,12 +1,17 @@
 import vscode = require('vscode');
-import glob = require('glob');
+import fg = require('fast-glob');
 import path = require('path');
 import linenumber = require('linenumber');
 import fs = require('fs');
 import { TemplatePathMap } from './interfaces';
 
+const excludeFromFileSearch = [
+    '!**/node_modules'
+]
+
 function getSoyFiles() {
-    let fileList: string[] = [];
+    console.time('files');
+    let promises = [];
 
     vscode.workspace.workspaceFolders.forEach(wsFolder => {
         const soyPathPattern = [
@@ -17,10 +22,11 @@ function getSoyFiles() {
 
         const globalSoyFilesPath = path.join(...soyPathPattern);
 
-        fileList.push(...glob.sync(globalSoyFilesPath));
+        promises.push(fg.async([globalSoyFilesPath, ...excludeFromFileSearch]));
     });
+    console.timeEnd('files');
 
-    return fileList;
+    return Promise.all(promises);
 }
 
 function parseFile(file: string): TemplatePathMap {
@@ -46,19 +52,24 @@ function parseFile(file: string): TemplatePathMap {
 }
 
 export function parseFiles() : TemplatePathMap {
-    const files = getSoyFiles();
     let allTemplatePathMaps: TemplatePathMap = {};
 
-    // TODO - refactor this
-    files.forEach(file => {
-        const parsedData = parseFile(file);
-        if (parsedData) {
-            allTemplatePathMaps = Object.assign(
-                allTemplatePathMaps,
-                parsedData
-            );
-        }
-    });
+    console.time('all');
+    getSoyFiles()
+        .then(entries => {
+            console.time('parse');
+            entries.forEach(entry => entry.forEach(e => {
+                const parsedData = parseFile(e);
+                if (parsedData) {
+                    allTemplatePathMaps = Object.assign(
+                        allTemplatePathMaps,
+                        parsedData
+                    );
+                }
+            }));
+            console.timeEnd('parse');
+            console.timeEnd('all');
+        });
 
     return allTemplatePathMaps;
 }
