@@ -10,16 +10,16 @@
 		"url": "https://github.com/Blodwynn/-VSCODE-.soy-language-server-client"
 	},
 	"engines": {
-		"vscode": "^1.22.0"
+		"vscode": "^1.23.0"
 	},
 	"scripts": {
 		"update-vscode": "vscode-install",
 		"postinstall": "vscode-install"
 	},
 	"dependencies": {
-		"fast-glob": "^2.2.2",
+		"fast-glob": "^2.2.3",
 		"linenumber": "^1.0.0",
-		"vscode": "^1.1.10",
+		"vscode": "^1.1.21",
 		"vscode-languageclient": "^4.1.4"
 	}
 }
