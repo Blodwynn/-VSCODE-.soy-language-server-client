@@ -29,7 +29,7 @@ function getSoyFiles() {
 
 function insertElementWithKey(templateName: string, element: TemplatePathDescription, allTemplatePathMaps: TemplatePathMap) {
     if (Array.isArray(allTemplatePathMaps[templateName])) {
-        (<TemplatePathDescription[]>allTemplatePathMaps[templateName]).push(element);
+        allTemplatePathMaps[templateName].push(element);
     } else {
         allTemplatePathMaps[templateName] = new Array(element);
     }
