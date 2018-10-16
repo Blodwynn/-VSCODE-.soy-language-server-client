@@ -34,14 +34,14 @@
 					"patterns": [
 						{
 							"name": "entity.name.tag",
-							"match": "(sp|literal|else)"
+							"match": "\\b(sp|literal|else)\\b"
 						},
 						{
 							"name": "entity.name.tag",
-							"match": "(foreach|if|switch|case|let)"
+							"match": "\\b(foreach|if|switch|case|let|for|in)\\b"
 						},
 						{
-							"match": "(deltemplate|template) ([\\w\\d.]+)",
+							"match": "\\b(deltemplate|template) ([\\w\\d.]+)",
 							"captures": {
 								"1": {
 									"name": "entity.name.tag"
@@ -52,7 +52,7 @@
 							}
 						},
 						{
-							"match": "(call|delcall) ([\\w\\d.]+)?",
+							"match": "\\b(call|delcall) ([\\w\\d.]+)?",
 							"captures": {
 								"1": {
 									"name": "entity.name.tag"
@@ -63,18 +63,18 @@
 							}
 						},
 						{
-							"match": "(param)( (\\w+)\\s*:?)?",
+							"match": "\\b(param)(?: (\\w+)\\s*:?)?",
 							"captures": {
 								"1": {
 									"name": "entity.name.tag"
 								},
-								"3": {
+								"2": {
 									"name": "entity.name.type"
 								}
 							}
 						},
 						{
-							"match": "(kind|autoescape|allowemptydefault|variant)=",
+							"match": "\\b(kind|autoescape|allowemptydefault|variant)=",
 							"captures": {
 								"1": {
 									"name": "support.function"
@@ -82,7 +82,7 @@
 							}
 						},
 						{
-							"match": "(namespace|delpackage|package) ([\\w\\d.]*)",
+							"match": "\\b(namespace|delpackage|package) ([\\w\\d.]*)",
 							"captures": {
 								"1": {
 									"name": "entity.name.tag"
@@ -93,7 +93,7 @@
 							}
 						},
 						{
-							"match": "(alias) ([\\w.]*)",
+							"match": "\\b(alias) ([\\w.]*)",
 							"captures": {
 								"1": {
 									"name": "entity.name.type"
@@ -105,7 +105,7 @@
 						},
 						{
 							"name": "entity.name.tag",
-							"match": "/(deltemplate|template|foreach|call|delcall|let|param|if|switch|literal)"
+							"match": "/\\b(deltemplate|template|foreach|call|delcall|let|param|if|switch|literal)\\b"
 						},
 						{
 							"name": "variable.parameter",
@@ -113,15 +113,15 @@
 						},
 						{
 							"name": "entity.name.tag",
-							"match": "(not|or|and|true|false|null)"
+							"match": "\\b(not|or|and|true|false|null)\\b"
 						},
 						{
 							"name": "keyword.control",
-							"match": "(length|isFirst|isLast|index|isNonnull|keys|augmentMap|quoteKeysIfJs|round|floor}ceiling|min|max|randomInt|strContains|i18n(JS)?|setClientData)"
+							"match": "\\b(length|isFirst|isLast|index|isNonnull|keys|augmentMap|quoteKeysIfJs|round|floor|ceiling|min|max|randomInt|strContains|i18n(JS)?|setClientData)\\b"
 						},
 						{
 							"name": "support.function",
-							"match": "noAutoescape"
+							"match": "\\bnoAutoescape\\b"
 						},
 						{
 							"include": "#strings"
