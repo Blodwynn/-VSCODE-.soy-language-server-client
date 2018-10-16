@@ -3,37 +3,27 @@ import { SoyDefinitionInformation, TemplatePathMap } from './interfaces';
 import { parseFiles } from './parse';
 import { getTemplateDescription } from './template';
 
-export function definitionLocation(
-    document: vscode.TextDocument,
-    position: vscode.Position,
-    templatePathMap: TemplatePathMap): Promise<any> {
+export function definitionLocation(document: vscode.TextDocument, position: vscode.Position, templatePathMap: TemplatePathMap): Promise<any> {
     const wordRange: vscode.Range = document.getWordRangeAtPosition(position, /[\w\d.]+/);
     const lineText: string = document.lineAt(position.line).text;
     const templateToSearchFor: string = document.getText(wordRange);
 
     const templateData = getTemplateDescription(templateToSearchFor, templatePathMap, document);
 
-    if (!Array.isArray(templateData)) {
-
-        if (!templateData || !templateData.path) {
-            return Promise.reject(`Cannot find declaration for ${templateToSearchFor}`);
-        }
-
-        if (!wordRange || lineText.startsWith('//')) {
-            return Promise.resolve(null);
-        }
-        if (position.isEqual(wordRange.end) && position.isAfter(wordRange.start)) {
-            position = position.translate(0, -1);
-        }
-
-        return Promise.resolve(<SoyDefinitionInformation>{
-            file: templateData.path,
-            line: templateData.line
-        });
-    } else {
-        const informationArray = templateData.map(item => (<SoyDefinitionInformation>{file: item.path, line: item.line}));
-        return Promise.resolve(informationArray);
+    if (!templateData || !templateData.length) {
+        return Promise.reject(`Cannot find declaration for ${templateToSearchFor}`);
     }
+
+    if (!wordRange || lineText.startsWith('//')) {
+        return Promise.resolve(null);
+    }
+
+    if (position.isEqual(wordRange.end) && position.isAfter(wordRange.start)) {
+        position = position.translate(0, -1);
+    }
+
+    const informationArray = templateData.map(item => (<SoyDefinitionInformation>{file: item.path, line: item.line}));
+    return Promise.resolve(informationArray);
 }
 
 function createLocation(definitionInfo) {

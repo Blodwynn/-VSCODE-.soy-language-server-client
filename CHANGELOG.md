@@ -64,3 +64,7 @@ All notable changes to this extension will be documented in this file.
 
 ## 3.2.0
 - adding `delcall` Go To Definition support
+
+### 3.2.1
+- adding `variant` highlight
+- fixing `noAutoescape` highlights when adding it to a variable
