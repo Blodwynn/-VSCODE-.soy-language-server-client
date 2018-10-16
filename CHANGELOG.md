@@ -78,3 +78,6 @@ All notable changes to this extension will be documented in this file.
 
 ### 3.2.3
 - expanded highlight for `range`, `elseif`, `default`, `nil`, `lb`, `rb`, `ifempty`, `msg`, `fallbackmsg`
+
+### 3.2.4
+- making server checks stricter / Thanks to [Nick Fisher](https://github.com/spadgos) for opening the issue!
