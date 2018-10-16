@@ -75,3 +75,6 @@ All notable changes to this extension will be documented in this file.
     - fixing `for-in` highlight
     - fixing a wide range of word boundary matches
 - fixing the `@param` highlight when it's in the template
+
+### 3.2.3
+- expanded highlight for `range`, `elseif`, `default`, `nil`, `lb`, `rb`, `ifempty`, `msg`, `fallbackmsg`
