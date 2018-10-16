@@ -68,3 +68,10 @@ All notable changes to this extension will be documented in this file.
 ### 3.2.1
 - adding `variant` highlight
 - fixing `noAutoescape` highlights when adding it to a variable
+
+### 3.2.2
+- A **HUGE** thanks to [Nick Fisher](https://github.com/spadgos) for the following changes:
+    - fixing `floor` and `ceiling` highlight
+    - fixing `for-in` highlight
+    - fixing a wide range of word boundary matches
+- fixing the `@param` highlight when it's in the template
