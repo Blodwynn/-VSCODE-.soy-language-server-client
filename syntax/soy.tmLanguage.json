@@ -3,9 +3,6 @@
 	"name": "soy",
 	"patterns": [
 		{
-			"include": "#strings"
-		},
-		{
 			"include": "#soy"
 		},
 		{
@@ -223,9 +220,6 @@
 					"patterns": [
 						{
 							"include": "#soy"
-						},
-						{
-							"include": "#strings"
 						}
 					]
 				},
