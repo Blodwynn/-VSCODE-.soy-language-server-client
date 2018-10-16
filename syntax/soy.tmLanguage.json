@@ -34,11 +34,11 @@
 					"patterns": [
 						{
 							"name": "entity.name.tag",
-							"match": "\\b(sp|literal|else)\\b"
+							"match": "\\b(sp|literal|else|default|nil|lb|rb|ifempty|fallbackmsg)\\b"
 						},
 						{
 							"name": "entity.name.tag",
-							"match": "\\b(foreach|if|switch|case|let|for|in)\\b"
+							"match": "\\b(foreach|if|elseif|switch|case|let|for|in|msg|print)\\b"
 						},
 						{
 							"match": "(@param\\??) ([\\w\\d]+): ?([\\w\\d.]+)?",
@@ -119,7 +119,7 @@
 						},
 						{
 							"name": "entity.name.tag",
-							"match": "/\\b(deltemplate|template|foreach|call|delcall|let|param|if|switch|literal)\\b"
+							"match": "/\\b(deltemplate|template|foreach|msg|for|call|delcall|let|param|if|switch|literal)\\b"
 						},
 						{
 							"name": "variable.parameter",
@@ -131,7 +131,7 @@
 						},
 						{
 							"name": "keyword.control",
-							"match": "\\b(length|isFirst|isLast|index|isNonnull|keys|augmentMap|quoteKeysIfJs|round|floor|ceiling|min|max|randomInt|strContains|i18n(JS)?|setClientData)\\b"
+							"match": "\\b(length|isFirst|isLast|index|isNonnull|keys|range|augmentMap|quoteKeysIfJs|round|floor|ceiling|min|max|randomInt|strContains|i18n(JS)?|setClientData)\\b"
 						},
 						{
 							"name": "support.function",
