@@ -36,31 +36,24 @@ function getAliases(documentText: string): string[] {
     return aliases;
 }
 
-export function getTemplateDescription(
-    templateToSearchFor: string,
-    templatePathMap: TemplatePathMap,
-    document: vscode.TextDocument): TemplatePathDescription | Array<TemplatePathDescription> {
+export function getTemplateDescription( templateToSearchFor: string, templatePathMap: TemplatePathMap, document: vscode.TextDocument): TemplatePathDescription[]  {
     const documentText: string = document.getText();
     const namespace: string = getNamespace(documentText);
     const aliases: string[] = getAliases(documentText);
-    let templateData: TemplatePathDescription|Array<TemplatePathDescription>;
+    let templateData: TemplatePathDescription[];
 
     if (templateToSearchFor.startsWith('.')) {
-        const templateNamespace = `${namespace}${templateToSearchFor}`;
-        templateData = templatePathMap[templateNamespace];
+        templateData = templatePathMap[`${namespace}${templateToSearchFor}`];
     } else {
-        if (!Array.isArray(templatePathMap[templateToSearchFor])) {
-            templateData = <TemplatePathDescription>templatePathMap[templateToSearchFor];
-            if (!templateData || !templateData.path) {
-                const alias: string = getMatchingAlias(templateToSearchFor, aliases);
+        templateData = templatePathMap[templateToSearchFor];
 
-                if (alias) {
-                    const fullTemplatePath: string = normalizeAliasTemplate(alias, templateToSearchFor);
-                    templateData = templatePathMap[fullTemplatePath];
-                }
+        if (!templateData) {
+            const alias: string = getMatchingAlias(templateToSearchFor, aliases);
+
+            if (alias) {
+                const fullTemplatePath: string = normalizeAliasTemplate(alias, templateToSearchFor);
+                templateData = templatePathMap[fullTemplatePath];
             }
-        } else {
-            templateData = templatePathMap[templateToSearchFor];
         }
     }
 

@@ -74,7 +74,7 @@
 							}
 						},
 						{
-							"match": "(kind|autoescape|allowemptydefault)=",
+							"match": "(kind|autoescape|allowemptydefault|variant)=",
 							"captures": {
 								"1": {
 									"name": "support.function"
@@ -109,7 +109,7 @@
 						},
 						{
 							"name": "variable.parameter",
-							"match": "\\$[\\w\\d.?\\[\\]|]+"
+							"match": "\\$[\\w\\d.?\\[\\]]+"
 						},
 						{
 							"name": "entity.name.tag",
@@ -121,7 +121,7 @@
 						},
 						{
 							"name": "support.function",
-							"match": "(noAutoescape)"
+							"match": "noAutoescape"
 						},
 						{
 							"include": "#strings"

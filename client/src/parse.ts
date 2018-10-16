@@ -27,42 +27,39 @@ function getSoyFiles() {
     return Promise.all(promises);
 }
 
+function insertElementWithKey(templateName: string, element: TemplatePathDescription, allTemplatePathMaps: TemplatePathMap) {
+    if (Array.isArray(allTemplatePathMaps[templateName])) {
+        (<TemplatePathDescription[]>allTemplatePathMaps[templateName]).push(element);
+    } else {
+        allTemplatePathMaps[templateName] = new Array(element);
+    }
+}
+
 function parseFile(file: string, allTemplatePathMaps: TemplatePathMap) {
     const namespacePattern: RegExp = /\{namespace ([\w\d.]+)/;
-    const templatePattern: RegExp = /\{(del)?template ([\w\d.]+)/gm;
+    const templatePattern: RegExp = /\{(del)?template ([\w\d.]+)([^\w\d.]).*/gm;
     const content: string = fs.readFileSync(file, "utf8");
     let m, n;
 
     if (m = namespacePattern.exec(content)) {
-        const namespace = m[1];
+        const namespace: string = m[1];
 
         while (n = templatePattern.exec(content)) {
             const lineNr = linenumber(content, n[0]);
-            const templateName = n[2];
-            const fullTemplateName = `${namespace}.${templateName}`;
+            const isDeltemplate = n[1];
+            const templateName: string = n[2];
+            const fullTemplateName: string = `${namespace}.${templateName}`;
 
-            if (n[1]) {
-                const newItem = {
-                    path: file,
-                    line: lineNr[0].line - 1
-                };
+            const newItem: TemplatePathDescription = {
+                path: file,
+                line: lineNr[0].line - 1
+            };
 
-                if (Array.isArray(allTemplatePathMaps[templateName])) {
-                    (<TemplatePathDescription[]>allTemplatePathMaps[templateName]).push(newItem);
-                } else {
-                    allTemplatePathMaps[templateName] = new Array(newItem);
-                }
-
-                if (Array.isArray(allTemplatePathMaps[fullTemplateName])) {
-                    (<TemplatePathDescription[]>allTemplatePathMaps[fullTemplateName]).push(newItem);
-                } else {
-                    allTemplatePathMaps[fullTemplateName] = new Array(newItem);
-                }
+            if (isDeltemplate) {
+                insertElementWithKey(templateName, newItem, allTemplatePathMaps);
+                insertElementWithKey(fullTemplateName, newItem, allTemplatePathMaps);
             } else {
-                allTemplatePathMaps[`${namespace}${templateName}`] = {
-                    path: file,
-                    line: lineNr[0].line - 1
-                };
+                insertElementWithKey(`${namespace}${templateName}`, newItem, allTemplatePathMaps);
             }
         }
     }
@@ -72,8 +69,8 @@ export function parseFiles() : TemplatePathMap {
     let allTemplatePathMaps: TemplatePathMap = {};
 
     getSoyFiles()
-        .then(wfFolders => {
-            wfFolders.forEach(
+        .then(wsFolders => {
+            wsFolders.forEach(
                 files => files.forEach(
                     file => parseFile(file, allTemplatePathMaps)
                 )

@@ -1,4 +1,4 @@
-# Google closure template syntax checker (.soy)
+# Google closure template full file support (.soy)
 Add full file support for `.soy` files. See section below. :)
 
 ## Functionality
