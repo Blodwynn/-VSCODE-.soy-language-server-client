@@ -152,6 +152,11 @@
 				},
 				{
 					"name": "comment",
+					"begin": "/\\*",
+					"end": "\\*/"
+				},
+				{
+					"name": "comment",
 					"begin": "/\\*\\*",
 					"end": "\\*/",
 					"patterns": [
