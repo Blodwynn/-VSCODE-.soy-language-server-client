@@ -68,3 +68,24 @@ All notable changes to this extension will be documented in this file.
 ### 3.2.1
 - adding `variant` highlight
 - fixing `noAutoescape` highlights when adding it to a variable
+
+### 3.2.2
+- A **HUGE** thanks to [Nick Fisher](https://github.com/spadgos) for the following changes:
+    - fixing `floor` and `ceiling` highlight
+    - fixing `for-in` highlight
+    - fixing a wide range of word boundary matches
+- fixing the `@param` highlight when it's in the template
+
+### 3.2.3
+- expanded highlight for `range`, `elseif`, `default`, `nil`, `lb`, `rb`, `ifempty`, `msg`, `fallbackmsg`
+
+### 3.2.4
+- fixing single quotes causing issues - Thanks to [Nick Fisher](https://github.com/spadgos) for the report [ISSUE-2](https://github.com/Blodwynn/-VSCODE-.soy-language-server-client/issues/2)
+- fixing the extension reporting false errors - Thanks to [Nick Fisher](https://github.com/spadgos) for the report [ISSUE-3](https://github.com/Blodwynn/-VSCODE-.soy-language-server-client/issues/3)
+
+### 3.2.5
+- fixing the extension reporting another kind of false error - Thanks to [Nick Fisher](https://github.com/spadgos) for the report [ISSUE-4](https://github.com/Blodwynn/-VSCODE-.soy-language-server-client/issues/4)
+- giving highlight to non-doc multi-line comments
+
+### 3.2.6
+- fixing doc comment highlight for @items
