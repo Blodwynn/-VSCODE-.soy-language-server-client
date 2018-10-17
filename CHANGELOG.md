@@ -86,3 +86,6 @@ All notable changes to this extension will be documented in this file.
 ### 3.2.5
 - fixing the extension reporting another kind of false error - Thanks to [Nick Fisher](https://github.com/spadgos) for the report [ISSUE-4](https://github.com/Blodwynn/-VSCODE-.soy-language-server-client/issues/4)
 - giving highlight to non-doc multi-line comments
+
+### 3.2.6
+- fixing doc comment highlight for @items

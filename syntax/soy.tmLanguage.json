@@ -152,11 +152,6 @@
 				},
 				{
 					"name": "comment",
-					"begin": "/\\*",
-					"end": "\\*/"
-				},
-				{
-					"name": "comment",
 					"begin": "/\\*\\*",
 					"end": "\\*/",
 					"patterns": [
@@ -187,6 +182,11 @@
 							"match": "(@client|@layout)"
 						}
 					]
+				},
+				{
+					"name": "comment",
+					"begin": "/\\*",
+					"end": "\\*/"
 				}
 			]
 		},
