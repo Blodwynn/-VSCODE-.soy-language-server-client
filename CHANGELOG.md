@@ -89,3 +89,10 @@ All notable changes to this extension will be documented in this file.
 
 ### 3.2.6
 - fixing doc comment highlight for @items
+
+## 3.3.0
+Thanks to [Nick Fisher](https://github.com/spadgos) for the following [changes](https://github.com/Blodwynn/-VSCODE-.soy-language-server-client/pull/5):
+- highlighting `alias` - `as`
+- extending highlight of `param` types
+- adding support to a large number of build-in functions
+- some under the hood changes
