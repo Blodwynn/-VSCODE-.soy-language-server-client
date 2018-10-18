@@ -76,7 +76,7 @@ connection.onInitialized(() => {
 //     });
 // });
 
-interface ExampleSettings {
+interface SoyConfigSettings {
 	ignoreTodo: boolean;
 	ignoreBreakingChange: boolean;
 	ignoreErrors: boolean;
@@ -85,18 +85,18 @@ interface ExampleSettings {
 // The global settings, used when the `workspace/configuration` request is not supported by the client.
 // Please note that this is not the case when using this server with the client provided in this example
 // but could happen with other clients.
-const defaultSettings: ExampleSettings = { ignoreTodo: false, ignoreBreakingChange: false, ignoreErrors: false };
-let globalSettings: ExampleSettings = defaultSettings;
+const defaultSettings: SoyConfigSettings = { ignoreTodo: false, ignoreBreakingChange: false, ignoreErrors: false };
+let globalSettings: SoyConfigSettings = defaultSettings;
 
 // Cache the settings of all open documents
-let documentSettings: Map<string, Thenable<ExampleSettings>> = new Map();
+let documentSettings: Map<string, Thenable<SoyConfigSettings>> = new Map();
 
 connection.onDidChangeConfiguration(change => {
 	if (hasConfigurationCapability) {
 		// Reset all cached document settings
 		documentSettings.clear();
 	} else {
-		globalSettings = <ExampleSettings>(
+		globalSettings = <SoyConfigSettings>(
 			(change.settings.soyLanguageServer || defaultSettings)
 		);
 	}
@@ -105,7 +105,7 @@ connection.onDidChangeConfiguration(change => {
 	documents.all().forEach(validateSoyDocument);
 });
 
-function getDocumentSettings(resource: string): Thenable<ExampleSettings> {
+function getDocumentSettings(resource: string): Thenable<SoyConfigSettings> {
 	if (!hasConfigurationCapability) {
 		return Promise.resolve(globalSettings);
 	}
@@ -128,7 +128,12 @@ documents.onDidChangeContent(change => {
 	validateSoyDocument(change.document);
 });
 
-const errorPatterns = [
+interface ErrorItem {
+	pattern: RegExp;
+	message: string;
+}
+
+const errorPatterns: ErrorItem[] = [
 	// LET
 	{ pattern: /\{\s*let\s+\w.*?\}/ig,                  message: 'Missing $ sign for variable declaration'},
 	{ pattern: /\{\s*let.*?kind=[^}]*?\/\}/ig,          message: 'Unnecessary closing tag for LET opening tag'},
@@ -144,11 +149,11 @@ const errorPatterns = [
 	{ pattern: /\{deltemplate.*?\/\s*\}/ig,             message: 'Self closing is not applicable for deltemplates' }
 ];
 
-const breakingChangePatterns = [
+const breakingChangePatterns: ErrorItem[] = [
 	{ pattern: /breaking ?change/ig, message: 'To be checked for followups' }
 ];
 
-const todoPatterns = [
+const todoPatterns: ErrorItem[] = [
 	{ pattern: /TO ?DO/ig,             message: 'To be checked for followups' }
 ];
 
@@ -193,11 +198,11 @@ async function validateSoyDocument(textDocument: TextDocument): Promise<void> {
 	}
 
 	if (!settings.ignoreTodo) {
-		diagnostics.push(...validatePatterns(todoPatterns, text, textDocument, DiagnosticSeverity.Warning));
+		diagnostics.push(...validatePatterns(todoPatterns, text, textDocument, DiagnosticSeverity.Information));
 	}
 
 	if (!settings.ignoreBreakingChange) {
-		diagnostics.push(...validatePatterns(breakingChangePatterns, text, textDocument, DiagnosticSeverity.Warning));
+		diagnostics.push(...validatePatterns(breakingChangePatterns, text, textDocument, DiagnosticSeverity.Information));
 	}
 
 	connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
