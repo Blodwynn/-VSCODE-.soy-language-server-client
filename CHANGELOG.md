@@ -96,3 +96,6 @@ Thanks to [Nick Fisher](https://github.com/spadgos) for the following [changes](
 - extending highlight of `param` types
 - adding support to a large number of build-in functions
 - some under the hood changes
+
+### 3.3.1
+- adding missing `data` highlight

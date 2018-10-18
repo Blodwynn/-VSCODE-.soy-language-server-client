@@ -73,7 +73,7 @@
 							}
 						},
 						{
-							"match": "\\b(kind|autoescape|allowemptydefault|variant)=",
+							"match": "\\b(kind|autoescape|allowemptydefault|variant|data)=",
 							"captures": {
 								"1": {
 									"name": "support.function"
