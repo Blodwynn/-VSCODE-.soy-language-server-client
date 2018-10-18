@@ -99,3 +99,9 @@ Thanks to [Nick Fisher](https://github.com/spadgos) for the following [changes](
 
 ### 3.3.1
 - adding missing `data` highlight
+
+## 3.4.0
+- adding basic configuration:
+    - ignore errors
+    - ignore Todo comments
+    - ignore breaking change comments

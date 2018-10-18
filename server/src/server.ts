@@ -77,13 +77,15 @@ connection.onInitialized(() => {
 // });
 
 interface ExampleSettings {
-	maxNumberOfProblems: number;
+	ignoreTodo: boolean;
+	ignoreBreakingChange: boolean;
+	ignoreErrors: boolean;
 }
 
 // The global settings, used when the `workspace/configuration` request is not supported by the client.
 // Please note that this is not the case when using this server with the client provided in this example
 // but could happen with other clients.
-const defaultSettings: ExampleSettings = { maxNumberOfProblems: 1000 };
+const defaultSettings: ExampleSettings = { ignoreTodo: false, ignoreBreakingChange: false, ignoreErrors: false };
 let globalSettings: ExampleSettings = defaultSettings;
 
 // Cache the settings of all open documents
@@ -138,13 +140,16 @@ const errorPatterns = [
 	{ pattern: /\{\s*param [\w\d."'=]+?:[^}]*[^/]\}/ig, message: 'Missing closing tag for parameter'},
 	{ pattern: /\{\s*param.*?\/ }/ig,                   message: 'Extra spacing before closing tag'},
 
-	{ pattern: /\{template.*?\/\s*\}/ig,     message: 'Self closing is not applicable for templates' },
-	{ pattern: /\{deltemplate.*?\/\s*\}/ig,  message: 'Self closing is not applicable for deltemplates' }
+	{ pattern: /\{template.*?\/\s*\}/ig,                message: 'Self closing is not applicable for templates' },
+	{ pattern: /\{deltemplate.*?\/\s*\}/ig,             message: 'Self closing is not applicable for deltemplates' }
 ];
 
-const warningPatterns = [
-	{ pattern: /breaking ?change/ig, message: 'To be checked for followups' },
-	{ pattern: /TODO/ig,             message: 'To be checked for followups' }
+const breakingChangePatterns = [
+	{ pattern: /breaking ?change/ig, message: 'To be checked for followups' }
+];
+
+const todoPatterns = [
+	{ pattern: /TO ?DO/ig,             message: 'To be checked for followups' }
 ];
 
 function validateWithPattern(errorItem: any, text: string, textDocument: TextDocument, severity: DiagnosticSeverity) {
@@ -181,15 +186,18 @@ function validatePatterns(errorItems: any[], text: string, textDocument: TextDoc
 async function validateSoyDocument(textDocument: TextDocument): Promise<void> {
 	let settings = await getDocumentSettings(textDocument.uri);
 	let text = textDocument.getText();
+	let diagnostics: Diagnostic[] = [];
 
-	let problems = 0;
-	let diagnostics: Diagnostic[] = [
-		...validatePatterns(errorPatterns, text, textDocument, DiagnosticSeverity.Error),
-		...validatePatterns(warningPatterns, text, textDocument, DiagnosticSeverity.Warning)
-	];
+	if (!settings.ignoreErrors) {
+		diagnostics.push(...validatePatterns(errorPatterns, text, textDocument, DiagnosticSeverity.Error));
+	}
 
-	if (problems < settings.maxNumberOfProblems) {
-		// meh
+	if (!settings.ignoreTodo) {
+		diagnostics.push(...validatePatterns(todoPatterns, text, textDocument, DiagnosticSeverity.Warning));
+	}
+
+	if (!settings.ignoreBreakingChange) {
+		diagnostics.push(...validatePatterns(breakingChangePatterns, text, textDocument, DiagnosticSeverity.Warning));
 	}
 
 	connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
