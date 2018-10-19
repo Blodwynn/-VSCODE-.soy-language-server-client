@@ -10,8 +10,9 @@ Add full file support for `.soy` files. See section below. :)
 ### Syntax highlight
 - Highlights keywords, variables and so :)
 
-### Go To Definition
+### Go To Definition / Peek definition
 - Go to definion of given template with F12 / ctrl+click
+- Peek definition support
 
 ### Error highlights
 - Missing `$` sign in variable declarations
@@ -20,7 +21,7 @@ Add full file support for `.soy` files. See section below. :)
 - Unnecessary `/` character for `let` and `param` blocks
 - Self closing for `template`s and `deltemplate`s
 
-### Warning highlights
+### Information highlights
 - `TODO` comments
 - `Breaking Change` comments
 

@@ -105,3 +105,6 @@ Thanks to [Nick Fisher](https://github.com/spadgos) for the following [changes](
     - ignore errors
     - ignore Todo comments
     - ignore breaking change comments
+
+### 3.4.1
+- fixing config description :)

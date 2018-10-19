@@ -4,7 +4,7 @@
 	"description": "Syntax highlight, syntax check, Go To Definiton and snippets for .soy files",
 	"author": "Roland Orosz",
 	"license": "MIT",
-	"version": "3.4.0",
+	"version": "3.4.1",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/Blodwynn/-VSCODE-.soy-language-server-client"
@@ -54,7 +54,7 @@
 				"soyLanguageServer.ignoreBreakingChange": {
 					"type": "boolean",
 					"default": false,
-					"description": "Ignore warnings in documents."
+					"description": "Ignore breaking change comments in documents."
 				},
 				"soyLanguageServer.ignoreErrors": {
 					"type": "boolean",
