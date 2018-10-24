@@ -111,3 +111,7 @@ Thanks to [Nick Fisher](https://github.com/spadgos) for the following [changes](
 
 ## 3.5.0
 - highlighting HTML tags in strings
+
+### 3.5.1
+- fixing highlight of strings containing escaped characters
+- adding highlight to escaped characters

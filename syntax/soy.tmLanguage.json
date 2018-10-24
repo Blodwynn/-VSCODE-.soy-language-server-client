@@ -204,6 +204,9 @@
 					"end": "\"",
 					"patterns": [
 						{
+							"include": "#escaped-character"
+						},
+						{
 							"include": "#soy"
 						},
 						{
@@ -217,12 +220,23 @@
 					"end": "'",
 					"patterns": [
 						{
+							"include": "#escaped-character"
+						},
+						{
 							"include": "#soy"
 						},
 						{
 							"include": "#html"
 						}
 					]
+				}
+			]
+		},
+		"escaped-character": {
+			"patterns": [
+				{
+					"name": "constant.character.escape",
+					"match": "\\\\."
 				}
 			]
 		}
