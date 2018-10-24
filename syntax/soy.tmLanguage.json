@@ -205,16 +205,22 @@
 					"patterns": [
 						{
 							"include": "#soy"
+						},
+						{
+							"include": "#html"
 						}
 					]
 				},
 				{
-					"name": "string.quoted.double",
-					"begin": "\\'",
-					"end": "\\'",
+					"name": "string.quoted.single",
+					"begin": "'",
+					"end": "'",
 					"patterns": [
 						{
 							"include": "#soy"
+						},
+						{
+							"include": "#html"
 						}
 					]
 				}

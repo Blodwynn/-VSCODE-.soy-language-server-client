@@ -108,3 +108,6 @@ Thanks to [Nick Fisher](https://github.com/spadgos) for the following [changes](
 
 ### 3.4.1
 - fixing config description :)
+
+## 3.5.0
+- highlighting HTML tags in strings
