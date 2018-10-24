@@ -38,8 +38,8 @@
     "let-block": {
         "prefix": "slb",
         "body": [
-            "{let $${1:name} kind=\"${2:text OR html}\"}",
-            "    ${3:value}",
+            "{let $${1:name} kind=\"${2:text}${3:html}\"}",
+            "    ${4:statements}",
             "{/let}",
             ""
         ]
@@ -47,14 +47,14 @@
     "param": {
         "prefix": "sp",
         "body": [
-            "{param $${1:paramName}: ${2:paramValue} /}"
+            "{param ${1:paramName}: ${2:value} /}"
         ]
     },
     "param-block": {
         "prefix": "spb",
         "body": [
-            "{param $${1:paramName} kind=\"${2:text OR html}\"}",
-            "    ${3:statements}",
+            "{param ${1:paramName} kind=\"${2:text}${3:html}\"}",
+            "    ${4:statements}",
             "{/param}",
             ""
         ]
@@ -62,7 +62,7 @@
     "param-signature": {
         "prefix": "sps",
         "body": [
-            " * @param $${1:paramName}"
+            " * @param ${1:paramName}"
         ]
     },
     "call": {

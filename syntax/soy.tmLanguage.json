@@ -1,6 +1,9 @@
 {
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
 	"name": "soy",
+	"fileTypes": [
+		"soy"
+	],
 	"patterns": [
 		{
 			"include": "#soy"

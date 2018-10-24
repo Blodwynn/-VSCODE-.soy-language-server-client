@@ -115,3 +115,7 @@ Thanks to [Nick Fisher](https://github.com/spadgos) for the following [changes](
 ### 3.5.1
 - fixing highlight of strings containing escaped characters
 - adding highlight to escaped characters
+
+## 3.5.2
+- removing `$` from param snippets
+- improvements to some snippets
