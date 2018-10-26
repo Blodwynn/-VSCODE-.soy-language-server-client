@@ -4,7 +4,7 @@
 	"description": "Syntax highlight, syntax check, Go To Definiton and snippets for .soy files",
 	"author": "Roland Orosz",
 	"license": "MIT",
-	"version": "3.5.2",
+	"version": "3.6.0",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/Blodwynn/-VSCODE-.soy-language-server-client"
@@ -39,7 +39,8 @@
 				],
 				"extensions": [
 					".soy"
-				]
+				],
+				"configuration": "./language-configuration.json"
 			}
 		],
 		"configuration": {
@@ -72,72 +73,7 @@
 					"default": "off",
 					"description": "Traces the communication between VS Code and the language server."
 				}
-			},
-			"comments": {
-				"lineComment": "//",
-				"blockComment": [
-					"/*",
-					"*/"
-				]
-			},
-			"brackets": [
-				[
-					"{",
-					"}"
-				],
-				[
-					"[",
-					"]"
-				],
-				[
-					"(",
-					")"
-				]
-			],
-			"autoClosingPairs": [
-				[
-					"{",
-					"}"
-				],
-				[
-					"[",
-					"]"
-				],
-				[
-					"(",
-					")"
-				],
-				[
-					"\"",
-					"\""
-				],
-				[
-					"'",
-					"'"
-				]
-			],
-			"surroundingPairs": [
-				[
-					"{",
-					"}"
-				],
-				[
-					"[",
-					"]"
-				],
-				[
-					"(",
-					")"
-				],
-				[
-					"\"",
-					"\""
-				],
-				[
-					"'",
-					"'"
-				]
-			]
+			}
 		},
 		"snippets": [
 			{

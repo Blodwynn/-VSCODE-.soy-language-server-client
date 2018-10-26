@@ -162,15 +162,15 @@ async function validateSoyDocument(textDocument: TextDocument): Promise<void> {
     let diagnostics: Diagnostic[] = [];
 
     if (!settings.ignoreErrors) {
-        diagnostics.push(...validatePatterns(patterns.errorPatterns, text, textDocument, DiagnosticSeverity.Error));
+        diagnostics.push(...validatePatterns(patterns.error, text, textDocument, DiagnosticSeverity.Error));
     }
 
     if (!settings.ignoreTodo) {
-        diagnostics.push(...validatePatterns(patterns.todoPatterns, text, textDocument, DiagnosticSeverity.Information));
+        diagnostics.push(...validatePatterns(patterns.todo, text, textDocument, DiagnosticSeverity.Information));
     }
 
     if (!settings.ignoreBreakingChange) {
-        diagnostics.push(...validatePatterns(patterns.breakingChangePatterns, text, textDocument, DiagnosticSeverity.Information));
+        diagnostics.push(...validatePatterns(patterns.breakingChange, text, textDocument, DiagnosticSeverity.Information));
     }
 
     connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });

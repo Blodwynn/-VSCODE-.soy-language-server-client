@@ -116,6 +116,15 @@ Thanks to [Nick Fisher](https://github.com/spadgos) for the following [changes](
 - fixing highlight of strings containing escaped characters
 - adding highlight to escaped characters
 
-## 3.5.2
+### 3.5.2
 - removing `$` from param snippets
 - improvements to some snippets
+
+## 3.6.0
+- support to comment a line with VSCode shortcut
+- support to comment selected block with VSCode shortcut
+- support for autoclosing tags:
+    - quotes: `'` and `"`
+    - brackets: `()`, `[]` and `{}`
+    - block and doc comments: `/* */` and `/** */`
+- some finetuning on error highlights
