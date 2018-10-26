@@ -1,6 +1,5 @@
 import vscode = require('vscode');
 import { SoyDefinitionInformation, TemplatePathMap } from './interfaces';
-import { parseFiles } from './parse';
 import { getTemplateDescription } from './template';
 
 export function definitionLocation(document: vscode.TextDocument, position: vscode.Position, templatePathMap: TemplatePathMap): Promise<any> {
@@ -38,8 +37,8 @@ function createLocation(definitionInfo) {
 export class SoyDefinitionProvider implements vscode.DefinitionProvider {
     templatePathMap: TemplatePathMap;
 
-    constructor() {
-        this.templatePathMap = parseFiles();
+    constructor(templatePathMap) {
+        this.templatePathMap = templatePathMap;
 	}
 
 	public provideDefinition(document: vscode.TextDocument, position: vscode.Position): Thenable<vscode.Location> {

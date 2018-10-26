@@ -9,7 +9,7 @@ const excludeFromFileSearch = [
     '!**/node_modules'
 ]
 
-function getSoyFiles() {
+export function getSoyFiles() {
     let promises = [];
 
     vscode.workspace.workspaceFolders.forEach(wsFolder => {
@@ -65,17 +65,16 @@ function parseFile(file: string, allTemplatePathMaps: TemplatePathMap) {
     }
 }
 
-export function parseFiles() : TemplatePathMap {
-    let allTemplatePathMaps: TemplatePathMap = {};
+export function parseFiles(wsFolders) : Promise<TemplatePathMap> {
+    return new Promise(resolve => {
+        let allTemplatePathMaps: TemplatePathMap = {};
 
-    getSoyFiles()
-        .then(wsFolders => {
-            wsFolders.forEach(
-                files => files.forEach(
-                    file => parseFile(file, allTemplatePathMaps)
-                )
-            );
-        });
+        wsFolders.forEach(
+            files => files.forEach(
+                file => parseFile(file, allTemplatePathMaps)
+            )
+        );
 
-    return allTemplatePathMaps;
+        resolve(allTemplatePathMaps);
+    });
 }
