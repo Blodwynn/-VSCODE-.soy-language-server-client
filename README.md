@@ -11,8 +11,11 @@ Add full file support for `.soy` files. See section below. :)
 - Highlights keywords, variables and so :)
 
 ### Go To Definition / Peek definition
-- Go to definion of given template with F12 / ctrl+click
-- Peek definition support
+- `Go to definion` of given template with F12 / ctrl+click
+- `Peek definition` support
+
+### Find All References
+- `Find all references` with shortcut or from context menu
 
 ### Error highlights
 - Missing `$` sign in variable declarations

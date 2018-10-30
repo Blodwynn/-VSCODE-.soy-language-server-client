@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this extension are documented in this file.
 
+## 3.7.0
+- adding support for **Find References**
+
 ## 3.6.0
 - support to comment a line with VSCode shortcut
 - support to comment selected block with VSCode shortcut
