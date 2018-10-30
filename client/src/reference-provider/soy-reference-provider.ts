@@ -23,7 +23,6 @@ export class SoyReferenceProvider implements vscode.ReferenceProvider {
 
             if (templateToSearchFor.startsWith('.')) {
                 records = this.callMap[`${namespace}${templateToSearchFor}`];
-                console.log('records: ', records);
             } else {
                 const aliases: string[] = getAliases(documentText);
                 const alias: string = getMatchingAlias(templateToSearchFor, aliases);
