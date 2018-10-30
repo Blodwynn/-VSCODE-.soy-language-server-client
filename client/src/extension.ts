@@ -3,8 +3,9 @@
 import * as path from 'path';
 import vscode = require('vscode');
 import { workspace, ExtensionContext } from 'vscode';
-import { SoyDefinitionProvider } from './soy-definition-provider';
-import { getSoyFiles, parseFiles } from './parse';
+import { SoyDefinitionProvider } from './definition-provider/soy-definition-provider';
+import { SoyReferenceProvider } from './reference-provider/soy-reference-provider';
+import { getSoyFiles } from './files';
 import {
     LanguageClient,
     LanguageClientOptions,
@@ -39,9 +40,9 @@ export function activate(context: ExtensionContext) {
     };
 
     getSoyFiles()
-        .then(wsFolders => parseFiles(wsFolders))
-        .then(templatePathMap => {
-            context.subscriptions.push(vscode.languages.registerDefinitionProvider(soyDocFilter, new SoyDefinitionProvider(templatePathMap)));
+        .then(wsFolders => {
+            context.subscriptions.push(vscode.languages.registerDefinitionProvider(soyDocFilter, new SoyDefinitionProvider(wsFolders)));
+            context.subscriptions.push(vscode.languages.registerReferenceProvider(soyDocFilter, new SoyReferenceProvider(wsFolders)));
         });
 
     // Options to control the language client

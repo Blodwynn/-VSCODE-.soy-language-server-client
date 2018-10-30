@@ -1,6 +1,8 @@
 import vscode = require('vscode');
-import { SoyDefinitionInformation, TemplatePathMap } from './interfaces';
+import { SoyDefinitionInformation, TemplatePathMap } from '../interfaces';
 import { getTemplateDescription } from './template';
+import { parseFiles } from './parse';
+import { createLocation } from '../utils';
 
 export function definitionLocation(document: vscode.TextDocument, position: vscode.Position, templatePathMap: TemplatePathMap): Promise<any> {
     const wordRange: vscode.Range = document.getWordRangeAtPosition(position, /[\w\d.]+/);
@@ -25,20 +27,11 @@ export function definitionLocation(document: vscode.TextDocument, position: vsco
     return Promise.resolve(informationArray);
 }
 
-function createLocation(definitionInfo) {
-    if (definitionInfo == null || definitionInfo.file == null) return null;
-
-    let definitionResource = vscode.Uri.file(definitionInfo.file);
-    let pos = new vscode.Position(definitionInfo.line, 1);
-
-    return new vscode.Location(definitionResource, pos);
-}
-
 export class SoyDefinitionProvider implements vscode.DefinitionProvider {
     templatePathMap: TemplatePathMap;
 
-    constructor(templatePathMap) {
-        this.templatePathMap = templatePathMap;
+    constructor(wsFolders) {
+        this.templatePathMap = parseFiles(wsFolders);
 	}
 
 	public provideDefinition(document: vscode.TextDocument, position: vscode.Position): Thenable<vscode.Location> {

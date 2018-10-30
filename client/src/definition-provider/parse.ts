@@ -1,31 +1,6 @@
-import vscode = require('vscode');
-import fg = require('fast-glob');
-import path = require('path');
 import linenumber = require('linenumber');
 import fs = require('fs');
-import { TemplatePathMap, TemplatePathDescription } from './interfaces';
-
-const excludeFromFileSearch = [
-    '!**/node_modules'
-]
-
-export function getSoyFiles() {
-    let promises = [];
-
-    vscode.workspace.workspaceFolders.forEach(wsFolder => {
-        const soyPathPattern = [
-            wsFolder.uri.fsPath,
-            '**',
-            '*.soy'
-        ];
-
-        const globalSoyFilesPath = path.join(...soyPathPattern);
-
-        promises.push(fg.async([globalSoyFilesPath, ...excludeFromFileSearch]));
-    });
-
-    return Promise.all(promises);
-}
+import { TemplatePathMap, TemplatePathDescription } from '../interfaces';
 
 function insertElementWithKey(templateName: string, element: TemplatePathDescription, allTemplatePathMaps: TemplatePathMap) {
     if (Array.isArray(allTemplatePathMaps[templateName])) {
@@ -65,16 +40,14 @@ function parseFile(file: string, allTemplatePathMaps: TemplatePathMap) {
     }
 }
 
-export function parseFiles(wsFolders) : Promise<TemplatePathMap> {
-    return new Promise(resolve => {
-        let allTemplatePathMaps: TemplatePathMap = {};
+export function parseFiles(wsFolders) : TemplatePathMap {
+    let allTemplatePathMaps: TemplatePathMap = {};
 
-        wsFolders.forEach(
-            files => files.forEach(
-                file => parseFile(file, allTemplatePathMaps)
-            )
-        );
+    wsFolders.forEach(
+        files => files.forEach(
+            file => parseFile(file, allTemplatePathMaps)
+        )
+    );
 
-        resolve(allTemplatePathMaps);
-    });
+    return allTemplatePathMaps;
 }
