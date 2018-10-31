@@ -1,6 +1,5 @@
-import { AliasMap } from './../interfaces';
 import vscode = require('vscode');
-import { TemplatePathDescription, TemplatePathMap } from '../interfaces';
+import { TemplatePathDescription, TemplatePathMap, AliasMap } from '../interfaces';
 import { normalizeAliasTemplate, getNamespace, getAliases, getMatchingAlias } from '../utils';
 
 export function getTemplateDescription( templateToSearchFor: string, templatePathMap: TemplatePathMap, document: vscode.TextDocument): TemplatePathDescription[]  {

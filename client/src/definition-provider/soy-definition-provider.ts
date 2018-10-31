@@ -1,5 +1,5 @@
 import vscode = require('vscode');
-import { SoyDefinitionInformation, TemplatePathMap } from '../interfaces';
+import { TemplatePathMap } from '../interfaces';
 import { getTemplateDescription } from './template';
 import { parseFiles } from './parse';
 import { createLocation } from '../utils';
@@ -23,7 +23,7 @@ export function definitionLocation(document: vscode.TextDocument, position: vsco
         position = position.translate(0, -1);
     }
 
-    const informationArray = templateData.map(item => (<SoyDefinitionInformation>{file: item.path, line: item.line}));
+    const informationArray = templateData.map(item => ({file: item.path, line: item.line}));
     return Promise.resolve(informationArray);
 }
 
