@@ -1,0 +1,19 @@
+language: node_js
+
+node_js:
+  - "node"
+
+before_install:
+  - npm install npm@latest -g
+  - npm install vsce -g
+  - npm install
+
+install:
+  - vsce package
+
+script:
+- npm run compile
+
+deploy:
+  on:
+    branch: master
