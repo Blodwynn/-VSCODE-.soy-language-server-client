@@ -123,9 +123,7 @@ documents.onDidChangeContent(change => {
     validateSoyDocument(change.document);
 });
 
-
-
-function validateWithPattern(errorItem: any, text: string, textDocument: TextDocument, severity: DiagnosticSeverity) {
+function validateWithPattern(errorItem: any, text: string, textDocument: TextDocument, severity: DiagnosticSeverity): Diagnostic[] {
     const pattern = errorItem.pattern;
     const message = errorItem.message;
     let diagnosticResults : Diagnostic[] = [];
@@ -139,7 +137,7 @@ function validateWithPattern(errorItem: any, text: string, textDocument: TextDoc
                 end: textDocument.positionAt(m.index + m[0].length)
             },
             message: `${m[0]}: ${message}.`,
-            source: 'ex'
+            source: 'soy-ext'
         });
     }
 

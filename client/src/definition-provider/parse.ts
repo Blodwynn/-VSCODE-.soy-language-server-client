@@ -14,7 +14,7 @@ function parseFile(file: string, allTemplatePathMaps: TemplatePathMap) {
     const namespacePattern: RegExp = /\{namespace ([\w\d.]+)/;
     const templatePattern: RegExp = /\{(del)?template ([\w\d.]+)([^\w\d.]).*/gm;
     const content: string = fs.readFileSync(file, "utf8");
-    let m, n;
+    let m, n: RegExpExecArray;
 
     if (m = namespacePattern.exec(content)) {
         const namespace: string = m[1];

@@ -3,15 +3,10 @@
 import * as path from 'path';
 import vscode = require('vscode');
 import { workspace, ExtensionContext } from 'vscode';
+import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } from 'vscode-languageclient';
 import { SoyDefinitionProvider } from './definition-provider/soy-definition-provider';
 import { SoyReferenceProvider } from './reference-provider/soy-reference-provider';
 import { getSoyFiles } from './files';
-import {
-    LanguageClient,
-    LanguageClientOptions,
-    ServerOptions,
-    TransportKind
-} from 'vscode-languageclient';
 
 let client: LanguageClient;
 

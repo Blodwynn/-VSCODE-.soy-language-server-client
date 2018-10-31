@@ -1,10 +1,10 @@
-import { AliasMap } from './../interfaces';
+import { AliasMap, CallMap } from './../interfaces';
 import vscode = require('vscode');
 import { parseFilesForReferences } from './parse';
 import { getNamespace, getAliases, getMatchingAlias, createLocation, normalizeAliasTemplate } from '../utils';
 
 export class SoyReferenceProvider implements vscode.ReferenceProvider {
-    callMap: any;
+    callMap: CallMap;
 
     constructor(wsFolders) {
         this.callMap = parseFilesForReferences(wsFolders);

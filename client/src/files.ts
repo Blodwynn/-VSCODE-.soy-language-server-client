@@ -10,13 +10,7 @@ export function getSoyFiles() {
     let promises = [];
 
     vscode.workspace.workspaceFolders.forEach(wsFolder => {
-        const soyPathPattern = [
-            wsFolder.uri.fsPath,
-            '**',
-            '*.soy'
-        ];
-
-        const globalSoyFilesPath = path.join(...soyPathPattern);
+        const globalSoyFilesPath = path.join(wsFolder.uri.fsPath, '**', '*.soy');
 
         promises.push(fg.async([globalSoyFilesPath, ...excludeFromFileSearch]));
     });

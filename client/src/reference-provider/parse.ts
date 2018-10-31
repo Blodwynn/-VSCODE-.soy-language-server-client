@@ -30,9 +30,9 @@ function insertCalls (templateName: string, file: string, lineNrs: any, allCallM
 
 function parseFile (file: string, allCallMaps: CallMap) {
     const content: string = fs.readFileSync(file, "utf8");
-    const namespace = getNamespace(content);
+    const namespace: string = getNamespace(content);
     const callPattern: RegExp = /\{(?:del)?call ([\w\d.]+)[^\w\d.].*/gm;
-    let m;
+    let m: RegExpExecArray;
 
     while (m = callPattern.exec(content)) {
         const lineNr = linenumber(content, escapeRegExp(m[0]));
@@ -54,7 +54,7 @@ function parseFile (file: string, allCallMaps: CallMap) {
     }
 }
 
-export function parseFilesForReferences (wsFolders: string[][]) {
+export function parseFilesForReferences (wsFolders: string[][]): CallMap {
     let allCallMaps: CallMap = {};
 
     wsFolders.forEach(
