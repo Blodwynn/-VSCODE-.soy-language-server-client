@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this extension are documented in this file.
 
+## 3.8.0
+- adding **Go to Definition** support for named `alias`es (eg: `{alias long.template.name as namedAlias}`)
+
 ## 3.7.0
 - adding support for **Find References**
 
