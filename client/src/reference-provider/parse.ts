@@ -1,20 +1,21 @@
 import linenumber = require('linenumber');
 import fs = require('fs');
 import { getNamespace, getAliases, getMatchingAlias, normalizeAliasTemplate } from '../utils';
+import { CallMap, SoyDefinitionInformation, AliasMap } from '../interfaces';
 
 function escapeRegExp (string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
 
-function insertElementWithKey (templateName: string, file: any, allCallMaps: any) {
+function insertElementWithKey (templateName: string, fileLocation: SoyDefinitionInformation, allCallMaps: CallMap) {
     if (Array.isArray(allCallMaps[templateName])) {
-        allCallMaps[templateName].push(file);
+        allCallMaps[templateName].push(fileLocation);
     } else {
-        allCallMaps[templateName] = new Array(file);
+        allCallMaps[templateName] = new Array(fileLocation);
     }
 }
 
-function insertCalls (templateName: string, file: any, lineNrs: any, allCallMaps: any) {
+function insertCalls (templateName: string, file: string, lineNrs: any, allCallMaps: CallMap) {
     lineNrs.forEach(lineItem => {
         insertElementWithKey(
             templateName,
@@ -27,7 +28,7 @@ function insertCalls (templateName: string, file: any, lineNrs: any, allCallMaps
     });
 }
 
-function parseFile (file, allCallMaps) {
+function parseFile (file: string, allCallMaps: CallMap) {
     const content: string = fs.readFileSync(file, "utf8");
     const namespace = getNamespace(content);
     const callPattern: RegExp = /\{(?:del)?call ([\w\d.]+)[^\w\d.].*/gm;
@@ -40,7 +41,7 @@ function parseFile (file, allCallMaps) {
         if (template.startsWith('.')) {
             insertCalls(`${namespace}${template}`, file, lineNr, allCallMaps);
         } else {
-            const aliases: string[] = getAliases(content);
+            const aliases: AliasMap[] = getAliases(content);
             const alias: string = getMatchingAlias(template, aliases);
 
             if (alias) {
@@ -53,8 +54,8 @@ function parseFile (file, allCallMaps) {
     }
 }
 
-export function parseFilesForReferences (wsFolders) {
-    let allCallMaps = {};
+export function parseFilesForReferences (wsFolders: string[][]) {
+    let allCallMaps: CallMap = {};
 
     wsFolders.forEach(
         files => files.forEach(

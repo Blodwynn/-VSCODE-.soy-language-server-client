@@ -1,3 +1,4 @@
+import { AliasMap } from './../interfaces';
 import vscode = require('vscode');
 import { TemplatePathDescription, TemplatePathMap } from '../interfaces';
 import { normalizeAliasTemplate, getNamespace, getAliases, getMatchingAlias } from '../utils';
@@ -5,7 +6,7 @@ import { normalizeAliasTemplate, getNamespace, getAliases, getMatchingAlias } fr
 export function getTemplateDescription( templateToSearchFor: string, templatePathMap: TemplatePathMap, document: vscode.TextDocument): TemplatePathDescription[]  {
     const documentText: string = document.getText();
     const namespace: string = getNamespace(documentText);
-    const aliases: string[] = getAliases(documentText);
+    const aliases: AliasMap[] = getAliases(documentText);
     let templateData: TemplatePathDescription[];
 
     if (templateToSearchFor.startsWith('.')) {

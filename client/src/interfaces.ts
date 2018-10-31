@@ -11,3 +11,12 @@ export interface TemplatePathDescription {
 export interface TemplatePathMap {
     [template: string]: TemplatePathDescription[]
 }
+
+export interface CallMap {
+    [template: string]: SoyDefinitionInformation[]
+}
+
+export interface AliasMap {
+    alias: string;
+    aliasName: string;
+}
