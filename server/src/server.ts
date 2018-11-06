@@ -70,17 +70,11 @@ connection.onInitialized(() => {
     }
 });
 
-// connection.onDefinition((textDocumentIdentifier: any): Definition => {
-//     return Location.create(textDocumentIdentifier.uri, {
-//         start: { line: textDocumentIdentifier.line, character: 1 },
-//         end: { line: textDocumentIdentifier.line, character: 2 }
-//     });
-// });
-
-// The global settings, used when the `workspace/configuration` request is not supported by the client.
-// Please note that this is not the case when using this server with the client provided in this example
-// but could happen with other clients.
-const defaultSettings: SoyConfigSettings = { ignoreTodo: false, ignoreBreakingChange: false, ignoreErrors: false };
+const defaultSettings: SoyConfigSettings = {
+    ignoreTodo: false,
+    ignoreBreakingChange: false,
+    ignoreErrors: false
+};
 let globalSettings: SoyConfigSettings = defaultSettings;
 
 // Cache the settings of all open documents

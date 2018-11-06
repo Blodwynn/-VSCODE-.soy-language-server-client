@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this extension are documented in this file.
 
+## 3.9.0
+- adding functionality to reparse definitions and references on file save
+- adding startup notifications
+
 ### 3.8.1
 - refactor, fixing minor bug
 

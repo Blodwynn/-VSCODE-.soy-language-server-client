@@ -60,7 +60,7 @@ export function activate(context: ExtensionContext) {
             });
     }, null, context.subscriptions);
 
-    let clientOptions: LanguageClientOptions = {
+    const clientOptions: LanguageClientOptions = {
         documentSelector: [
             { scheme: 'file', language: 'soy' }
         ],
@@ -69,7 +69,6 @@ export function activate(context: ExtensionContext) {
         }
     };
 
-    // Create the language client and start the client.
     client = new LanguageClient(
         'soyLanguageServer',
         'Soy Language Server',
