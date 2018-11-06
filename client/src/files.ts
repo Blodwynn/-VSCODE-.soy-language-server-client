@@ -17,3 +17,7 @@ export function getSoyFiles() {
 
     return Promise.all(promises);
 }
+
+export function getSoyFile(filePath) {
+    return fg.async(filePath);
+}

@@ -1,4 +1,4 @@
-import { AliasMap } from './interfaces';
+import { AliasMap, TemplatePathDescription } from './interfaces';
 import vscode = require('vscode');
 
 export function normalizeAliasTemplate(alias: string, template: string): string {
@@ -51,10 +51,10 @@ export function getAliases(documentText: string): AliasMap[] {
     return aliases;
 }
 
-export function createLocation(definitionInfo) {
-    if (definitionInfo == null || definitionInfo.file == null) return null;
+export function createLocation(definitionInfo: TemplatePathDescription) {
+    if (definitionInfo == null || definitionInfo.path == null) return null;
 
-    let definitionResource = vscode.Uri.file(definitionInfo.file);
+    let definitionResource = vscode.Uri.file(definitionInfo.path);
     let pos = new vscode.Position(definitionInfo.line, 1);
 
     return new vscode.Location(definitionResource, pos);

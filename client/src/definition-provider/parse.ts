@@ -10,7 +10,7 @@ function insertElementWithKey(templateName: string, element: TemplatePathDescrip
     }
 }
 
-function parseFile(file: string, allTemplatePathMaps: TemplatePathMap) {
+export function parseFile(file: string, allTemplatePathMaps: TemplatePathMap) {
     const namespacePattern: RegExp = /\{namespace ([\w\d.]+)/;
     const templatePattern: RegExp = /\{(del)?template ([\w\d.]+)([^\w\d.]).*/gm;
     const content: string = fs.readFileSync(file, "utf8");

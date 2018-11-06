@@ -1,13 +1,13 @@
 import linenumber = require('linenumber');
 import fs = require('fs');
 import { getNamespace, getAliases, getMatchingAlias, normalizeAliasTemplate } from '../utils';
-import { CallMap, SoyDefinitionInformation, AliasMap } from '../interfaces';
+import { TemplatePathDescription, AliasMap, TemplatePathMap } from '../interfaces';
 
 function escapeRegExp (string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
 
-function insertElementWithKey (templateName: string, fileLocation: SoyDefinitionInformation, allCallMaps: CallMap) {
+function insertElementWithKey (templateName: string, fileLocation: TemplatePathDescription, allCallMaps: TemplatePathMap) {
     if (Array.isArray(allCallMaps[templateName])) {
         allCallMaps[templateName].push(fileLocation);
     } else {
@@ -15,12 +15,12 @@ function insertElementWithKey (templateName: string, fileLocation: SoyDefinition
     }
 }
 
-function insertCalls (templateName: string, file: string, lineNrs: any, allCallMaps: CallMap) {
+function insertCalls (templateName: string, file: string, lineNrs: any[], allCallMaps: TemplatePathMap) {
     lineNrs.forEach(lineItem => {
         insertElementWithKey(
             templateName,
             {
-                file,
+                path: file,
                 line: lineItem.line - 1
             },
             allCallMaps
@@ -28,7 +28,7 @@ function insertCalls (templateName: string, file: string, lineNrs: any, allCallM
     });
 }
 
-function parseFile (file: string, allCallMaps: CallMap) {
+export function parseFile (file: string, allCallMaps: TemplatePathMap) {
     const content: string = fs.readFileSync(file, "utf8");
     const namespace: string = getNamespace(content);
     const callPattern: RegExp = /\{(?:del)?call ([\w\d.]+)[^\w\d.].*/gm;
@@ -54,8 +54,8 @@ function parseFile (file: string, allCallMaps: CallMap) {
     }
 }
 
-export function parseFilesForReferences (wsFolders: string[][]): CallMap {
-    let allCallMaps: CallMap = {};
+export function parseFilesForReferences (wsFolders: string[][]): TemplatePathMap {
+    let allCallMaps: TemplatePathMap = {};
 
     wsFolders.forEach(
         files => files.forEach(

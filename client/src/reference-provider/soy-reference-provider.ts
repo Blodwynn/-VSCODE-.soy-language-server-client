@@ -1,21 +1,34 @@
-import { AliasMap, CallMap } from './../interfaces';
+import { AliasMap, TemplatePathDescription, TemplatePathMap } from './../interfaces';
 import vscode = require('vscode');
-import { parseFilesForReferences } from './parse';
+import { parseFilesForReferences, parseFile } from './parse';
 import { getNamespace, getAliases, getMatchingAlias, createLocation, normalizeAliasTemplate } from '../utils';
 
 export class SoyReferenceProvider implements vscode.ReferenceProvider {
-    callMap: CallMap;
+    callMap: TemplatePathMap;
 
-    constructor(wsFolders) {
+    removeCallsFromFile(documentPath: string) {
+        Object.keys(this.callMap).forEach(key => {
+            this.callMap[key] = this.callMap[key].filter(
+                pathDescription => pathDescription.path !== documentPath
+            );
+        });
+    }
+
+    public parseWorkspaceFolders(wsFolders: string[][]) {
         this.callMap = parseFilesForReferences(wsFolders);
 	}
+
+    public parseSingleFile(documentPath: string) {
+        this.removeCallsFromFile(documentPath);
+        parseFile(documentPath, this.callMap);
+    }
 
     public provideReferences(document: vscode.TextDocument, position: vscode.Position): Thenable<vscode.Location[]> {
         const documentText: string = document.getText();
         const wordRange: vscode.Range = document.getWordRangeAtPosition(position, /[\w\d.]+/);
         const templateToSearchFor: string = document.getText(wordRange);
         const namespace: string = getNamespace(documentText);
-        let records;
+        let records: TemplatePathDescription[];
 
         return new Promise<vscode.Location[]>((resolve, reject) => {
             if (!templateToSearchFor) {
