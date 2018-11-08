@@ -3,7 +3,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  * ------------------------------------------------------------------------------------------ */
 'use strict';
-import { SoyConfigSettings } from './interfaces';
+import { SoyConfigSettings, ErrorItem } from './interfaces';
 import patterns from './patterns';
 import {
     createConnection,
@@ -69,12 +69,10 @@ const defaultSettings: SoyConfigSettings = {
 };
 let globalSettings: SoyConfigSettings = defaultSettings;
 
-// Cache the settings of all open documents
 let documentSettings: Map<string, Thenable<SoyConfigSettings>> = new Map();
 
 connection.onDidChangeConfiguration(change => {
     if (hasConfigurationCapability) {
-        // Reset all cached document settings
         documentSettings.clear();
     } else {
         globalSettings = <SoyConfigSettings>(
@@ -82,7 +80,6 @@ connection.onDidChangeConfiguration(change => {
         );
     }
 
-    // Revalidate all open text documents
     documents.all().forEach(validateSoyDocument);
 });
 
@@ -113,20 +110,22 @@ documents.onDidClose(change => {
     connection.sendDiagnostics({ uri: change.document.uri, diagnostics: [] });
 });
 
-function validateWithPattern(errorItem: any, text: string, textDocument: TextDocument, severity: DiagnosticSeverity): Diagnostic[] {
-    const pattern = errorItem.pattern;
-    const message = errorItem.message;
+function validateWithPattern(errorItem: ErrorItem, text: string, textDocument: TextDocument, severity: DiagnosticSeverity): Diagnostic[] {
+    const pattern: RegExp = errorItem.pattern;
+    const message: string = errorItem.message;
     let diagnosticResults : Diagnostic[] = [];
-    let m;
+    let m: RegExpExecArray;
 
     while (m = pattern.exec(text)) {
+        const startPosition: number = m.index + m[0].indexOf(m[1]);
+
         diagnosticResults.push({
             severity,
             range: {
-                start: textDocument.positionAt(m.index),
-                end: textDocument.positionAt(m.index + m[0].length)
+                start: textDocument.positionAt(startPosition),
+                end: textDocument.positionAt(startPosition + m[1].length)
             },
-            message: `${m[0]}: ${message}.`,
+            message: `${m[1]}: ${message}.`,
             source: 'soy-ext'
         });
     }
@@ -134,7 +133,7 @@ function validateWithPattern(errorItem: any, text: string, textDocument: TextDoc
     return diagnosticResults;
 }
 
-function validatePatterns(errorItems: any[], text: string, textDocument: TextDocument, severity: DiagnosticSeverity) {
+function validatePatterns(errorItems: any[], text: string, textDocument: TextDocument, severity: DiagnosticSeverity): Diagnostic[] {
     let diagnosticResults : Diagnostic[] = [];
 
     errorItems.forEach(errorItem  => {

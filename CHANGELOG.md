@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this extension are documented in this file.
 
+### 3.9.2
+- underlining `TODO`s and `Breaking Change` texts only in comments, not globally
+
 ### 3.9.1
 - clearing document validation from Problems tab when document is closed
 
