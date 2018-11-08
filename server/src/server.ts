@@ -16,19 +16,11 @@ import {
     DidChangeConfigurationNotification,
     CompletionItem,
     CompletionItemKind,
-    TextDocumentPositionParams,
-    // Definition,
-    // Location
+    TextDocumentPositionParams
 } from 'vscode-languageserver';
 
-// Create a connection for the server. The connection uses Node's IPC as a transport.
-// Also include all preview / proposed LSP features.
 let connection = createConnection(ProposedFeatures.all);
-
-// Create a simple text document manager. The text document manager
-// supports full document sync only
 let documents: TextDocuments = new TextDocuments();
-
 let hasConfigurationCapability: boolean = false;
 let hasWorkspaceFolderCapability: boolean = false;
 
@@ -115,6 +107,10 @@ documents.onDidClose(e => {
 
 documents.onDidChangeContent(change => {
     validateSoyDocument(change.document);
+});
+
+documents.onDidClose(change => {
+    connection.sendDiagnostics({ uri: change.document.uri, diagnostics: [] });
 });
 
 function validateWithPattern(errorItem: any, text: string, textDocument: TextDocument, severity: DiagnosticSeverity): Diagnostic[] {
@@ -209,29 +205,5 @@ connection.onCompletionResolve(
     }
 );
 
-/*
-connection.onDidOpenTextDocument((params) => {
-    // A text document got opened in VSCode.
-    // params.uri uniquely identifies the document. For documents store on disk this is a file URI.
-    // params.text the initial full content of the document.
-    connection.console.log(`${params.textDocument.uri} opened.`);
-});
-connection.onDidChangeTextDocument((params) => {
-    // The content of a text document did change in VSCode.
-    // params.uri uniquely identifies the document.
-    // params.contentChanges describe the content changes to the document.
-    connection.console.log(`${params.textDocument.uri} changed: ${JSON.stringify(params.contentChanges)}`);
-});
-connection.onDidCloseTextDocument((params) => {
-    // A text document got closed in VSCode.
-    // params.uri uniquely identifies the document.
-    connection.console.log(`${params.textDocument.uri} closed.`);
-});
-*/
-
-// Make the text document manager listen on the connection
-// for open, change and close text document events
 documents.listen(connection);
-
-// Listen on the connection
 connection.listen();

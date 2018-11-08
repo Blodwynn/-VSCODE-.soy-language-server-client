@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this extension are documented in this file.
 
+### 3.9.1
+- clearing document validation from Problems tab when document is closed
+
 ## 3.9.0
 - adding functionality to reparse definitions and references on file save
 - adding startup notifications
