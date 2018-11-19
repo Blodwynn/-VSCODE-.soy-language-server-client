@@ -18,7 +18,7 @@ Add full file support for `.soy` files. See section below. :)
 - `Find all references` with shortcut or from context menu
 
 ### Commands
-- `Soy Extension: Reparse workspace`: Might be useful after external changes (eg: switching branches) to find all new template data
+- `Soy Extension: Reparse workspace`: Useful after external changes (eg: switching branches) to find all new template data
 
 ### Error highlights
 - Missing `$` sign in variable declarations
