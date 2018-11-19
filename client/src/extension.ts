@@ -21,13 +21,15 @@ function showNotification(message: string) {
     vscode.window.showInformationMessage(message);
 }
 
-function initalizeProviders() {
-    showNotification('Soy extension starting up...');
+function initalizeProviders(startMessage: string, finishMessage: string) {
+    const prefix: string = 'Soy Extension:';
+
+    showNotification(`${prefix} ${startMessage}`);
     getSoyFiles()
         .then(wsFolders => {
             soyDefProvider.parseWorkspaceFolders(wsFolders);
             soyRefProvider.parseWorkspaceFolders(wsFolders);
-            showNotification('Soy extension started.');
+            showNotification(`${prefix} ${finishMessage}`);
         });
 }
 
@@ -47,8 +49,12 @@ export function activate(context: ExtensionContext) {
 
     context.subscriptions.push(vscode.languages.registerDefinitionProvider(soyDocFilter, soyDefProvider));
     context.subscriptions.push(vscode.languages.registerReferenceProvider(soyDocFilter, soyRefProvider));
+    context.subscriptions.push(vscode.commands.registerCommand(
+        'soyfilesupport.reparse.workspace',
+        () => initalizeProviders('Reparsing workspace...', 'Workspace parsed.')
+    ));
 
-    initalizeProviders();
+    initalizeProviders('Starting up...', 'Started.');
 
     vscode.workspace.onDidSaveTextDocument(e => {
         getSoyFile(e.uri.fsPath)

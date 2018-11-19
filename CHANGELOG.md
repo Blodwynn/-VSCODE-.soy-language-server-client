@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this extension are documented in this file.
 
+## 3.11.0
+- adding a `command` to reparse workspace folders (might be useful after switching branches to find all new template data)
+    - Run `Soy Extension: Reparse workspace`
+
 ### 3.10.1
 - removing dead config node for trace server
 
