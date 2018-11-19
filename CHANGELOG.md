@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this extension are documented in this file.
 
+### 3.10.1
+- removing dead config node for trace server
+
 ### 3.10.0
 - adding further validators for `let` and `param` declarations
 - finetuning some older validators to be more flexible

@@ -4,7 +4,7 @@
 	"description": "Syntax highlight, syntax check, Go To Definiton and snippets for .soy files",
 	"author": "Roland Orosz",
 	"license": "MIT",
-	"version": "3.10.0",
+	"version": "3.10.1",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/Blodwynn/-VSCODE-.soy-language-server-client"
@@ -61,17 +61,6 @@
 					"type": "boolean",
 					"default": false,
 					"description": "Ignore all errors in documents."
-				},
-				"soyLanguageServer.trace.server": {
-					"scope": "window",
-					"type": "string",
-					"enum": [
-						"off",
-						"messages",
-						"verbose"
-					],
-					"default": "off",
-					"description": "Traces the communication between VS Code and the language server."
 				}
 			}
 		},
