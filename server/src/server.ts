@@ -14,9 +14,7 @@ import {
     ProposedFeatures,
     InitializeParams,
     DidChangeConfigurationNotification,
-    CompletionItem,
-    CompletionItemKind,
-    TextDocumentPositionParams
+    CompletionItem
 } from 'vscode-languageserver';
 
 let connection = createConnection(ProposedFeatures.all);
@@ -166,23 +164,6 @@ async function validateSoyDocument(textDocument: TextDocument): Promise<void> {
 connection.onDidChangeWatchedFiles(_change => {
     connection.console.log('We received an file change event');
 });
-
-connection.onCompletion(
-    (_textDocumentPosition: TextDocumentPositionParams): CompletionItem[] => {
-        return [
-            {
-                label: 'TypeScript',
-                kind: CompletionItemKind.Text,
-                data: 1
-            },
-            {
-                label: 'JavaScript',
-                kind: CompletionItemKind.Text,
-                data: 2
-            }
-        ];
-    }
-);
 
 // This handler resolve additional information for the item selected in
 // the completion list.
