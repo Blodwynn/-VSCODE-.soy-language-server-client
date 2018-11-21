@@ -49,7 +49,7 @@ export class SoyDefinitionProvider implements vscode.DefinitionProvider {
         parseFile(documentPath, this.templatePathMap);
     }
 
-	public provideDefinition(document: vscode.TextDocument, position: vscode.Position): Thenable<vscode.Location> {
+	public provideDefinition(document: vscode.TextDocument, position: vscode.Position): Thenable<vscode.Location[]> {
         return definitionLocation(document, position, this.templatePathMap)
             .then(definitionInfo => {
                 if (definitionInfo) {
