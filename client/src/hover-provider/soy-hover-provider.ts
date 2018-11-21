@@ -26,18 +26,24 @@ export class SoyHoverProvider implements vscode.HoverProvider {
     public provideHover (document: vscode.TextDocument, position: vscode.Position): Thenable<vscode.Hover> {
 
         return new Promise<vscode.Hover>(resolve => {
-            Promise.all([
-                this.soyDefinitionProvider.provideDefinition(document, position),
-                this.soyReferenceProvider.provideReferences(document, position)
-            ]).then(templateInformation => {
-                const definitions: vscode.Location[] = templateInformation[0];
-                const references: vscode.Location[] = templateInformation[1];
+            const wordRange: vscode.Range = document.getWordRangeAtPosition(position, /((del)?(call|template))\s+([\w\d.]+)/);
 
-                const definitionHoverItem: string = this.createSentence(definitions && definitions.length, 'definition');
-                const referenceHoverItem: string = this.createSentence(references && references.length, 'reference');
+            if (wordRange) {
+                Promise.all([
+                    this.soyDefinitionProvider.provideDefinition(document, position),
+                    this.soyReferenceProvider.provideReferences(document, position)
+                ]).then(templateInformation => {
+                    const definitions: vscode.Location[] = templateInformation[0];
+                    const references: vscode.Location[] = templateInformation[1];
 
-                resolve(new vscode.Hover([definitionHoverItem, referenceHoverItem]));
-            });
+                    const definitionHoverItem: string = this.createSentence(definitions && definitions.length, 'definition');
+                    const referenceHoverItem: string = this.createSentence(references && references.length, 'reference');
+
+                    resolve(new vscode.Hover([definitionHoverItem, referenceHoverItem]));
+                });
+            } else {
+                resolve(null);
+            }
         });
     }
 }
