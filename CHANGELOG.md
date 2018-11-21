@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this extension are documented in this file.
 
+## [3.12.0] - 2018/11/22
+- showing the number of declarations and references upon hovering a (del)template
+- improved the reference provider to work faster and use less memory
+
 ## [3.11.0] - 2018/11/19
 - adding a `command` to reparse workspace folders. Useful after external changes (eg: switching branches) to find all new template data
     - Run `Soy Extension: Reparse workspace`
@@ -76,7 +80,7 @@ Thanks to [Nick Fisher](https://github.com/spadgos) for the following [changes](
 - some under the hood changes
 
 ### [3.2.6] - 2018/10/17
-- fixing doc comment highlight for @items
+- fixing doc comment highlight for `@items`
 
 ### [3.2.5] - 2018/10/17
 - fixing the extension reporting another kind of false error - Thanks to [Nick Fisher](https://github.com/spadgos) for the report [ISSUE-4](https://github.com/Blodwynn/-VSCODE-.soy-language-server-client/issues/4)

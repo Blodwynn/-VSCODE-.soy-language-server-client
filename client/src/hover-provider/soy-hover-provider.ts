@@ -26,7 +26,7 @@ export class SoyHoverProvider implements vscode.HoverProvider {
     public provideHover (document: vscode.TextDocument, position: vscode.Position): Thenable<vscode.Hover> {
 
         return new Promise<vscode.Hover>(resolve => {
-            const wordRange: vscode.Range = document.getWordRangeAtPosition(position, /((del)?(call|template))\s+([\w\d.]+)/);
+            const wordRange: vscode.Range = document.getWordRangeAtPosition(position, /(del)?(call|template)\s+[\w\d.]+/);
 
             if (wordRange) {
                 Promise.all([
