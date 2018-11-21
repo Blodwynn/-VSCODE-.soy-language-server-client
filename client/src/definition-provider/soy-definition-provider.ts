@@ -21,10 +21,6 @@ export function definitionLocation(document: vscode.TextDocument, position: vsco
 
     const templateData = getTemplateDescription(templateToSearchFor, templatePathMap, document);
 
-    if (!templateData || !templateData.length) {
-        return Promise.reject(`Cannot find declaration for ${templateToSearchFor}`);
-    }
-
     if (!wordRange || lineText.startsWith('//')) {
         return Promise.resolve(null);
     }
@@ -33,7 +29,7 @@ export function definitionLocation(document: vscode.TextDocument, position: vsco
         position = position.translate(0, -1);
     }
 
-    const informationArray = templateData.map(item => ({path: item.path, line: item.line}));
+    const informationArray = templateData && templateData.map(item => ({path: item.path, line: item.line}));
     return Promise.resolve(informationArray);
 }
 

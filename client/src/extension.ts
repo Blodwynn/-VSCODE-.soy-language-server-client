@@ -11,7 +11,7 @@ import { getSoyFiles, getSoyFile } from './files';
 
 const soyDefProvider = new SoyDefinitionProvider();
 const soyRefProvider = new SoyReferenceProvider();
-const soyHoverProvider = new SoyHoverProvider(soyDefProvider);
+const soyHoverProvider = new SoyHoverProvider(soyDefProvider, soyRefProvider);
 let client: LanguageClient;
 
 const soyDocFilter: vscode.DocumentFilter = {
@@ -19,11 +19,11 @@ const soyDocFilter: vscode.DocumentFilter = {
     scheme: 'file'
 };
 
-function showNotification(message: string) {
+function showNotification (message: string): void {
     vscode.window.showInformationMessage(message);
 }
 
-function initalizeProviders(startMessage: string, finishMessage: string) {
+function initalizeProviders (startMessage: string, finishMessage: string): void {
     const prefix: string = 'Soy Extension:';
 
     showNotification(`${prefix} ${startMessage}`);
@@ -35,7 +35,7 @@ function initalizeProviders(startMessage: string, finishMessage: string) {
         });
 }
 
-export function activate(context: ExtensionContext) {
+export function activate (context: ExtensionContext): void {
     const serverModule = context.asAbsolutePath(
         path.join('server', 'out', 'server.js')
     );
@@ -88,7 +88,7 @@ export function activate(context: ExtensionContext) {
     client.start();
 }
 
-export function deactivate(): Thenable<void> {
+export function deactivate (): Thenable<void> {
     if (!client) {
         return undefined;
     }
