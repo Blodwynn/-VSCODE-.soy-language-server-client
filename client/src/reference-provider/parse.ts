@@ -7,6 +7,22 @@ function escapeRegExp (string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
 
+function isIncluded (templateName: string, file: string, line: number, allCallMaps: TemplatePathMap): boolean {
+    const templatePathDescription: TemplatePathDescription[] = allCallMaps[templateName];
+
+    if (templatePathDescription) {
+        const filtered = templatePathDescription.filter(
+            (templateData: TemplatePathDescription) => templateData.line === line && templateData.path === file
+        );
+
+        if (filtered.length) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 function insertElementWithKey (templateName: string, fileLocation: TemplatePathDescription, allCallMaps: TemplatePathMap) {
     if (Array.isArray(allCallMaps[templateName])) {
         allCallMaps[templateName].push(fileLocation);
@@ -17,14 +33,18 @@ function insertElementWithKey (templateName: string, fileLocation: TemplatePathD
 
 function insertCalls (templateName: string, file: string, lineNrs: any[], allCallMaps: TemplatePathMap) {
     lineNrs.forEach(lineItem => {
-        insertElementWithKey(
-            templateName,
-            {
-                path: file,
-                line: lineItem.line - 1
-            },
-            allCallMaps
-        );
+        const line = lineItem.line - 1;
+
+        if (!isIncluded(templateName, file, line, allCallMaps)) {
+            insertElementWithKey(
+                templateName,
+                {
+                    path: file,
+                    line: line
+                },
+                allCallMaps
+            );
+        }
     });
 }
 
