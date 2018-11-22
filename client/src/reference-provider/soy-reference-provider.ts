@@ -6,6 +6,7 @@ import { getNamespace, getAliases, getMatchingAlias, createLocation, normalizeAl
 export class SoyReferenceProvider implements vscode.ReferenceProvider {
     callMap: TemplatePathMap;
 
+    // fix this
     removeCallsFromFile (documentPath: string): void {
         Object.keys(this.callMap).forEach(key => {
             this.callMap[key] = this.callMap[key].filter(
