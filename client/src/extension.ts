@@ -7,11 +7,13 @@ import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } f
 import { SoyDefinitionProvider } from './definition-provider/soy-definition-provider';
 import { SoyReferenceProvider } from './reference-provider/soy-reference-provider';
 import { SoyHoverProvider } from './hover-provider/soy-hover-provider';
+import { SoyDocumentSymbolProvider } from './document-symbol-provider/soy-document-symbol-provider';
 import { getSoyFiles, getSoyFile } from './files';
 
 const soyDefProvider = new SoyDefinitionProvider();
 const soyRefProvider = new SoyReferenceProvider();
 const soyHoverProvider = new SoyHoverProvider(soyDefProvider, soyRefProvider);
+const soyDocumentSymbolProvider = new SoyDocumentSymbolProvider();
 let client: LanguageClient;
 
 const soyDocFilter: vscode.DocumentFilter = {
@@ -52,6 +54,7 @@ export function activate (context: ExtensionContext): void {
     context.subscriptions.push(vscode.languages.registerDefinitionProvider(soyDocFilter, soyDefProvider));
     context.subscriptions.push(vscode.languages.registerReferenceProvider(soyDocFilter, soyRefProvider));
     context.subscriptions.push(vscode.languages.registerHoverProvider(soyDocFilter, soyHoverProvider));
+    context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider(soyDocFilter, soyDocumentSymbolProvider));
     context.subscriptions.push(vscode.commands.registerCommand(
         'soyfilesupport.reparse.workspace',
         () => initalizeProviders('Reparsing workspace...', 'Workspace parsed.')
