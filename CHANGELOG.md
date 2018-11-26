@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this extension are documented in this file.
 
+## [3.13.0] - 2018/11/26
+- adding first version of outline
+
 ## [3.12.0] - 2018/11/22
 - showing the number of declarations and references upon hovering a (del)template
 - improved the reference provider to work faster and use less memory
