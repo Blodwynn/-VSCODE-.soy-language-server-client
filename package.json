@@ -27,6 +27,23 @@
 	"main": "./client/out/extension",
 	"icon": "images/google_closure.png",
 	"contributes": {
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "soy-ext",
+					"title": "Soy File Support",
+					"icon": "images/google_closure.svg"
+				}
+			]
+		},
+		"views": {
+			"soy-ext": [
+				{
+					"id": "Explorer",
+					"name": "Commands"
+				}
+			]
+		},
 		"languages": [
 			{
 				"id": "soy",
