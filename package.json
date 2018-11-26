@@ -22,7 +22,8 @@
 		"vscode": "^1.23.0"
 	},
 	"activationEvents": [
-		"onLanguage:soy"
+		"onLanguage:soy",
+		"onView:explorer"
 	],
 	"main": "./client/out/extension",
 	"icon": "images/google_closure.png",
@@ -39,7 +40,7 @@
 		"views": {
 			"soy-ext": [
 				{
-					"id": "Explorer",
+					"id": "explorer",
 					"name": "Commands"
 				}
 			]
