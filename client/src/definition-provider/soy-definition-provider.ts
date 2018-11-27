@@ -1,19 +1,25 @@
 import vscode = require('vscode');
-import { SoyDefinitionInformation, TemplatePathMap } from '../interfaces';
+import { TemplatePathMap, TemplatePathDescription } from '../interfaces';
 import { getTemplateDescription } from './template';
-import { parseFiles } from './parse';
+import { parseFiles, parseFile } from './parse';
 import { createLocation } from '../utils';
 
-export function definitionLocation(document: vscode.TextDocument, position: vscode.Position, templatePathMap: TemplatePathMap): Promise<any> {
+function removeRecordsWithPath(filePath: string, templatePathMap: TemplatePathMap) {
+    Object.keys(templatePathMap).forEach(key => {
+        const itemArray = templatePathMap[key];
+        const contains = itemArray.find(pathDescription => pathDescription.path === filePath)
+        if (contains) {
+            delete templatePathMap[key];
+        }
+    });
+}
+
+export function definitionLocation(document: vscode.TextDocument, position: vscode.Position, templatePathMap: TemplatePathMap): Promise<TemplatePathDescription[]> {
     const wordRange: vscode.Range = document.getWordRangeAtPosition(position, /[\w\d.]+/);
     const lineText: string = document.lineAt(position.line).text;
     const templateToSearchFor: string = document.getText(wordRange);
 
     const templateData = getTemplateDescription(templateToSearchFor, templatePathMap, document);
-
-    if (!templateData || !templateData.length) {
-        return Promise.reject(`Cannot find declaration for ${templateToSearchFor}`);
-    }
 
     if (!wordRange || lineText.startsWith('//')) {
         return Promise.resolve(null);
@@ -23,25 +29,30 @@ export function definitionLocation(document: vscode.TextDocument, position: vsco
         position = position.translate(0, -1);
     }
 
-    const informationArray = templateData.map(item => (<SoyDefinitionInformation>{file: item.path, line: item.line}));
+    const informationArray = templateData && templateData.map(item => ({path: item.path, line: item.line}));
     return Promise.resolve(informationArray);
 }
 
 export class SoyDefinitionProvider implements vscode.DefinitionProvider {
     templatePathMap: TemplatePathMap;
 
-    constructor(wsFolders) {
+    public parseWorkspaceFolders(wsFolders: string[][]) {
         this.templatePathMap = parseFiles(wsFolders);
-	}
+    }
 
-	public provideDefinition(document: vscode.TextDocument, position: vscode.Position): Thenable<vscode.Location> {
+    public parseSingleFile(documentPath: string) {
+        removeRecordsWithPath(documentPath, this.templatePathMap);
+        parseFile(documentPath, this.templatePathMap);
+    }
+
+	public provideDefinition(document: vscode.TextDocument, position: vscode.Position): Thenable<vscode.Location[]> {
         return definitionLocation(document, position, this.templatePathMap)
             .then(definitionInfo => {
-                if (Array.isArray(definitionInfo)) {
+                if (definitionInfo) {
                     return definitionInfo.map(info => createLocation(info));
-                } else {
-                    return createLocation(definitionInfo);
                 }
+
+                return null;
             }, err => {
                 if (err) {
                     return Promise.reject(err);

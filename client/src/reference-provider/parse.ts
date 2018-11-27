@@ -1,37 +1,58 @@
 import linenumber = require('linenumber');
 import fs = require('fs');
 import { getNamespace, getAliases, getMatchingAlias, normalizeAliasTemplate } from '../utils';
+import { TemplatePathDescription, AliasMap, TemplatePathMap } from '../interfaces';
 
 function escapeRegExp (string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
 
-function insertElementWithKey (templateName: string, file: any, allCallMaps: any) {
+function isIncluded (templateName: string, file: string, line: number, allCallMaps: TemplatePathMap): boolean {
+    const templatePathDescription: TemplatePathDescription[] = allCallMaps[templateName];
+
+    if (templatePathDescription) {
+        const filtered = templatePathDescription.filter(
+            (templateData: TemplatePathDescription) => templateData.line === line && templateData.path === file
+        );
+
+        if (filtered.length) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function insertElementWithKey (templateName: string, fileLocation: TemplatePathDescription, allCallMaps: TemplatePathMap) {
     if (Array.isArray(allCallMaps[templateName])) {
-        allCallMaps[templateName].push(file);
+        allCallMaps[templateName].push(fileLocation);
     } else {
-        allCallMaps[templateName] = new Array(file);
+        allCallMaps[templateName] = new Array(fileLocation);
     }
 }
 
-function insertCalls (templateName: string, file: any, lineNrs: any, allCallMaps: any) {
+function insertCalls (templateName: string, file: string, lineNrs: any[], allCallMaps: TemplatePathMap) {
     lineNrs.forEach(lineItem => {
-        insertElementWithKey(
-            templateName,
-            {
-                file,
-                line: lineItem.line - 1
-            },
-            allCallMaps
-        );
+        const line = lineItem.line - 1;
+
+        if (!isIncluded(templateName, file, line, allCallMaps)) {
+            insertElementWithKey(
+                templateName,
+                {
+                    path: file,
+                    line: line
+                },
+                allCallMaps
+            );
+        }
     });
 }
 
-function parseFile (file, allCallMaps) {
+export function parseFile (file: string, allCallMaps: TemplatePathMap) {
     const content: string = fs.readFileSync(file, "utf8");
-    const namespace = getNamespace(content);
+    const namespace: string = getNamespace(content);
     const callPattern: RegExp = /\{(?:del)?call ([\w\d.]+)[^\w\d.].*/gm;
-    let m;
+    let m: RegExpExecArray;
 
     while (m = callPattern.exec(content)) {
         const lineNr = linenumber(content, escapeRegExp(m[0]));
@@ -40,7 +61,7 @@ function parseFile (file, allCallMaps) {
         if (template.startsWith('.')) {
             insertCalls(`${namespace}${template}`, file, lineNr, allCallMaps);
         } else {
-            const aliases: string[] = getAliases(content);
+            const aliases: AliasMap[] = getAliases(content);
             const alias: string = getMatchingAlias(template, aliases);
 
             if (alias) {
@@ -53,8 +74,8 @@ function parseFile (file, allCallMaps) {
     }
 }
 
-export function parseFilesForReferences (wsFolders) {
-    let allCallMaps = {};
+export function parseFilesForReferences (wsFolders: string[][]): TemplatePathMap {
+    let allCallMaps: TemplatePathMap = {};
 
     wsFolders.forEach(
         files => files.forEach(

@@ -120,7 +120,7 @@
             " *",
             "${5: * @client - remove if not necessary}",
             " */",
-            "{deltemplate .${6:templateName}}",
+            "{deltemplate ${6:templateName}}",
             "    ${7:template content}",
             "{/deltemplate}",
             ""

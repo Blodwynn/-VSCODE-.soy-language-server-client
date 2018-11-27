@@ -6,6 +6,7 @@ Add full file support for `.soy` files. See section below. :)
 - Syntax check: inline error and warning underline
 - Go to definition support
 - Snippets
+- Outline
 
 ### Syntax highlight
 - Highlights keywords, variables and so :)
@@ -17,12 +18,17 @@ Add full file support for `.soy` files. See section below. :)
 ### Find All References
 - `Find all references` with shortcut or from context menu
 
+### Commands
+- `Soy Extension: Reparse workspace`: Useful after external changes (eg: switching branches) to find all new template data
+
 ### Error highlights
 - Missing `$` sign in variable declarations
 - Missing closing tag for `let` declarations and `param`s
 - Extra space before closing tag for `let`s and `param`s
 - Unnecessary `/` character for `let` and `param` blocks
 - Self closing for `template`s and `deltemplate`s
+- Empty declaration
+- Missing colon
 
 ### Information highlights
 - `TODO` comments

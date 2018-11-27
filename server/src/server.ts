@@ -3,7 +3,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  * ------------------------------------------------------------------------------------------ */
 'use strict';
-import { SoyConfigSettings } from './interfaces';
+import { SoyConfigSettings, ErrorItem } from './interfaces';
 import patterns from './patterns';
 import {
     createConnection,
@@ -13,22 +13,11 @@ import {
     DiagnosticSeverity,
     ProposedFeatures,
     InitializeParams,
-    DidChangeConfigurationNotification,
-    CompletionItem,
-    CompletionItemKind,
-    TextDocumentPositionParams,
-    // Definition,
-    // Location
+    DidChangeConfigurationNotification
 } from 'vscode-languageserver';
 
-// Create a connection for the server. The connection uses Node's IPC as a transport.
-// Also include all preview / proposed LSP features.
 let connection = createConnection(ProposedFeatures.all);
-
-// Create a simple text document manager. The text document manager
-// supports full document sync only
 let documents: TextDocuments = new TextDocuments();
-
 let hasConfigurationCapability: boolean = false;
 let hasWorkspaceFolderCapability: boolean = false;
 
@@ -45,9 +34,6 @@ connection.onInitialize((params: InitializeParams) => {
     return {
         capabilities: {
             textDocumentSync: documents.syncKind,
-            completionProvider: {
-                resolveProvider: true
-            },
             // either this is true and use the onDefinition
             // or just have the subscription in the extension
             definitionProvider: false
@@ -70,25 +56,17 @@ connection.onInitialized(() => {
     }
 });
 
-// connection.onDefinition((textDocumentIdentifier: any): Definition => {
-//     return Location.create(textDocumentIdentifier.uri, {
-//         start: { line: textDocumentIdentifier.line, character: 1 },
-//         end: { line: textDocumentIdentifier.line, character: 2 }
-//     });
-// });
-
-// The global settings, used when the `workspace/configuration` request is not supported by the client.
-// Please note that this is not the case when using this server with the client provided in this example
-// but could happen with other clients.
-const defaultSettings: SoyConfigSettings = { ignoreTodo: false, ignoreBreakingChange: false, ignoreErrors: false };
+const defaultSettings: SoyConfigSettings = {
+    ignoreTodo: false,
+    ignoreBreakingChange: false,
+    ignoreErrors: false
+};
 let globalSettings: SoyConfigSettings = defaultSettings;
 
-// Cache the settings of all open documents
 let documentSettings: Map<string, Thenable<SoyConfigSettings>> = new Map();
 
 connection.onDidChangeConfiguration(change => {
     if (hasConfigurationCapability) {
-        // Reset all cached document settings
         documentSettings.clear();
     } else {
         globalSettings = <SoyConfigSettings>(
@@ -96,7 +74,6 @@ connection.onDidChangeConfiguration(change => {
         );
     }
 
-    // Revalidate all open text documents
     documents.all().forEach(validateSoyDocument);
 });
 
@@ -123,30 +100,34 @@ documents.onDidChangeContent(change => {
     validateSoyDocument(change.document);
 });
 
+documents.onDidClose(change => {
+    connection.sendDiagnostics({ uri: change.document.uri, diagnostics: [] });
+});
 
-
-function validateWithPattern(errorItem: any, text: string, textDocument: TextDocument, severity: DiagnosticSeverity) {
-    const pattern = errorItem.pattern;
-    const message = errorItem.message;
+function validateWithPattern(errorItem: ErrorItem, text: string, textDocument: TextDocument, severity: DiagnosticSeverity): Diagnostic[] {
+    const pattern: RegExp = errorItem.pattern;
+    const message: string = errorItem.message;
     let diagnosticResults : Diagnostic[] = [];
-    let m;
+    let m: RegExpExecArray;
 
     while (m = pattern.exec(text)) {
+        const startPosition: number = m.index + m[0].indexOf(m[1]);
+
         diagnosticResults.push({
             severity,
             range: {
-                start: textDocument.positionAt(m.index),
-                end: textDocument.positionAt(m.index + m[0].length)
+                start: textDocument.positionAt(startPosition),
+                end: textDocument.positionAt(startPosition + m[1].length)
             },
-            message: `${m[0]}: ${message}.`,
-            source: 'ex'
+            message: `${m[1]}: ${message}.`,
+            source: 'soy-ext'
         });
     }
 
     return diagnosticResults;
 }
 
-function validatePatterns(errorItems: any[], text: string, textDocument: TextDocument, severity: DiagnosticSeverity) {
+function validatePatterns(errorItems: any[], text: string, textDocument: TextDocument, severity: DiagnosticSeverity): Diagnostic[] {
     let diagnosticResults : Diagnostic[] = [];
 
     errorItems.forEach(errorItem  => {
@@ -177,69 +158,8 @@ async function validateSoyDocument(textDocument: TextDocument): Promise<void> {
 }
 
 connection.onDidChangeWatchedFiles(_change => {
-    // Monitored files have change in VSCode
     connection.console.log('We received an file change event');
 });
 
-// This handler provides the initial list of the completion items.
-connection.onCompletion(
-    (_textDocumentPosition: TextDocumentPositionParams): CompletionItem[] => {
-        // The pass parameter contains the position of the text document in
-        // which code complete got requested. For the example we ignore this
-        // info and always provide the same completion items.
-        return [
-            {
-                label: 'TypeScript',
-                kind: CompletionItemKind.Text,
-                data: 1
-            },
-            {
-                label: 'JavaScript',
-                kind: CompletionItemKind.Text,
-                data: 2
-            }
-        ];
-    }
-);
-
-// This handler resolve additional information for the item selected in
-// the completion list.
-connection.onCompletionResolve(
-    (item: CompletionItem): CompletionItem => {
-        if (item.data === 1) {
-            (item.detail = 'TypeScript details'),
-                (item.documentation = 'TypeScript documentation');
-        } else if (item.data === 2) {
-            (item.detail = 'JavaScript details'),
-                (item.documentation = 'JavaScript documentation');
-        }
-        return item;
-    }
-);
-
-/*
-connection.onDidOpenTextDocument((params) => {
-    // A text document got opened in VSCode.
-    // params.uri uniquely identifies the document. For documents store on disk this is a file URI.
-    // params.text the initial full content of the document.
-    connection.console.log(`${params.textDocument.uri} opened.`);
-});
-connection.onDidChangeTextDocument((params) => {
-    // The content of a text document did change in VSCode.
-    // params.uri uniquely identifies the document.
-    // params.contentChanges describe the content changes to the document.
-    connection.console.log(`${params.textDocument.uri} changed: ${JSON.stringify(params.contentChanges)}`);
-});
-connection.onDidCloseTextDocument((params) => {
-    // A text document got closed in VSCode.
-    // params.uri uniquely identifies the document.
-    connection.console.log(`${params.textDocument.uri} closed.`);
-});
-*/
-
-// Make the text document manager listen on the connection
-// for open, change and close text document events
 documents.listen(connection);
-
-// Listen on the connection
 connection.listen();

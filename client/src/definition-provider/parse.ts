@@ -2,7 +2,7 @@ import linenumber = require('linenumber');
 import fs = require('fs');
 import { TemplatePathMap, TemplatePathDescription } from '../interfaces';
 
-function insertElementWithKey(templateName: string, element: TemplatePathDescription, allTemplatePathMaps: TemplatePathMap) {
+function insertElementWithKey (templateName: string, element: TemplatePathDescription, allTemplatePathMaps: TemplatePathMap) {
     if (Array.isArray(allTemplatePathMaps[templateName])) {
         allTemplatePathMaps[templateName].push(element);
     } else {
@@ -10,11 +10,11 @@ function insertElementWithKey(templateName: string, element: TemplatePathDescrip
     }
 }
 
-function parseFile(file: string, allTemplatePathMaps: TemplatePathMap) {
+export function parseFile (file: string, allTemplatePathMaps: TemplatePathMap) {
     const namespacePattern: RegExp = /\{namespace ([\w\d.]+)/;
     const templatePattern: RegExp = /\{(del)?template ([\w\d.]+)([^\w\d.]).*/gm;
     const content: string = fs.readFileSync(file, "utf8");
-    let m, n;
+    let m, n: RegExpExecArray;
 
     if (m = namespacePattern.exec(content)) {
         const namespace: string = m[1];
@@ -40,7 +40,7 @@ function parseFile(file: string, allTemplatePathMaps: TemplatePathMap) {
     }
 }
 
-export function parseFiles(wsFolders) : TemplatePathMap {
+export function parseFiles (wsFolders) : TemplatePathMap {
     let allTemplatePathMaps: TemplatePathMap = {};
 
     wsFolders.forEach(
