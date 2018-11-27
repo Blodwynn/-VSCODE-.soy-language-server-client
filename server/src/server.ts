@@ -13,8 +13,7 @@ import {
     DiagnosticSeverity,
     ProposedFeatures,
     InitializeParams,
-    DidChangeConfigurationNotification,
-    CompletionItem
+    DidChangeConfigurationNotification
 } from 'vscode-languageserver';
 
 let connection = createConnection(ProposedFeatures.all);
@@ -35,9 +34,6 @@ connection.onInitialize((params: InitializeParams) => {
     return {
         capabilities: {
             textDocumentSync: documents.syncKind,
-            completionProvider: {
-                resolveProvider: true
-            },
             // either this is true and use the onDefinition
             // or just have the subscription in the extension
             definitionProvider: false
@@ -164,21 +160,6 @@ async function validateSoyDocument(textDocument: TextDocument): Promise<void> {
 connection.onDidChangeWatchedFiles(_change => {
     connection.console.log('We received an file change event');
 });
-
-// This handler resolve additional information for the item selected in
-// the completion list.
-connection.onCompletionResolve(
-    (item: CompletionItem): CompletionItem => {
-        if (item.data === 1) {
-            (item.detail = 'TypeScript details'),
-                (item.documentation = 'TypeScript documentation');
-        } else if (item.data === 2) {
-            (item.detail = 'JavaScript details'),
-                (item.documentation = 'JavaScript documentation');
-        }
-        return item;
-    }
-);
 
 documents.listen(connection);
 connection.listen();
