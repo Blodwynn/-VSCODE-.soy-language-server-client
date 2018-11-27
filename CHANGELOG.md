@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this extension are documented in this file.
 
+### [3.13.1] - 2018/11/27
+- removing yet unhandled code completion, no more errors thrown about it
+
 ## [3.13.0] - 2018/11/26
 - adding first version of outline
 
@@ -15,7 +18,7 @@ All notable changes to this extension are documented in this file.
 ### [3.10.1] - 2018/11/19
 - removing dead config node for trace server
 
-### [3.10.0] - 2018/11/15
+## [3.10.0] - 2018/11/15
 - adding further validators for `let` and `param` declarations
 - finetuning some older validators to be more flexible
 - fixing some rare highlight issues
