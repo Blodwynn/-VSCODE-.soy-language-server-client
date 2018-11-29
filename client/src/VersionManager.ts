@@ -19,13 +19,6 @@ export class VersionManager {
         return this.extension.packageJSON.version;
     }
 
-    public clearSavedVersion (): void {
-        this.context.globalState.update(
-            GlobalState.CurrentVersion,
-            null
-        );
-    }
-
     public UpdateSavedVersion (): void {
         this.context.globalState.update(
             GlobalState.CurrentVersion,

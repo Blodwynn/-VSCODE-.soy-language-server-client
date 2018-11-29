@@ -40,14 +40,9 @@ function initalizeProviders (startMessage: string, finishMessage: string): void 
 }
 
 function showNewChanges(currentVersion: string, previousVersion: string) {
-    console.log('previousVersion: ', previousVersion);
-    console.log('currentVersion: ', currentVersion);
-
     if (!previousVersion) {
-        console.log('first start, no prev version');
         showExtensionChanges();
     } else if (previousVersion !== currentVersion) {
-        console.log('update happened since last version');
         showExtensionChanges();
     }
 }
@@ -83,10 +78,6 @@ export function activate (context: ExtensionContext): void {
     context.subscriptions.push(vscode.commands.registerCommand(
         Commands.ShowExtensionChanges,
         () => showExtensionChanges()
-    ));
-    context.subscriptions.push(vscode.commands.registerCommand(
-        'soyfilesupport.clearSavedVersion',
-        () => versionManager.clearSavedVersion()
     ));
 
     initalizeProviders('Starting up...', 'Started.');

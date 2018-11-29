@@ -85,10 +85,6 @@
 			{
 				"command": "soyfilesupport.showExtensionChanges",
 				"title": "Soy Extension: Show extension changes"
-			},
-			{
-				"command": "soyfilesupport.clearSavedVersion",
-				"title": "Soy Extension: Clear saved version"
 			}
 		]
 	},

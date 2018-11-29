@@ -5,6 +5,7 @@ export enum GlobalState {
 export enum Commands {
     ReparseWorkSpace     = 'soyfilesupport.reparse.workspace',
     ShowExtensionChanges = 'soyfilesupport.showExtensionChanges',
+
     ShowMarkDownPreview  = 'markdown.showPreview'
 }
 
