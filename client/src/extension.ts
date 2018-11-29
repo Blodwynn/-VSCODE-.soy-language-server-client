@@ -45,19 +45,15 @@ function showNewChanges(currentVersion: string, previousVersion: string) {
 
     if (!previousVersion) {
         console.log('first start, no prev version');
-        // showExtensionChanges();
+        showExtensionChanges();
     } else if (previousVersion !== currentVersion) {
         console.log('update happened since last version');
-        // showExtensionChanges();
+        showExtensionChanges();
     }
 }
 function showExtensionChanges () {
-    const changeLogPath = getChangeLogPath();
-
-    vscode.commands.executeCommand(Commands.ShowMarkDownPreview, changeLogPath);
-
-    // vscode.workspace.openTextDocument(changeLogPath)
-    //     .then(changelog => vscode.window.showTextDocument(changelog));
+    const changeLogPath: string = getChangeLogPath();
+    vscode.commands.executeCommand(Commands.ShowMarkDownPreview, vscode.Uri.file(changeLogPath));
 }
 
 export function activate (context: ExtensionContext): void {
@@ -74,7 +70,7 @@ export function activate (context: ExtensionContext): void {
     const versionManager: VersionManager = new VersionManager(context);
 
     showNewChanges(versionManager.getCurrentVersion(), versionManager.getSavedVersion());
-    // versionManager.UpdateSavedVersion();
+    versionManager.UpdateSavedVersion();
 
     context.subscriptions.push(vscode.languages.registerDefinitionProvider(soyDocFilter, soyDefProvider));
     context.subscriptions.push(vscode.languages.registerReferenceProvider(soyDocFilter, soyRefProvider));
