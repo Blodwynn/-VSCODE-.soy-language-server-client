@@ -2,7 +2,6 @@ import vscode = require('vscode');
 import fg = require('fast-glob');
 import path = require('path');
 import { ExtensionData } from './constants';
-import { EntryItem } from 'fast-glob/out/types/entries';
 
 const excludeFromFileSearch: string[] = [
     '!**/node_modules'
@@ -20,7 +19,7 @@ export function getSoyFiles (): Thenable<string[][]> {
     return Promise.all(promises);
 }
 
-export function getSoyFile (filePath): Thenable<EntryItem[]> {
+export function getSoyFile (filePath): Thenable<string[]> {
     return fg.async(filePath);
 }
 

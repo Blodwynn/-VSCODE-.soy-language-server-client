@@ -4,6 +4,7 @@ import * as path from 'path';
 import vscode = require('vscode');
 import { workspace, ExtensionContext } from 'vscode';
 import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } from 'vscode-languageclient';
+import { showNotification } from './utils';
 import { SoyDefinitionProvider } from './definition-provider/soy-definition-provider';
 import { SoyReferenceProvider } from './reference-provider/soy-reference-provider';
 import { SoyHoverProvider } from './hover-provider/soy-hover-provider';
@@ -12,9 +13,9 @@ import { getSoyFiles, getSoyFile, getChangeLogPath } from './files';
 import { VersionManager } from './VersionManager';
 import { Commands } from './constants';
 
-const soyDefProvider = new SoyDefinitionProvider();
-const soyRefProvider = new SoyReferenceProvider();
-const soyHoverProvider = new SoyHoverProvider(soyDefProvider, soyRefProvider);
+const soyDefinitionProvider = new SoyDefinitionProvider();
+const soyReferenceProvider = new SoyReferenceProvider();
+const soyHoverProvider = new SoyHoverProvider(soyDefinitionProvider, soyReferenceProvider);
 const soyDocumentSymbolProvider = new SoyDocumentSymbolProvider();
 let client: LanguageClient;
 
@@ -23,36 +24,7 @@ const soyDocFilter: vscode.DocumentFilter = {
     scheme: 'file'
 };
 
-function showNotification (message: string): void {
-    vscode.window.showInformationMessage(message);
-}
-
-function initalizeProviders (startMessage: string, finishMessage: string): void {
-    const prefix: string = 'Soy Extension:';
-
-    showNotification(`${prefix} ${startMessage}`);
-    getSoyFiles()
-        .then(wsFolders => {
-            soyDefProvider.parseWorkspaceFolders(wsFolders);
-            soyRefProvider.parseWorkspaceFolders(wsFolders);
-            showNotification(`${prefix} ${finishMessage}`);
-        });
-}
-
-function showExtensionChanges () {
-    const changeLogPath: string = getChangeLogPath();
-    vscode.commands.executeCommand(Commands.ShowMarkDownPreview, vscode.Uri.file(changeLogPath));
-}
-
-function showNewChanges (currentVersion: string, previousVersion: string) {
-    if (!previousVersion) {
-        showExtensionChanges();
-    } else if (previousVersion !== currentVersion) {
-        showExtensionChanges();
-    }
-}
-
-export function activate (context: ExtensionContext): void {
+function getSetupExtensionClient (context: ExtensionContext): LanguageClient {
     const serverModule = context.asAbsolutePath(path.join('server', 'out', 'server.js'));
     const debugOptions = { execArgv: ['--nolazy', '--inspect=6009'] };
     const serverOptions: ServerOptions = {
@@ -63,35 +35,6 @@ export function activate (context: ExtensionContext): void {
             options: debugOptions
         }
     };
-    const versionManager: VersionManager = new VersionManager(context);
-
-    showNewChanges(versionManager.getCurrentVersion(), versionManager.getSavedVersion());
-    versionManager.UpdateSavedVersion();
-
-    context.subscriptions.push(vscode.languages.registerDefinitionProvider(soyDocFilter, soyDefProvider));
-    context.subscriptions.push(vscode.languages.registerReferenceProvider(soyDocFilter, soyRefProvider));
-    context.subscriptions.push(vscode.languages.registerHoverProvider(soyDocFilter, soyHoverProvider));
-    context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider(soyDocFilter, soyDocumentSymbolProvider));
-    context.subscriptions.push(vscode.commands.registerCommand(
-        Commands.ReparseWorkSpace,
-        () => initalizeProviders('Reparsing workspace...', 'Workspace parsed.')
-    ));
-    context.subscriptions.push(vscode.commands.registerCommand(
-        Commands.ShowExtensionChanges,
-        () => showExtensionChanges()
-    ));
-
-    initalizeProviders('Starting up...', 'Started.');
-
-    vscode.workspace.onDidSaveTextDocument(e => {
-        getSoyFile(e.uri.fsPath)
-            .then(file => {
-                const filePath: string = <string>file[0];
-
-                soyDefProvider.parseSingleFile(filePath);
-                soyRefProvider.parseSingleFile(filePath);
-            });
-    }, null, context.subscriptions);
 
     const clientOptions: LanguageClientOptions = {
         documentSelector: [
@@ -102,12 +45,73 @@ export function activate (context: ExtensionContext): void {
         }
     };
 
-    client = new LanguageClient(
+    return new LanguageClient(
         'soyLanguageServer',
         'Soy Language Server',
         serverOptions,
         clientOptions
     );
+}
+
+function registerProviders (context: ExtensionContext): void {
+    context.subscriptions.push(vscode.languages.registerDefinitionProvider(soyDocFilter, soyDefinitionProvider));
+    context.subscriptions.push(vscode.languages.registerReferenceProvider(soyDocFilter, soyReferenceProvider));
+    context.subscriptions.push(vscode.languages.registerHoverProvider(soyDocFilter, soyHoverProvider));
+    context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider(soyDocFilter, soyDocumentSymbolProvider));
+}
+
+function registerCommands (context: ExtensionContext): void {
+    context.subscriptions.push(vscode.commands.registerCommand(
+        Commands.ReparseWorkSpace,
+        () => initalizeProviders('Reparsing workspace...', 'Workspace parsed.')
+    ));
+    context.subscriptions.push(vscode.commands.registerCommand(
+        Commands.ShowExtensionChanges,
+        () => showExtensionChanges()
+    ));
+}
+
+function initalizeProviders (startMessage: string, finishMessage: string): void {
+    showNotification(startMessage);
+    getSoyFiles()
+        .then(wsFolders => {
+            soyDefinitionProvider.parseWorkspaceFolders(wsFolders);
+            soyReferenceProvider.parseWorkspaceFolders(wsFolders);
+            showNotification(finishMessage);
+        });
+}
+
+function showExtensionChanges (): void {
+    const changeLogPath: string = getChangeLogPath();
+    vscode.commands.executeCommand(Commands.ShowMarkDownPreview, vscode.Uri.file(changeLogPath));
+}
+
+function showNewChanges (currentVersion: string, previousVersion: string): void {
+    if (!previousVersion || (previousVersion !== currentVersion)) {
+        showExtensionChanges();
+    }
+}
+
+export function activate (context: ExtensionContext): void {
+    const versionManager: VersionManager = new VersionManager(context);
+    client = getSetupExtensionClient(context);
+
+    showNewChanges(versionManager.getCurrentVersion(), versionManager.getSavedVersion());
+    versionManager.UpdateSavedVersion();
+
+    registerProviders(context);
+    registerCommands(context);
+    initalizeProviders('Starting up...', 'Started.');
+
+    vscode.workspace.onDidSaveTextDocument(e => {
+        getSoyFile(e.uri.fsPath)
+            .then(file => {
+                const filePath: string = <string>file[0];
+
+                soyDefinitionProvider.parseSingleFile(filePath);
+                soyReferenceProvider.parseSingleFile(filePath);
+            });
+    }, null, context.subscriptions);
 
     client.start();
 }

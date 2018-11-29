@@ -1,5 +1,8 @@
 # Soy File Support - What's new?
 
+## [3.14.0] - 2018/11/29
+- changelog popping up upon new version release
+
 ### [3.13.1] - 2018/11/27
 - removing yet unhandled code completion, no more errors thrown about it
 

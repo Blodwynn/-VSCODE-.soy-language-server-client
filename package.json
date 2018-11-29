@@ -26,6 +26,13 @@
 	],
 	"main": "./client/out/extension",
 	"icon": "images/google_closure.png",
+	"homepage": "https://github.com/Blodwynn/-VSCODE-.soy-language-server-client",
+	"bugs": {
+		"url": "https://github.com/Blodwynn/-VSCODE-.soy-language-server-client/issues"
+	},
+	"maintainers": [
+		"Roland Orosz"
+	],
 	"contributes": {
 		"languages": [
 			{

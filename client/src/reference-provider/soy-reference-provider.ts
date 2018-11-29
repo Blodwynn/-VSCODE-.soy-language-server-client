@@ -1,19 +1,10 @@
 import { AliasMap, TemplatePathDescription, TemplatePathMap } from './../interfaces';
 import vscode = require('vscode');
 import { parseFilesForReferences, parseFile } from './parse';
-import { getNamespace, getAliases, getMatchingAlias, createLocation, normalizeAliasTemplate } from '../utils';
+import { getNamespace, getAliases, getMatchingAlias, createLocation, normalizeAliasTemplate } from '../template-utils';
 
 export class SoyReferenceProvider implements vscode.ReferenceProvider {
     callMap: TemplatePathMap;
-
-    // fix this
-    removeCallsFromFile (documentPath: string): void {
-        Object.keys(this.callMap).forEach(key => {
-            this.callMap[key] = this.callMap[key].filter(
-                pathDescription => pathDescription.path !== documentPath
-            );
-        });
-    }
 
     public parseWorkspaceFolders (wsFolders: string[][]): void {
         this.callMap = parseFilesForReferences(wsFolders);
@@ -51,6 +42,14 @@ export class SoyReferenceProvider implements vscode.ReferenceProvider {
             }
 
             resolve(records && records.map(info => createLocation(info)));
+        });
+    }
+
+    private removeCallsFromFile (documentPath: string): void {
+        Object.keys(this.callMap).forEach(key => {
+            this.callMap[key] = this.callMap[key].filter(
+                pathDescription => pathDescription.path !== documentPath
+            );
         });
     }
 }

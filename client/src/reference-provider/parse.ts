@@ -1,6 +1,6 @@
 import linenumber = require('linenumber');
 import fs = require('fs');
-import { getNamespace, getAliases, getMatchingAlias, normalizeAliasTemplate } from '../utils';
+import { getNamespace, getAliases, getMatchingAlias, normalizeAliasTemplate } from '../template-utils';
 import { TemplatePathDescription, AliasMap, TemplatePathMap } from '../interfaces';
 
 function escapeRegExp (string) {
