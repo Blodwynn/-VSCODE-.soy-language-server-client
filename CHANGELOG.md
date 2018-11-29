@@ -163,10 +163,10 @@ Thanks to [Nick Fisher](https://github.com/spadgos) for the following [changes](
 - fixing the name and description of the extension
 
 ## [1.2.0] - 2018/10/08
-- Adding snippets :)
+- Adding snippets
 
 ### [1.1.1] - 2018/10/05
-- Adding this CHANGELOG and a basic README file :)
+- Adding this CHANGELOG and a basic README file
 
 ## [1.1.0] - 2018/10/05
 - Adding check for `$` in variable declarations
