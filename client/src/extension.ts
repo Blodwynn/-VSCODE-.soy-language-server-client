@@ -39,16 +39,17 @@ function initalizeProviders (startMessage: string, finishMessage: string): void 
         });
 }
 
-function showNewChanges(currentVersion: string, previousVersion: string) {
+function showExtensionChanges () {
+    const changeLogPath: string = getChangeLogPath();
+    vscode.commands.executeCommand(Commands.ShowMarkDownPreview, vscode.Uri.file(changeLogPath));
+}
+
+function showNewChanges (currentVersion: string, previousVersion: string) {
     if (!previousVersion) {
         showExtensionChanges();
     } else if (previousVersion !== currentVersion) {
         showExtensionChanges();
     }
-}
-function showExtensionChanges () {
-    const changeLogPath: string = getChangeLogPath();
-    vscode.commands.executeCommand(Commands.ShowMarkDownPreview, vscode.Uri.file(changeLogPath));
 }
 
 export function activate (context: ExtensionContext): void {
