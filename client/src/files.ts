@@ -1,12 +1,14 @@
 import vscode = require('vscode');
 import fg = require('fast-glob');
 import path = require('path');
+import { ExtensionData } from './constants';
+import { EntryItem } from 'fast-glob/out/types/entries';
 
-const excludeFromFileSearch = [
+const excludeFromFileSearch: string[] = [
     '!**/node_modules'
-]
+];
 
-export function getSoyFiles() {
+export function getSoyFiles (): Thenable<string[][]> {
     let promises = [];
 
     vscode.workspace.workspaceFolders.forEach(wsFolder => {
@@ -18,6 +20,12 @@ export function getSoyFiles() {
     return Promise.all(promises);
 }
 
-export function getSoyFile(filePath) {
+export function getSoyFile (filePath): Thenable<EntryItem[]> {
     return fg.async(filePath);
+}
+
+export function getChangeLogPath () {
+    const extensionPath: string = vscode.extensions.getExtension(ExtensionData.ExtensionIdentifier).extensionPath;
+
+    return path.join(extensionPath, 'CHANGELOG.md');
 }
