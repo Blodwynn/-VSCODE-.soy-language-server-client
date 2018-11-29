@@ -33,11 +33,9 @@ export class SoyDefinitionProvider implements vscode.DefinitionProvider {
 
     private removeRecordsWithPath (filePath: string): void {
         Object.keys(this.templatePathMap).forEach(key => {
-            const itemArray = this.templatePathMap[key];
-            const contains = itemArray.find(pathDescription => pathDescription.path === filePath)
-            if (contains) {
-                delete this.templatePathMap[key];
-            }
+            this.templatePathMap[key] = this.templatePathMap[key].filter(
+                pathDescription => pathDescription.path !== filePath
+            );
         });
     }
 
