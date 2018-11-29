@@ -81,6 +81,10 @@
 			{
 				"command": "soyfilesupport.reparse.workspace",
 				"title": "Soy Extension: Reparse workspace"
+			},
+			{
+				"command": "soyfilesupport.showExtensionChanges",
+				"title": "Soy Extension: Show extension changes"
 			}
 		]
 	},

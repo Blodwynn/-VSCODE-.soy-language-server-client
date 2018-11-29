@@ -1,5 +1,4 @@
-# Change Log
-All notable changes to this extension are documented in this file.
+# Soy File Support - What's new?
 
 ### [3.13.1] - 2018/11/27
 - removing yet unhandled code completion, no more errors thrown about it

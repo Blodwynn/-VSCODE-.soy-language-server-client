@@ -20,6 +20,7 @@ Add full file support for `.soy` files. See section below. :)
 
 ### Commands
 - `Soy Extension: Reparse workspace`: Useful after external changes (eg: switching branches) to find all new template data
+- `Soy Extension: Show extension changes`: Opens your favourite changelog to show what's new :)
 
 ### Error highlights
 - Missing `$` sign in variable declarations
