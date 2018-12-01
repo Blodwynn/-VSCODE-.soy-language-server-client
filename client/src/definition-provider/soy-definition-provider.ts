@@ -4,7 +4,7 @@ import { parseFiles, parseFile } from './parse';
 import { createLocation, normalizeAliasTemplate, getNamespace, getAliases, getMatchingAlias } from '../template-utils';
 
 export class SoyDefinitionProvider implements vscode.DefinitionProvider {
-    templatePathMap: TemplatePathMap;
+    private templatePathMap: TemplatePathMap;
 
     public parseWorkspaceFolders (wsFolders: string[][]): void {
         this.templatePathMap = parseFiles(wsFolders);
@@ -16,6 +16,10 @@ export class SoyDefinitionProvider implements vscode.DefinitionProvider {
     }
 
 	public provideDefinition (document: vscode.TextDocument, position: vscode.Position): Thenable<vscode.Location[]> {
+        if (!this.templatePathMap) {
+            return Promise.resolve(null);
+        }
+
         return this.definitionLocation(document, position)
             .then(definitionInfo => {
                 if (definitionInfo) {
@@ -29,6 +33,10 @@ export class SoyDefinitionProvider implements vscode.DefinitionProvider {
                 }
                 return Promise.resolve(null);
             });
+    }
+
+    public getDefinitionList (): TemplatePathMap {
+        return JSON.parse(JSON.stringify(this.templatePathMap));
     }
 
     private removeRecordsWithPath (filePath: string): void {

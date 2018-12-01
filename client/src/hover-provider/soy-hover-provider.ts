@@ -3,8 +3,8 @@ import { SoyDefinitionProvider } from '../definition-provider/soy-definition-pro
 import { SoyReferenceProvider } from '../reference-provider/soy-reference-provider';
 
 export class SoyHoverProvider implements vscode.HoverProvider {
-    soyDefinitionProvider: SoyDefinitionProvider;
-    soyReferenceProvider: SoyReferenceProvider;
+    private soyDefinitionProvider: SoyDefinitionProvider;
+    private soyReferenceProvider: SoyReferenceProvider;
 
     constructor(soyDefinitionProvider, soyReferenceProvider) {
         this.soyDefinitionProvider = soyDefinitionProvider;

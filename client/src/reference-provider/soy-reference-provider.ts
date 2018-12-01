@@ -4,7 +4,7 @@ import { parseFilesForReferences, parseFile } from './parse';
 import { getNamespace, getAliases, getMatchingAlias, createLocation, normalizeAliasTemplate } from '../template-utils';
 
 export class SoyReferenceProvider implements vscode.ReferenceProvider {
-    callMap: TemplatePathMap;
+    private callMap: TemplatePathMap;
 
     public parseWorkspaceFolders (wsFolders: string[][]): void {
         this.callMap = parseFilesForReferences(wsFolders);
@@ -23,7 +23,7 @@ export class SoyReferenceProvider implements vscode.ReferenceProvider {
         let records: TemplatePathDescription[];
 
         return new Promise<vscode.Location[]>(resolve => {
-            if (!templateToSearchFor) {
+            if (!templateToSearchFor || !this.callMap) {
                 resolve(null);
             }
 

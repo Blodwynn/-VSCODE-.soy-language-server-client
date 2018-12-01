@@ -1,5 +1,4 @@
-import { CompletionItemProvider, TextDocument, Position, CancellationToken, CompletionContext, ProviderResult } from "vscode";
-// CompletionItem
+import { CompletionItemProvider, TextDocument, Position, CancellationToken, CompletionContext, ProviderResult, CompletionItem, CompletionList } from "vscode";
 import { TriggerCharacters } from '../constants';
 import { CompletionItemKind, CompletionTriggerKind } from "vscode-languageclient";
 import { SoyDefinitionProvider } from '../definition-provider/soy-definition-provider';
@@ -11,58 +10,49 @@ export class SoyCompletionItemProvider implements CompletionItemProvider {
         this.soyDefinitionProvider = soyDefinitionProvider;
     }
 
-    provideCompletionItems (document: TextDocument, position: Position, token: CancellationToken, context: CompletionContext): ProviderResult<any> {
+    provideCompletionItems (document: TextDocument, position: Position, token: CancellationToken, context: CompletionContext): ProviderResult<CompletionList> {
         return new Promise((resolve) => {
             if(document || position || token || context) {
-                console.log('document: ', document);
-                console.log('position: ', position);
-                console.log('context: ', context);
+                // console.log('document: ', document);
+                // console.log('position: ', position);
+                // console.log('context: ', context);
             }
 
+            console.log('getDefinitionList', this.soyDefinitionProvider.getDefinitionList());
+
             if (context.triggerKind === 0) {
-                resolve([
-                    {
-                        label: 'if block',
-                        kind: CompletionItemKind.Keyword,
-                        insertTextRules: 'text',
-                        insertText: [
-                            "if ${1:condition}}",
-                            "    ${2:statements}",
-                            "{/if}"
-                        ].join('\n')
-                    }
-                ]);
+                // Todo ctrl+space
+                resolve(null);
             } else if (context.triggerKind === CompletionTriggerKind.Invoked) {
                 if (context.triggerCharacter === TriggerCharacters.Dot) {
+                    const list: CompletionList = new CompletionList([], true);
 
+                    list.items = [
+                        this.buildCompletionItem(
+                            'if block',
+                            CompletionItemKind.Snippet,
+                            [
+                                "if ${1:condition}}",
+                                "    ${2:statements}",
+                                "{/if}"
+                            ].join('\n'))
+                    ];
+
+                    resolve(list);
                 } else if (context.triggerCharacter === TriggerCharacters.LeftBrace) {
                     // Todo
-                    resolve([{
-                        label: 'simpleText',
-                        kind: 'text',
-                        insertText: 'simpleText'
-                    }, {
-                        label: 'testing',
-                        kind: 'text',
-                        insertText: 'testing(${1:condition})',
-                        insertTextRules: 'text'
-                    }, {
-                        label: 'ifelse',
-                        kind: 'text',
-                        insertText: [
-                            'if (${1:condition}) {',
-                            '\t$0',
-                            '} else {',
-                            '\t',
-                            '}'
-                        ].join('\n'),
-                        insertTextRules: 'text',
-                        documentation: 'If-Else Statement'
-                    }]);
                 }
             }
 
             resolve(null);
         });
     }
+
+    private buildCompletionItem (label: string, itemKind: CompletionItemKind, insertText: string): CompletionItem {
+        const completionItem: CompletionItem = new CompletionItem(label, itemKind);
+        completionItem.insertText = insertText;
+
+        return completionItem;
+    }
+
 }
