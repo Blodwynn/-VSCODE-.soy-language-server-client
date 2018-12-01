@@ -66,16 +66,17 @@ export class SoyDefinitionProvider implements vscode.DefinitionProvider {
 
     private getTemplateDescription(templateToSearchFor: string, document: vscode.TextDocument): TemplatePathDescription[]  {
         const documentText: string = document.getText();
-        const namespace: string = getNamespace(documentText);
-        const aliases: AliasMap[] = getAliases(documentText);
         let templateData: TemplatePathDescription[];
 
         if (templateToSearchFor.startsWith('.')) {
+            const namespace: string = getNamespace(documentText);
+
             templateData = this.templatePathMap[`${namespace}${templateToSearchFor}`];
         } else {
             templateData = this.templatePathMap[templateToSearchFor];
 
             if (!templateData) {
+                const aliases: AliasMap[] = getAliases(documentText);
                 const alias: string = getMatchingAlias(templateToSearchFor, aliases);
 
                 if (alias) {

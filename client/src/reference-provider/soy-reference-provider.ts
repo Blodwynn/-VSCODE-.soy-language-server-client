@@ -19,7 +19,6 @@ export class SoyReferenceProvider implements vscode.ReferenceProvider {
         const documentText: string = document.getText();
         const wordRange: vscode.Range = document.getWordRangeAtPosition(position, /[\w\d.]+/);
         const templateToSearchFor: string = document.getText(wordRange);
-        const namespace: string = getNamespace(documentText);
         let records: TemplatePathDescription[];
 
         return new Promise<vscode.Location[]>(resolve => {
@@ -28,6 +27,7 @@ export class SoyReferenceProvider implements vscode.ReferenceProvider {
             }
 
             if (templateToSearchFor.startsWith('.')) {
+                const namespace: string = getNamespace(documentText);
                 records = this.callMap[`${namespace}${templateToSearchFor}`];
             } else {
                 const aliases: AliasMap[] = getAliases(documentText);
