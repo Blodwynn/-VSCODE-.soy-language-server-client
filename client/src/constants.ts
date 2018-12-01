@@ -14,3 +14,8 @@ export enum Commands {
 export enum ExtensionData {
     ExtensionIdentifier = 'Blodwynn.soysyntaxchecker'
 }
+
+export enum TriggerCharacters {
+    Dot = '.',
+    LeftBrace = '{'
+}

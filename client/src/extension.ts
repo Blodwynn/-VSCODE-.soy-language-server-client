@@ -9,14 +9,16 @@ import { SoyDefinitionProvider } from './definition-provider/soy-definition-prov
 import { SoyReferenceProvider } from './reference-provider/soy-reference-provider';
 import { SoyHoverProvider } from './hover-provider/soy-hover-provider';
 import { SoyDocumentSymbolProvider } from './document-symbol-provider/soy-document-symbol-provider';
+import { SoyCompletionItemProvider } from './completion-item-provider/soy-completion-item-provider';
 import { getSoyFiles, getSoyFile, getChangeLogPath } from './files';
 import { VersionManager } from './VersionManager';
-import { Commands } from './constants';
+import { Commands, TriggerCharacters } from './constants';
 
 const soyDefinitionProvider = new SoyDefinitionProvider();
 const soyReferenceProvider = new SoyReferenceProvider();
 const soyHoverProvider = new SoyHoverProvider(soyDefinitionProvider, soyReferenceProvider);
 const soyDocumentSymbolProvider = new SoyDocumentSymbolProvider();
+const soyCompletionItemProvider = new SoyCompletionItemProvider(soyDefinitionProvider);
 let client: LanguageClient;
 
 const soyDocFilter: vscode.DocumentFilter = {
@@ -58,6 +60,9 @@ function registerProviders (context: ExtensionContext): void {
     context.subscriptions.push(vscode.languages.registerReferenceProvider(soyDocFilter, soyReferenceProvider));
     context.subscriptions.push(vscode.languages.registerHoverProvider(soyDocFilter, soyHoverProvider));
     context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider(soyDocFilter, soyDocumentSymbolProvider));
+    context.subscriptions.push(vscode.languages.registerCompletionItemProvider(
+        soyDocFilter, soyCompletionItemProvider, TriggerCharacters.Dot, TriggerCharacters.LeftBrace
+    ));
 }
 
 function registerCommands (context: ExtensionContext): void {
