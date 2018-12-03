@@ -1,7 +1,7 @@
 import vscode = require('vscode');
-import { TemplatePathMap, TemplatePathDescription, AliasMap } from '../interfaces';
+import { TemplatePathMap, TemplatePathDescription } from '../interfaces';
 import { parseFiles, parseFile } from './parse';
-import { createLocation, normalizeAliasTemplate, getNamespace, getAliases, getMatchingAlias } from '../template-utils';
+import { createLocation, normalizeAliasTemplate, getNamespace, getMatchingAlias } from '../template-utils';
 
 export class SoyDefinitionProvider implements vscode.DefinitionProvider {
     private templatePathMap: TemplatePathMap;
@@ -76,8 +76,7 @@ export class SoyDefinitionProvider implements vscode.DefinitionProvider {
             templateData = this.templatePathMap[templateToSearchFor];
 
             if (!templateData) {
-                const aliases: AliasMap[] = getAliases(documentText);
-                const alias: string = getMatchingAlias(templateToSearchFor, aliases);
+                const alias: string = getMatchingAlias(templateToSearchFor, documentText);
 
                 if (alias) {
                     const fullTemplatePath: string = normalizeAliasTemplate(alias, templateToSearchFor);

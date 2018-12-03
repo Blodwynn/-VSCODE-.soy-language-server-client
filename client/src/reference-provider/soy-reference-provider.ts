@@ -1,7 +1,7 @@
-import { AliasMap, TemplatePathDescription, TemplatePathMap } from './../interfaces';
+import { TemplatePathDescription, TemplatePathMap } from './../interfaces';
 import vscode = require('vscode');
 import { parseFilesForReferences, parseFile } from './parse';
-import { getNamespace, getAliases, getMatchingAlias, createLocation, normalizeAliasTemplate } from '../template-utils';
+import { getNamespace, getMatchingAlias, createLocation, normalizeAliasTemplate } from '../template-utils';
 
 export class SoyReferenceProvider implements vscode.ReferenceProvider {
     private callMap: TemplatePathMap;
@@ -30,8 +30,7 @@ export class SoyReferenceProvider implements vscode.ReferenceProvider {
                 const namespace: string = getNamespace(documentText);
                 records = this.callMap[`${namespace}${templateToSearchFor}`];
             } else {
-                const aliases: AliasMap[] = getAliases(documentText);
-                const alias: string = getMatchingAlias(templateToSearchFor, aliases);
+                const alias: string = getMatchingAlias(templateToSearchFor, documentText);
 
                 if (alias) {
                     const fullTemplatePath = normalizeAliasTemplate(alias, templateToSearchFor);

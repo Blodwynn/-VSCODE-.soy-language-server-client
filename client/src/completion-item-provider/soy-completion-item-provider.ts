@@ -2,8 +2,8 @@ import { CompletionItemProvider, TextDocument, Position, CancellationToken, Comp
 import { TriggerCharacters } from '../constants';
 import { CompletionItemKind, CompletionTriggerKind } from "vscode-languageclient";
 import { SoyDefinitionProvider } from '../definition-provider/soy-definition-provider';
-import { TemplatePathMap, AliasMap } from "../interfaces";
-import { getNamespace, getAliases, getMatchingAlias, normalizeAliasTemplate } from "../template-utils";
+import { TemplatePathMap } from "../interfaces";
+import { getNamespace, getMatchingAlias, normalizeAliasTemplate } from "../template-utils";
 
 export class SoyCompletionItemProvider implements CompletionItemProvider {
     soyDefinitionProvider: SoyDefinitionProvider;
@@ -32,8 +32,7 @@ export class SoyCompletionItemProvider implements CompletionItemProvider {
 
                         templateToSearchFor = `${namespace}${templateNameStart}`;
                     } else {
-                        const aliases: AliasMap[] = getAliases(documentText);
-                        const alias: string = getMatchingAlias(templateNameStart, aliases);
+                        const alias: string = getMatchingAlias(templateNameStart, documentText);
 
                         if (alias) {
                             templateToSearchFor = normalizeAliasTemplate(alias, templateNameStart);

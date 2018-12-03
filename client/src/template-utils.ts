@@ -18,7 +18,8 @@ export function getNamespace(documentText: string): string {
     return null;
 }
 
-export function getMatchingAlias(template: string, aliases: AliasMap[]): string {
+export function getMatchingAlias(template: string, documentText: string): string {
+    const aliases: AliasMap[] = getAliases(documentText);
     const matchablePart: string = template.split('.')[0];
     const matchingNamedAlias: AliasMap = aliases.find(aliasObj => aliasObj.aliasName === matchablePart);
     let alias: string;
@@ -33,7 +34,7 @@ export function getMatchingAlias(template: string, aliases: AliasMap[]): string 
     return alias;
 }
 
-export function getAliases(documentText: string): AliasMap[] {
+function getAliases(documentText: string): AliasMap[] {
     const aliasPattern: RegExp = /\{alias\s*([\w\d.]+)(?:\s*as\s*([\w\d.]+))?/gm;
     let aliases: AliasMap[] = [];
     let m;

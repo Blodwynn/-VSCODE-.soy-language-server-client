@@ -1,7 +1,7 @@
 import linenumber = require('linenumber');
 import fs = require('fs');
-import { getNamespace, getAliases, getMatchingAlias, normalizeAliasTemplate } from '../template-utils';
-import { TemplatePathDescription, AliasMap, TemplatePathMap } from '../interfaces';
+import { getNamespace, getMatchingAlias, normalizeAliasTemplate } from '../template-utils';
+import { TemplatePathDescription, TemplatePathMap } from '../interfaces';
 
 function escapeRegExp (string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
@@ -49,20 +49,19 @@ function insertCalls (templateName: string, file: string, lineNrs: any[], allCal
 }
 
 export function parseFile (file: string, allCallMaps: TemplatePathMap) {
-    const content: string = fs.readFileSync(file, "utf8");
-    const namespace: string = getNamespace(content);
+    const documentText: string = fs.readFileSync(file, "utf8");
+    const namespace: string = getNamespace(documentText);
     const callPattern: RegExp = /\{(?:del)?call ([\w\d.]+)[^\w\d.].*/gm;
     let m: RegExpExecArray;
 
-    while (m = callPattern.exec(content)) {
-        const lineNr = linenumber(content, escapeRegExp(m[0]));
+    while (m = callPattern.exec(documentText)) {
+        const lineNr = linenumber(documentText, escapeRegExp(m[0]));
         const template = m[1];
 
         if (template.startsWith('.')) {
             insertCalls(`${namespace}${template}`, file, lineNr, allCallMaps);
         } else {
-            const aliases: AliasMap[] = getAliases(content);
-            const alias: string = getMatchingAlias(template, aliases);
+            const alias: string = getMatchingAlias(template, documentText);
 
             if (alias) {
                 const fullTemplatePath: string = normalizeAliasTemplate(alias, template);
