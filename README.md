@@ -5,6 +5,7 @@ Add full file support for `.soy` files. See section below. :)
 - Syntax highlight
 - Syntax check: inline error and warning underline
 - Go to definition support
+- Code autocompletion
 - Snippets
 - Outline
 
@@ -17,6 +18,9 @@ Add full file support for `.soy` files. See section below. :)
 
 ### Find All References
 - `Find all references` with shortcut or from context menu
+
+### Code Autocompletion
+- Autocomplete for template calls
 
 ### Commands
 - `Soy Extension: Reparse workspace`: Useful after external changes (eg: switching branches) to find all new template data

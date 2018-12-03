@@ -1,5 +1,8 @@
 # Soy File Support - What's new?
 
+## [3.15.0] - 2018/12/03
+- adding autocompletion support for template calls
+
 ## [3.14.0] - 2018/11/29
 - changelog popping up upon new version release
 - fixing issue with dropping all definitions of a `deltemplate` when modifying one of it's implementations
