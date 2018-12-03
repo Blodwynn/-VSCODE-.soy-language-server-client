@@ -15,7 +15,7 @@ export class SoyDefinitionProvider implements vscode.DefinitionProvider {
         parseFile(documentPath, this.templatePathMap);
     }
 
-	public provideDefinition (document: vscode.TextDocument, position: vscode.Position): Thenable<vscode.Location[]> {
+    public provideDefinition (document: vscode.TextDocument, position: vscode.Position): Thenable<vscode.Location[]> {
         if (!this.templatePathMap) {
             return Promise.resolve(null);
         }
@@ -64,7 +64,7 @@ export class SoyDefinitionProvider implements vscode.DefinitionProvider {
         return Promise.resolve(templateData);
     }
 
-    private getTemplateDescription(templateToSearchFor: string, document: vscode.TextDocument): TemplatePathDescription[]  {
+    private getTemplateDescription (templateToSearchFor: string, document: vscode.TextDocument): TemplatePathDescription[]  {
         const documentText: string = document.getText();
         let templateData: TemplatePathDescription[];
 

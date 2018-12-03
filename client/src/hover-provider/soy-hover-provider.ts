@@ -6,21 +6,9 @@ export class SoyHoverProvider implements vscode.HoverProvider {
     private soyDefinitionProvider: SoyDefinitionProvider;
     private soyReferenceProvider: SoyReferenceProvider;
 
-    constructor(soyDefinitionProvider, soyReferenceProvider) {
+    constructor (soyDefinitionProvider, soyReferenceProvider) {
         this.soyDefinitionProvider = soyDefinitionProvider;
         this.soyReferenceProvider = soyReferenceProvider;
-    }
-
-    private createSentence (numberOfItems: number, itemName: string): string {
-        const plural = `${itemName}s`;
-
-        if (!numberOfItems) {
-            return `No ${plural} found.`;
-        } else if (numberOfItems === 1) {
-            return `1 ${itemName} is available.`;
-        } else {
-            return `${numberOfItems} ${plural} are available.`;
-        }
     }
 
     public provideHover (document: vscode.TextDocument, position: vscode.Position): Thenable<vscode.Hover> {
@@ -45,5 +33,17 @@ export class SoyHoverProvider implements vscode.HoverProvider {
                 resolve(null);
             }
         });
+    }
+
+    private createSentence (numberOfItems: number, itemName: string): string {
+        const plural = `${itemName}s`;
+
+        if (!numberOfItems) {
+            return `No ${plural} found.`;
+        } else if (numberOfItems === 1) {
+            return `1 ${itemName} is available.`;
+        } else {
+            return `${numberOfItems} ${plural} are available.`;
+        }
     }
 }

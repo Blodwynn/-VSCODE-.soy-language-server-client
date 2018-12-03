@@ -34,10 +34,10 @@ export class SoyDocumentSymbolProvider implements DocumentSymbolProvider {
 
     private getTokenSymbolKind (token: string): SymbolKind {
         const symbolTokenMap = {
-            'template': SymbolKind.Class,
-            'deltemplate': SymbolKind.Class,
-            'call': SymbolKind.Function,
-            'delcall': SymbolKind.Function
+            template:    SymbolKind.Class,
+            deltemplate: SymbolKind.Class,
+            call:        SymbolKind.Function,
+            delcall:     SymbolKind.Function
         };
 
         return symbolTokenMap[token];

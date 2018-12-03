@@ -1,18 +1,28 @@
-import { CompletionItemProvider, TextDocument, Position, CancellationToken, CompletionContext, ProviderResult, CompletionItem, CompletionList, Range } from "vscode";
+import {
+    CompletionItemProvider,
+    TextDocument,
+    Position,
+    CancellationToken,
+    CompletionContext,
+    ProviderResult,
+    CompletionItem,
+    CompletionList,
+    Range
+} from 'vscode';
 import { TriggerCharacters } from '../constants';
-import { CompletionItemKind, CompletionTriggerKind } from "vscode-languageclient";
+import { CompletionItemKind, CompletionTriggerKind } from 'vscode-languageclient';
 import { SoyDefinitionProvider } from '../definition-provider/soy-definition-provider';
-import { TemplatePathMap } from "../interfaces";
-import { getNamespace, getMatchingAlias, normalizeAliasTemplate } from "../template-utils";
+import { TemplatePathMap } from '../interfaces';
+import { getNamespace, getMatchingAlias, normalizeAliasTemplate } from '../template-utils';
 
 export class SoyCompletionItemProvider implements CompletionItemProvider {
-    soyDefinitionProvider: SoyDefinitionProvider;
+    private soyDefinitionProvider: SoyDefinitionProvider;
 
     constructor (soyDefinitionProvider: SoyDefinitionProvider) {
         this.soyDefinitionProvider = soyDefinitionProvider;
     }
 
-    provideCompletionItems (document: TextDocument, position: Position, token: CancellationToken, context: CompletionContext): ProviderResult<CompletionList> {
+    public provideCompletionItems (document: TextDocument, position: Position, token: CancellationToken, context: CompletionContext): ProviderResult<CompletionList> {
         return new Promise((resolve) => {
             if (token.isCancellationRequested) {
                 resolve(null);
@@ -62,11 +72,11 @@ export class SoyCompletionItemProvider implements CompletionItemProvider {
     private buildCompletionItem (templateName: string, omittablePrefix: string): CompletionItem {
         const completion: string = templateName.replace(new RegExp(`^${omittablePrefix}`), '');
 
-        return <CompletionItem>{
+        return {
             label: completion,
             kind: CompletionItemKind.Function,
             insertText: completion
-        };
+        } as CompletionItem;
     }
 
     private getCompletionItemsData (templateNameStart: string): string[] {
