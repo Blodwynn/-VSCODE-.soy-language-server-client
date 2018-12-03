@@ -14,6 +14,10 @@ export class SoyCompletionItemProvider implements CompletionItemProvider {
 
     provideCompletionItems (document: TextDocument, position: Position, token: CancellationToken, context: CompletionContext): ProviderResult<CompletionList> {
         return new Promise((resolve) => {
+            if (token.isCancellationRequested) {
+                resolve(null);
+            }
+
             const wordRange: Range = document.getWordRangeAtPosition(position, /(del)?call\s+[\w\d.]+/);
 
             if (wordRange && context.triggerKind === CompletionTriggerKind.Invoked) {
