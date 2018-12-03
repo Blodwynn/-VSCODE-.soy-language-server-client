@@ -8,7 +8,7 @@ const excludeFromFileSearch: string[] = [
 ];
 
 export function getSoyFiles (): Thenable<string[][]> {
-    let promises = [];
+    const promises = [];
 
     vscode.workspace.workspaceFolders.forEach(wsFolder => {
         const globalSoyFilesPath = path.join(wsFolder.uri.fsPath, '**', '*.soy');

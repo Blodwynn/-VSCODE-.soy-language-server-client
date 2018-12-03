@@ -111,7 +111,7 @@ export function activate (context: ExtensionContext): void {
     vscode.workspace.onDidSaveTextDocument(e => {
         getSoyFile(e.uri.fsPath)
             .then(file => {
-                const filePath: string = <string>file[0];
+                const filePath: string = file[0] as string;
 
                 soyDefinitionProvider.parseSingleFile(filePath);
                 soyReferenceProvider.parseSingleFile(filePath);

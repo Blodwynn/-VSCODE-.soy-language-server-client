@@ -3,8 +3,8 @@ import fs = require('fs');
 import { getNamespace, getMatchingAlias, normalizeAliasTemplate } from '../template-utils';
 import { TemplatePathDescription, TemplatePathMap } from '../interfaces';
 
-function escapeRegExp (string) {
-    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+function escapeRegExp (unescapedString: string) {
+    return unescapedString.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
 
 function isIncluded (templateName: string, file: string, line: number, allCallMaps: TemplatePathMap): boolean {
@@ -31,16 +31,16 @@ function insertElementWithKey (templateName: string, fileLocation: TemplatePathD
     }
 }
 
-function insertCalls (templateName: string, file: string, lineNrs: any[], allCallMaps: TemplatePathMap) {
+function insertCalls (templateName: string, path: string, lineNrs: any[], allCallMaps: TemplatePathMap) {
     lineNrs.forEach(lineItem => {
         const line = lineItem.line - 1;
 
-        if (!isIncluded(templateName, file, line, allCallMaps)) {
+        if (!isIncluded(templateName, path, line, allCallMaps)) {
             insertElementWithKey(
                 templateName,
                 {
-                    path: file,
-                    line: line
+                    path,
+                    line
                 },
                 allCallMaps
             );
@@ -49,7 +49,7 @@ function insertCalls (templateName: string, file: string, lineNrs: any[], allCal
 }
 
 export function parseFile (file: string, allCallMaps: TemplatePathMap) {
-    const documentText: string = fs.readFileSync(file, "utf8");
+    const documentText: string = fs.readFileSync(file, 'utf8');
     const namespace: string = getNamespace(documentText);
     const callPattern: RegExp = /\{(?:del)?call ([\w\d.]+)[^\w\d.].*/gm;
     let m: RegExpExecArray;
@@ -74,7 +74,7 @@ export function parseFile (file: string, allCallMaps: TemplatePathMap) {
 }
 
 export function parseFilesForReferences (wsFolders: string[][]): TemplatePathMap {
-    let allCallMaps: TemplatePathMap = {};
+    const allCallMaps: TemplatePathMap = {};
 
     wsFolders.forEach(
         files => files.forEach(

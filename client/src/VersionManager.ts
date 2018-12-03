@@ -3,8 +3,8 @@ import { ExtensionContext, extensions } from 'vscode';
 import { GlobalState, ExtensionData } from './constants';
 
 export class VersionManager {
-    context: ExtensionContext;
-    extension: vscode.Extension<any>;
+    private context: ExtensionContext;
+    private extension: vscode.Extension<any>;
 
     constructor (context: ExtensionContext) {
         this.context = context;

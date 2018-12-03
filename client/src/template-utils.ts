@@ -1,13 +1,13 @@
 import { AliasMap, TemplatePathDescription } from './interfaces';
 import vscode = require('vscode');
 
-export function normalizeAliasTemplate(alias: string, template: string): string {
+export function normalizeAliasTemplate (alias: string, template: string): string {
     const truncatedTemplatePath: string = template.substr(template.indexOf('.'));
 
     return `${alias}${truncatedTemplatePath}`;
 }
 
-export function getNamespace(documentText: string): string {
+export function getNamespace (documentText: string): string {
     const namespacePattern: RegExp = /\{namespace\s*([\w\d.]+)/;
     const namespaceMatch = namespacePattern.exec(documentText);
 
@@ -18,7 +18,7 @@ export function getNamespace(documentText: string): string {
     return null;
 }
 
-export function getMatchingAlias(template: string, documentText: string): string {
+export function getMatchingAlias (template: string, documentText: string): string {
     const aliases: AliasMap[] = getAliases(documentText);
     const matchablePart: string = template.split('.')[0];
     const matchingNamedAlias: AliasMap = aliases.find(aliasObj => aliasObj.aliasName === matchablePart);
@@ -34,10 +34,10 @@ export function getMatchingAlias(template: string, documentText: string): string
     return alias;
 }
 
-function getAliases(documentText: string): AliasMap[] {
+function getAliases (documentText: string): AliasMap[] {
     const aliasPattern: RegExp = /\{alias\s*([\w\d.]+)(?:\s*as\s*([\w\d.]+))?/gm;
-    let aliases: AliasMap[] = [];
-    let m;
+    const aliases: AliasMap[] = [];
+    let m: RegExpExecArray;
 
     while (m = aliasPattern.exec(documentText)) {
         const alias = m[1];
@@ -52,11 +52,11 @@ function getAliases(documentText: string): AliasMap[] {
     return aliases;
 }
 
-export function createLocation(definitionInfo: TemplatePathDescription) {
-    if (definitionInfo == null || definitionInfo.path == null) return null;
+export function createLocation (definitionInfo: TemplatePathDescription) {
+    if (definitionInfo == null || definitionInfo.path == null) { return null; }
 
-    let definitionResource = vscode.Uri.file(definitionInfo.path);
-    let pos = new vscode.Position(definitionInfo.line, 1);
+    const definitionResource = vscode.Uri.file(definitionInfo.path);
+    const pos = new vscode.Position(definitionInfo.line, 1);
 
     return new vscode.Location(definitionResource, pos);
 }

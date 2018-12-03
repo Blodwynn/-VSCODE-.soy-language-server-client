@@ -4,7 +4,7 @@ export interface TemplatePathDescription {
 }
 
 export interface TemplatePathMap {
-    [template: string]: TemplatePathDescription[]
+    [template: string]: TemplatePathDescription[];
 }
 
 export interface AliasMap {

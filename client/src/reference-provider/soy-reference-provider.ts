@@ -8,7 +8,7 @@ export class SoyReferenceProvider implements vscode.ReferenceProvider {
 
     public parseWorkspaceFolders (wsFolders: string[][]): void {
         this.callMap = parseFilesForReferences(wsFolders);
-	}
+    }
 
     public parseSingleFile (documentPath: string): void {
         this.removeCallsFromFile(documentPath);

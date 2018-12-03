@@ -34,4 +34,4 @@ export default {
     error,
     breakingChange,
     todo
-}
+};

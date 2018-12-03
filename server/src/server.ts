@@ -16,13 +16,13 @@ import {
     DidChangeConfigurationNotification
 } from 'vscode-languageserver';
 
-let connection = createConnection(ProposedFeatures.all);
-let documents: TextDocuments = new TextDocuments();
+const connection = createConnection(ProposedFeatures.all);
+const documents: TextDocuments = new TextDocuments();
 let hasConfigurationCapability: boolean = false;
 let hasWorkspaceFolderCapability: boolean = false;
 
 connection.onInitialize((params: InitializeParams) => {
-    let capabilities = params.capabilities;
+    const capabilities = params.capabilities;
 
     // Does the client support the `workspace/configuration` request?
     // If not, we will fall back using global settings
@@ -50,9 +50,9 @@ connection.onInitialized(() => {
         );
     }
     if (hasWorkspaceFolderCapability) {
-        connection.workspace.onDidChangeWorkspaceFolders(_event => {
-            connection.console.log('Workspace folder change event received.');
-        });
+        // connection.workspace.onDidChangeWorkspaceFolders(_event => {
+        //     connection.console.log('Workspace folder change event received.');
+        // });
     }
 });
 
@@ -63,21 +63,21 @@ const defaultSettings: SoyConfigSettings = {
 };
 let globalSettings: SoyConfigSettings = defaultSettings;
 
-let documentSettings: Map<string, Thenable<SoyConfigSettings>> = new Map();
+const documentSettings: Map<string, Thenable<SoyConfigSettings>> = new Map();
 
 connection.onDidChangeConfiguration(change => {
     if (hasConfigurationCapability) {
         documentSettings.clear();
     } else {
-        globalSettings = <SoyConfigSettings>(
+        globalSettings = (
             (change.settings.soyLanguageServer || defaultSettings)
-        );
+        ) as SoyConfigSettings;
     }
 
     documents.all().forEach(validateSoyDocument);
 });
 
-function getDocumentSettings(resource: string): Thenable<SoyConfigSettings> {
+function getDocumentSettings (resource: string): Thenable<SoyConfigSettings> {
     if (!hasConfigurationCapability) {
         return Promise.resolve(globalSettings);
     }
@@ -104,10 +104,10 @@ documents.onDidClose(change => {
     connection.sendDiagnostics({ uri: change.document.uri, diagnostics: [] });
 });
 
-function validateWithPattern(errorItem: ErrorItem, text: string, textDocument: TextDocument, severity: DiagnosticSeverity): Diagnostic[] {
+function validateWithPattern (errorItem: ErrorItem, text: string, textDocument: TextDocument, severity: DiagnosticSeverity): Diagnostic[] {
     const pattern: RegExp = errorItem.pattern;
     const message: string = errorItem.message;
-    let diagnosticResults : Diagnostic[] = [];
+    const diagnosticResults: Diagnostic[] = [];
     let m: RegExpExecArray;
 
     while (m = pattern.exec(text)) {
@@ -127,8 +127,8 @@ function validateWithPattern(errorItem: ErrorItem, text: string, textDocument: T
     return diagnosticResults;
 }
 
-function validatePatterns(errorItems: any[], text: string, textDocument: TextDocument, severity: DiagnosticSeverity): Diagnostic[] {
-    let diagnosticResults : Diagnostic[] = [];
+function validatePatterns (errorItems: any[], text: string, textDocument: TextDocument, severity: DiagnosticSeverity): Diagnostic[] {
+    let diagnosticResults: Diagnostic[] = [];
 
     errorItems.forEach(errorItem  => {
         diagnosticResults = diagnosticResults.concat(validateWithPattern(errorItem, text, textDocument, severity));
@@ -137,10 +137,10 @@ function validatePatterns(errorItems: any[], text: string, textDocument: TextDoc
     return diagnosticResults;
 }
 
-async function validateSoyDocument(textDocument: TextDocument): Promise<void> {
-    let settings = await getDocumentSettings(textDocument.uri);
-    let text = textDocument.getText();
-    let diagnostics: Diagnostic[] = [];
+async function validateSoyDocument (textDocument: TextDocument): Promise<void> {
+    const settings = await getDocumentSettings(textDocument.uri);
+    const text = textDocument.getText();
+    const diagnostics: Diagnostic[] = [];
 
     if (!settings.ignoreErrors) {
         diagnostics.push(...validatePatterns(patterns.error, text, textDocument, DiagnosticSeverity.Error));
@@ -157,9 +157,9 @@ async function validateSoyDocument(textDocument: TextDocument): Promise<void> {
     connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
 }
 
-connection.onDidChangeWatchedFiles(_change => {
-    connection.console.log('We received an file change event');
-});
+// connection.onDidChangeWatchedFiles(_change => {
+//     connection.console.log('We received an file change event');
+// });
 
 documents.listen(connection);
 connection.listen();
