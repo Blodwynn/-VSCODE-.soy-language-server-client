@@ -1,7 +1,9 @@
-import { CompletionItemProvider, TextDocument, Position, CancellationToken, CompletionContext, ProviderResult, CompletionItem, CompletionList } from "vscode";
+import { CompletionItemProvider, TextDocument, Position, CancellationToken, CompletionContext, ProviderResult, CompletionItem, CompletionList, Range } from "vscode";
 import { TriggerCharacters } from '../constants';
 import { CompletionItemKind, CompletionTriggerKind } from "vscode-languageclient";
 import { SoyDefinitionProvider } from '../definition-provider/soy-definition-provider';
+import { TemplatePathMap, AliasMap } from "../interfaces";
+import { getNamespace, getAliases, getMatchingAlias, normalizeAliasTemplate } from "../template-utils";
 
 export class SoyCompletionItemProvider implements CompletionItemProvider {
     soyDefinitionProvider: SoyDefinitionProvider;
@@ -12,47 +14,65 @@ export class SoyCompletionItemProvider implements CompletionItemProvider {
 
     provideCompletionItems (document: TextDocument, position: Position, token: CancellationToken, context: CompletionContext): ProviderResult<CompletionList> {
         return new Promise((resolve) => {
-            if(document || position || token || context) {
-                // console.log('document: ', document);
-                // console.log('position: ', position);
-                // console.log('context: ', context);
-            }
+            const wordRange: Range = document.getWordRangeAtPosition(position, /(del)?call\s+[\w\d.]+/);
 
-            console.log('getDefinitionList', this.soyDefinitionProvider.getDefinitionList());
-
-            if (context.triggerKind === 0) {
-                // Todo ctrl+space
-                resolve(null);
-            } else if (context.triggerKind === CompletionTriggerKind.Invoked) {
+            if (wordRange && context.triggerKind === CompletionTriggerKind.Invoked) {
                 if (context.triggerCharacter === TriggerCharacters.Dot) {
-                    const list: CompletionList = new CompletionList([], true);
+                    const documentText: string = document.getText();
+                    const templateCall: string = document.getText(wordRange);
+                    const templateNameStart: string = templateCall.match(/(?:del)?call\s+([\w\d.]+)/)[1];
+                    let templateToSearchFor: string;
 
-                    list.items = [
-                        this.buildCompletionItem(
-                            'if block',
-                            CompletionItemKind.Snippet,
-                            [
-                                "if ${1:condition}}",
-                                "    ${2:statements}",
-                                "{/if}"
-                            ].join('\n'))
-                    ];
+                    if (templateNameStart.startsWith('.')) {
+                        const namespace: string = getNamespace(documentText);
 
-                    resolve(list);
-                } else if (context.triggerCharacter === TriggerCharacters.LeftBrace) {
-                    // Todo
+                        templateToSearchFor = `${namespace}${templateNameStart}`;
+                    } else {
+                        const aliases: AliasMap[] = getAliases(documentText);
+                        const alias: string = getMatchingAlias(templateNameStart, aliases);
+
+                        if (alias) {
+                            templateToSearchFor = normalizeAliasTemplate(alias, templateNameStart);
+                        } else {
+                            templateToSearchFor = templateNameStart;
+                        }
+                    }
+
+                    const completionItems: string[] = this.getCompletionItemsData(templateToSearchFor);
+
+                    resolve(new CompletionList(
+                        completionItems.map(
+                            templateName => this.buildCompletionItem(templateName, templateToSearchFor)
+                        ),
+                        false
+                    ));
                 }
+                // else if (context.triggerCharacter === TriggerCharacters.LeftBrace) {
+                //     // Todo - provide snippets
+                // }
             }
 
             resolve(null);
         });
     }
 
-    private buildCompletionItem (label: string, itemKind: CompletionItemKind, insertText: string): CompletionItem {
-        const completionItem: CompletionItem = new CompletionItem(label, itemKind);
-        completionItem.insertText = insertText;
+    private buildCompletionItem (templateName: string, omittablePrefix: string): CompletionItem {
+        const completion: string = templateName.replace(new RegExp(`^${omittablePrefix}`), '');
 
-        return completionItem;
+        return <CompletionItem>{
+            label: completion,
+            kind: CompletionItemKind.Function,
+            insertText: completion
+        };
     }
 
+    private getCompletionItemsData (templateNameStart: string): string[] {
+        const definitionList: TemplatePathMap = this.soyDefinitionProvider.getDefinitionList();
+
+        if (!definitionList) {
+            return [];
+        }
+
+        return Object.keys(definitionList).filter(templateName => templateName.startsWith(templateNameStart));
+    }
 }
