@@ -1,8 +1,8 @@
 import linenumber = require('linenumber');
 import fs = require('fs');
-import { TemplatePathMap, TemplatePathDescription } from '../interfaces';
+import { ITemplatePathMap, ITemplatePathDescription } from '../interfaces';
 
-function insertElementWithKey (templateName: string, element: TemplatePathDescription, allTemplatePathMaps: TemplatePathMap): void {
+function insertElementWithKey (templateName: string, element: ITemplatePathDescription, allTemplatePathMaps: ITemplatePathMap): void {
     if (Array.isArray(allTemplatePathMaps[templateName])) {
         allTemplatePathMaps[templateName].push(element);
     } else {
@@ -10,7 +10,7 @@ function insertElementWithKey (templateName: string, element: TemplatePathDescri
     }
 }
 
-export function parseFile (file: string, allTemplatePathMaps: TemplatePathMap) {
+export function parseFile (file: string, allTemplatePathMaps: ITemplatePathMap) {
     const namespacePattern: RegExp = /\{namespace ([\w\d.]+)/;
     const templatePattern: RegExp = /\{(del)?template ([\w\d.]+)([^\w\d.]).*/gm;
     const content: string = fs.readFileSync(file, 'utf8');
@@ -25,7 +25,7 @@ export function parseFile (file: string, allTemplatePathMaps: TemplatePathMap) {
             const templateName: string = n[2];
             const fullTemplateName: string = `${namespace}.${templateName}`;
 
-            const newItem: TemplatePathDescription = {
+            const newItem: ITemplatePathDescription = {
                 path: file,
                 line: lineNr[0].line - 1
             };
@@ -40,8 +40,8 @@ export function parseFile (file: string, allTemplatePathMaps: TemplatePathMap) {
     }
 }
 
-export function parseFiles (wsFolders): TemplatePathMap {
-    const allTemplatePathMaps: TemplatePathMap = {};
+export function parseFiles (wsFolders): ITemplatePathMap {
+    const allTemplatePathMaps: ITemplatePathMap = {};
 
     wsFolders.forEach(
         files => files.forEach(

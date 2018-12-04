@@ -1,13 +1,13 @@
-export interface TemplatePathDescription {
+export interface ITemplatePathDescription {
     path: string;
     line: number;
 }
 
-export interface TemplatePathMap {
-    [template: string]: TemplatePathDescription[];
+export interface ITemplatePathMap {
+    [template: string]: ITemplatePathDescription[];
 }
 
-export interface AliasMap {
+export interface IAliasMap {
     alias: string;
     aliasName: string;
 }

@@ -1,9 +1,9 @@
-export interface ErrorItem {
+export interface IErrorItem {
     pattern: RegExp;
     message: string;
 }
 
-export interface SoyConfigSettings {
+export interface ISoyConfigSettings {
     ignoreTodo: boolean;
     ignoreBreakingChange: boolean;
     ignoreErrors: boolean;

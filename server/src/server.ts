@@ -3,7 +3,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  * ------------------------------------------------------------------------------------------ */
 'use strict';
-import { SoyConfigSettings, ErrorItem } from './interfaces';
+import { ISoyConfigSettings, IErrorItem } from './interfaces';
 import patterns from './patterns';
 import {
     createConnection,
@@ -56,14 +56,14 @@ connection.onInitialized(() => {
     }
 });
 
-const defaultSettings: SoyConfigSettings = {
+const defaultSettings: ISoyConfigSettings = {
     ignoreTodo: false,
     ignoreBreakingChange: false,
     ignoreErrors: false
 };
-let globalSettings: SoyConfigSettings = defaultSettings;
+let globalSettings: ISoyConfigSettings = defaultSettings;
 
-const documentSettings: Map<string, Thenable<SoyConfigSettings>> = new Map();
+const documentSettings: Map<string, Thenable<ISoyConfigSettings>> = new Map();
 
 connection.onDidChangeConfiguration(change => {
     if (hasConfigurationCapability) {
@@ -71,13 +71,13 @@ connection.onDidChangeConfiguration(change => {
     } else {
         globalSettings = (
             (change.settings.soyLanguageServer || defaultSettings)
-        ) as SoyConfigSettings;
+        ) as ISoyConfigSettings;
     }
 
     documents.all().forEach(validateSoyDocument);
 });
 
-function getDocumentSettings (resource: string): Thenable<SoyConfigSettings> {
+function getDocumentSettings (resource: string): Thenable<ISoyConfigSettings> {
     if (!hasConfigurationCapability) {
         return Promise.resolve(globalSettings);
     }
@@ -104,7 +104,7 @@ documents.onDidClose(change => {
     connection.sendDiagnostics({ uri: change.document.uri, diagnostics: [] });
 });
 
-function validateWithPattern (errorItem: ErrorItem, text: string, textDocument: TextDocument, severity: DiagnosticSeverity): Diagnostic[] {
+function validateWithPattern (errorItem: IErrorItem, text: string, textDocument: TextDocument, severity: DiagnosticSeverity): Diagnostic[] {
     const pattern: RegExp = errorItem.pattern;
     const message: string = errorItem.message;
     const diagnosticResults: Diagnostic[] = [];

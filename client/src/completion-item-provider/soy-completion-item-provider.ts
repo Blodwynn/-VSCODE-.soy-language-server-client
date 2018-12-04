@@ -12,7 +12,7 @@ import {
 import { TriggerCharacters } from '../constants';
 import { CompletionItemKind, CompletionTriggerKind } from 'vscode-languageclient';
 import { SoyDefinitionProvider } from '../definition-provider/soy-definition-provider';
-import { TemplatePathMap } from '../interfaces';
+import { ITemplatePathMap } from '../interfaces';
 import { getNamespace, getMatchingAlias, normalizeAliasTemplate } from '../template-utils';
 
 export class SoyCompletionItemProvider implements CompletionItemProvider {
@@ -80,7 +80,7 @@ export class SoyCompletionItemProvider implements CompletionItemProvider {
     }
 
     private getCompletionItemsData (templateNameStart: string): string[] {
-        const definitionList: TemplatePathMap = this.soyDefinitionProvider.getDefinitionList();
+        const definitionList: ITemplatePathMap = this.soyDefinitionProvider.getDefinitionList();
 
         if (!definitionList) {
             return [];

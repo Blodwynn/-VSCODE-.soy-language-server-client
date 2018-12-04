@@ -1,10 +1,10 @@
-import { TemplatePathDescription, TemplatePathMap } from './../interfaces';
+import { ITemplatePathDescription, ITemplatePathMap } from './../interfaces';
 import vscode = require('vscode');
 import { parseFilesForReferences, parseFile } from './parse';
 import { getNamespace, getMatchingAlias, createLocation, normalizeAliasTemplate } from '../template-utils';
 
 export class SoyReferenceProvider implements vscode.ReferenceProvider {
-    private callMap: TemplatePathMap;
+    private callMap: ITemplatePathMap;
 
     public parseWorkspaceFolders (wsFolders: string[][]): void {
         this.callMap = parseFilesForReferences(wsFolders);
@@ -19,7 +19,7 @@ export class SoyReferenceProvider implements vscode.ReferenceProvider {
         const documentText: string = document.getText();
         const wordRange: vscode.Range = document.getWordRangeAtPosition(position, /[\w\d.]+/);
         const templateToSearchFor: string = document.getText(wordRange);
-        let records: TemplatePathDescription[];
+        let records: ITemplatePathDescription[];
 
         return new Promise<vscode.Location[]>(resolve => {
             if (!templateToSearchFor || !this.callMap) {

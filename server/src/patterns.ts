@@ -1,7 +1,7 @@
-import { ErrorItem } from './interfaces';
+import { IErrorItem } from './interfaces';
 
 // The patterns' only group will be the part underlined
-const error: ErrorItem[] = [
+const error: IErrorItem[] = [
     // LET
     { pattern: /(\{\s*let\s+\$[\w\d."'=]+\s*\/?\})/ig,          message: 'Empty declaration. Missing :value or kind=.'},
     { pattern: /(\{\s*let\s+\w+[^\n]*?\})/ig,                   message: 'Missing $ sign for variable declaration'},
@@ -22,11 +22,11 @@ const error: ErrorItem[] = [
     { pattern: /(\{deltemplate[^\n]*?\/\s*\})/ig,                message: 'Self closing is not applicable for deltemplates' }
 ];
 
-const breakingChange: ErrorItem[] = [
+const breakingChange: IErrorItem[] = [
     { pattern: /\/\/[^\n]*(breaking ?change)/ig, message: 'To be checked for followups' }
 ];
 
-const todo: ErrorItem[] = [
+const todo: IErrorItem[] = [
     { pattern: /\/\/[^\n]*(TO ?DO)/ig, message: 'To be checked for followups' }
 ];
 

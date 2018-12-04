@@ -13,9 +13,7 @@
         "space-before-function-paren": true,
         "no-conditional-assignment": false,
         "max-line-length": false,
-        "one-variable-per-declaration": false,
-
-        "interface-name": false
+        "one-variable-per-declaration": false
     },
     "rulesDirectory": []
 }

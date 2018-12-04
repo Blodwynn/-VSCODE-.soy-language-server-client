@@ -1,18 +1,18 @@
 import linenumber = require('linenumber');
 import fs = require('fs');
 import { getNamespace, getMatchingAlias, normalizeAliasTemplate } from '../template-utils';
-import { TemplatePathDescription, TemplatePathMap } from '../interfaces';
+import { ITemplatePathDescription, ITemplatePathMap } from '../interfaces';
 
 function escapeRegExp (unescapedString: string) {
     return unescapedString.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
 
-function isIncluded (templateName: string, file: string, line: number, allCallMaps: TemplatePathMap): boolean {
-    const templatePathDescription: TemplatePathDescription[] = allCallMaps[templateName];
+function isIncluded (templateName: string, file: string, line: number, allCallMaps: ITemplatePathMap): boolean {
+    const templatePathDescription: ITemplatePathDescription[] = allCallMaps[templateName];
 
     if (templatePathDescription) {
         const filtered = templatePathDescription.filter(
-            (templateData: TemplatePathDescription) => templateData.line === line && templateData.path === file
+            (templateData: ITemplatePathDescription) => templateData.line === line && templateData.path === file
         );
 
         if (filtered.length) {
@@ -23,7 +23,7 @@ function isIncluded (templateName: string, file: string, line: number, allCallMa
     return false;
 }
 
-function insertElementWithKey (templateName: string, fileLocation: TemplatePathDescription, allCallMaps: TemplatePathMap) {
+function insertElementWithKey (templateName: string, fileLocation: ITemplatePathDescription, allCallMaps: ITemplatePathMap) {
     if (Array.isArray(allCallMaps[templateName])) {
         allCallMaps[templateName].push(fileLocation);
     } else {
@@ -31,7 +31,7 @@ function insertElementWithKey (templateName: string, fileLocation: TemplatePathD
     }
 }
 
-function insertCalls (templateName: string, path: string, lineNrs: any[], allCallMaps: TemplatePathMap) {
+function insertCalls (templateName: string, path: string, lineNrs: any[], allCallMaps: ITemplatePathMap) {
     lineNrs.forEach(lineItem => {
         const line = lineItem.line - 1;
 
@@ -48,7 +48,7 @@ function insertCalls (templateName: string, path: string, lineNrs: any[], allCal
     });
 }
 
-export function parseFile (file: string, allCallMaps: TemplatePathMap) {
+export function parseFile (file: string, allCallMaps: ITemplatePathMap) {
     const documentText: string = fs.readFileSync(file, 'utf8');
     const namespace: string = getNamespace(documentText);
     const callPattern: RegExp = /\{(?:del)?call ([\w\d.]+)[^\w\d.].*/gm;
@@ -73,8 +73,8 @@ export function parseFile (file: string, allCallMaps: TemplatePathMap) {
     }
 }
 
-export function parseFilesForReferences (wsFolders: string[][]): TemplatePathMap {
-    const allCallMaps: TemplatePathMap = {};
+export function parseFilesForReferences (wsFolders: string[][]): ITemplatePathMap {
+    const allCallMaps: ITemplatePathMap = {};
 
     wsFolders.forEach(
         files => files.forEach(

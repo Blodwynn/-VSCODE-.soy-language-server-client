@@ -1,4 +1,4 @@
-import { AliasMap, TemplatePathDescription } from './interfaces';
+import { IAliasMap, ITemplatePathDescription } from './interfaces';
 import vscode = require('vscode');
 
 export function normalizeAliasTemplate (alias: string, template: string): string {
@@ -19,24 +19,24 @@ export function getNamespace (documentText: string): string {
 }
 
 export function getMatchingAlias (template: string, documentText: string): string {
-    const aliases: AliasMap[] = getAliases(documentText);
+    const aliases: IAliasMap[] = getAliases(documentText);
     const matchablePart: string = template.split('.')[0];
-    const matchingNamedAlias: AliasMap = aliases.find(aliasObj => aliasObj.aliasName === matchablePart);
+    const matchingNamedAlias: IAliasMap = aliases.find(aliasObj => aliasObj.aliasName === matchablePart);
     let alias: string;
 
     if (matchingNamedAlias) {
         alias = matchingNamedAlias.alias;
     } else {
-        const matchingAlias: AliasMap = aliases.find(aliasObj => aliasObj.alias.endsWith(matchablePart) && !aliasObj.aliasName);
+        const matchingAlias: IAliasMap = aliases.find(aliasObj => aliasObj.alias.endsWith(matchablePart) && !aliasObj.aliasName);
         alias = matchingAlias && matchingAlias.alias;
     }
 
     return alias;
 }
 
-function getAliases (documentText: string): AliasMap[] {
+function getAliases (documentText: string): IAliasMap[] {
     const aliasPattern: RegExp = /\{alias\s*([\w\d.]+)(?:\s*as\s*([\w\d.]+))?/gm;
-    const aliases: AliasMap[] = [];
+    const aliases: IAliasMap[] = [];
     let m: RegExpExecArray;
 
     while (m = aliasPattern.exec(documentText)) {
@@ -52,7 +52,7 @@ function getAliases (documentText: string): AliasMap[] {
     return aliases;
 }
 
-export function createLocation (definitionInfo: TemplatePathDescription) {
+export function createLocation (definitionInfo: ITemplatePathDescription) {
     if (definitionInfo == null || definitionInfo.path == null) { return null; }
 
     const definitionResource = vscode.Uri.file(definitionInfo.path);

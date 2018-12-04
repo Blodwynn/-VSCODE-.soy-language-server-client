@@ -1,10 +1,10 @@
 import vscode = require('vscode');
-import { TemplatePathMap, TemplatePathDescription } from '../interfaces';
+import { ITemplatePathMap, ITemplatePathDescription } from '../interfaces';
 import { parseFiles, parseFile } from './parse';
 import { createLocation, normalizeAliasTemplate, getNamespace, getMatchingAlias } from '../template-utils';
 
 export class SoyDefinitionProvider implements vscode.DefinitionProvider {
-    private templatePathMap: TemplatePathMap;
+    private templatePathMap: ITemplatePathMap;
 
     public parseWorkspaceFolders (wsFolders: string[][]): void {
         this.templatePathMap = parseFiles(wsFolders);
@@ -35,7 +35,7 @@ export class SoyDefinitionProvider implements vscode.DefinitionProvider {
             });
     }
 
-    public getDefinitionList (): TemplatePathMap {
+    public getDefinitionList (): ITemplatePathMap {
         return JSON.parse(JSON.stringify(this.templatePathMap));
     }
 
@@ -47,11 +47,11 @@ export class SoyDefinitionProvider implements vscode.DefinitionProvider {
         });
     }
 
-    private definitionLocation (document: vscode.TextDocument, position: vscode.Position): Promise<TemplatePathDescription[]> {
+    private definitionLocation (document: vscode.TextDocument, position: vscode.Position): Promise<ITemplatePathDescription[]> {
         const wordRange: vscode.Range = document.getWordRangeAtPosition(position, /[\w\d.]+/);
         const lineText: string = document.lineAt(position.line).text;
         const templateToSearchFor: string = document.getText(wordRange);
-        const templateData: TemplatePathDescription[] = this.getTemplateDescription(templateToSearchFor, document);
+        const templateData: ITemplatePathDescription[] = this.getTemplateDescription(templateToSearchFor, document);
 
         if (!wordRange || lineText.startsWith('//')) {
             return Promise.resolve(null);
@@ -64,9 +64,9 @@ export class SoyDefinitionProvider implements vscode.DefinitionProvider {
         return Promise.resolve(templateData);
     }
 
-    private getTemplateDescription (templateToSearchFor: string, document: vscode.TextDocument): TemplatePathDescription[]  {
+    private getTemplateDescription (templateToSearchFor: string, document: vscode.TextDocument): ITemplatePathDescription[]  {
         const documentText: string = document.getText();
-        let templateData: TemplatePathDescription[];
+        let templateData: ITemplatePathDescription[];
 
         if (templateToSearchFor.startsWith('.')) {
             const namespace: string = getNamespace(documentText);
