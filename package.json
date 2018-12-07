@@ -22,7 +22,9 @@
 		"vscode": "^1.23.0"
 	},
 	"activationEvents": [
-		"onLanguage:soy"
+		"onLanguage:soy",
+		"onCommand:soyfilesupport.reparse.workspace",
+		"onCommand:soyfilesupport.showExtensionChanges"
 	],
 	"main": "./client/out/extension",
 	"icon": "images/google_closure.png",

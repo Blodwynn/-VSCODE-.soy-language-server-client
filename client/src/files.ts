@@ -4,7 +4,7 @@ import path = require('path');
 import { ExtensionData } from './constants';
 
 const excludeFromFileSearch: string[] = [
-    '!**/node_modules'
+    path.join('!**', 'node_modules')
 ];
 
 export function getSoyFiles (): Thenable<string[][]> {
