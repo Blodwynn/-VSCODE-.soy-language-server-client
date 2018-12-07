@@ -1,5 +1,9 @@
 # Soy File Support - What's new?
 
+### [3.15.1] - 2018/12/07
+- fixing path for folder parsing exclusing - might improve parse times on some systems
+- extension starting up upon firing one of it's commands (if it was not started yet by opening a .soy file)
+
 ## [3.15.0] - 2018/12/03
 - adding autocompletion support for template calls
 
