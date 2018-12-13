@@ -15,7 +15,7 @@ const error: IErrorItem[] = [
     { pattern: /(\{\s*param[^\n]*?kind=[^}]*?\/\})/ig,           message: 'Unnecessary closing tag for PARAM opening tag'},
     { pattern: /(\{\s*param\s+[\w\d."'=]+?\s*:[^}\n]*[^/]\})/ig, message: 'Missing closing tag for parameter'},
     { pattern: /(\{\s*param[^\n]*?\/\s+})/ig,                    message: 'Extra spacing before closing tag'},
-    { pattern: /(\{\s*param\s+[\w\d."'=]+\s+[^:\n]+\/\})/ig,     message: 'Missing colon from PARAM declaration'},
+    { pattern: /(\{\s*param\s+[\w\d."'=]+\s+[^:\n}]+\/\})/ig,    message: 'Missing colon from PARAM declaration'},
     { pattern: /(\{\s*param\s+\$[\w\d."'=]+)/ig,                 message: 'Unnecessary $ sign for param name'},
 
     { pattern: /(\{template[^\n]*?\/\s*\})/ig,                   message: 'Self closing is not applicable for templates' },
