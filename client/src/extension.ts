@@ -10,9 +10,9 @@ import { SoyReferenceProvider } from './reference-provider/soy-reference-provide
 import { SoyHoverProvider } from './hover-provider/soy-hover-provider';
 import { SoyDocumentSymbolProvider } from './document-symbol-provider/soy-document-symbol-provider';
 import { SoyCompletionItemProvider } from './completion-item-provider/soy-completion-item-provider';
-import { getSoyFiles, getSoyFile, getChangeLogPath } from './files';
+import { getSoyFiles, getSoyFile, getChangeLogPath, getReadmePath } from './files';
 import { VersionManager } from './VersionManager';
-import { Commands, TriggerCharacters } from './constants';
+import { Commands, TriggerCharacters, UpdateNotificationItem } from './constants';
 
 const soyDefinitionProvider = new SoyDefinitionProvider();
 const soyReferenceProvider = new SoyReferenceProvider();
@@ -74,6 +74,10 @@ function registerCommands (context: ExtensionContext): void {
         Commands.ShowExtensionChanges,
         () => showExtensionChanges()
     ));
+    context.subscriptions.push(vscode.commands.registerCommand(
+        Commands.About,
+        () => showReadme()
+    ));
 }
 
 function initalizeProviders (startMessage: string, finishMessage: string): void {
@@ -86,6 +90,11 @@ function initalizeProviders (startMessage: string, finishMessage: string): void 
         });
 }
 
+function showReadme () {
+    const readmePath: string = getReadmePath();
+    vscode.commands.executeCommand(Commands.ShowMarkDownPreview, vscode.Uri.file(readmePath));
+}
+
 function showExtensionChanges (): void {
     const changeLogPath: string = getChangeLogPath();
     vscode.commands.executeCommand(Commands.ShowMarkDownPreview, vscode.Uri.file(changeLogPath));
@@ -93,7 +102,16 @@ function showExtensionChanges (): void {
 
 function showNewChanges (currentVersion: string, previousVersion: string): void {
     if (!previousVersion || (previousVersion !== currentVersion)) {
-        showExtensionChanges();
+        vscode.window.showInformationMessage(
+            'Soy Extension just got updated, check out what\'s new!',
+            UpdateNotificationItem.SeeUpdates,
+            UpdateNotificationItem.Dismiss
+        )
+        .then(choosenOption => {
+            if (choosenOption === UpdateNotificationItem.SeeUpdates) {
+                showExtensionChanges();
+            }
+        });
     }
 }
 

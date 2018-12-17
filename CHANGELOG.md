@@ -1,7 +1,11 @@
 # Soy File Support - What's new?
 
+## [3.16.0] - 2018/12/17
+- added a popup with options to open the changelog upon update or not instead of always automatically opening it
+- adding `Soy Extension: About` command to open the extension's readme file
+
 ### [3.15.2] - 2018/12/13
-- fixing `param` error highlight when there's a selfclosing `call` is nested in the same line
+- fixing `param` error highlight when there's a selfclosing `call` nested in the same line
 
 ### [3.15.1] - 2018/12/07
 - fixing path for folder parsing exclusing - might improve parse times on some systems

@@ -19,12 +19,22 @@ export function getSoyFiles (): Thenable<string[][]> {
     return Promise.all(promises);
 }
 
-export function getSoyFile (filePath): Thenable<string[]> {
+export function getSoyFile (filePath: string): Thenable<string[]> {
     return fg.async(filePath);
 }
 
-export function getChangeLogPath () {
-    const extensionPath: string = vscode.extensions.getExtension(ExtensionData.ExtensionIdentifier).extensionPath;
+function getExtensionPath (): string {
+    return vscode.extensions.getExtension(ExtensionData.ExtensionIdentifier).extensionPath;
+}
+
+export function getChangeLogPath (): string {
+    const extensionPath: string = getExtensionPath();
 
     return path.join(extensionPath, 'CHANGELOG.md');
+}
+
+export function getReadmePath (): string {
+    const extensionPath: string = getExtensionPath();
+
+    return path.join(extensionPath, 'README.md');
 }

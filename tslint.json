@@ -1,5 +1,5 @@
 {
-    "defaultSeverity": "error",
+    "defaultSeverity": "warning",
     "extends": [
         "tslint:recommended"
     ],
@@ -12,8 +12,7 @@
         "ordered-imports": false,
         "space-before-function-paren": true,
         "no-conditional-assignment": false,
-        "max-line-length": false,
-        "one-variable-per-declaration": false
+        "max-line-length": false
     },
     "rulesDirectory": []
 }
