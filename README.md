@@ -5,6 +5,7 @@ Add full file support for `.soy` files. See section below. :)
 - Syntax highlight
 - Syntax check: inline error and warning underline
 - Go to definition support
+- Find References
 - Code autocompletion
 - Snippets
 - Outline
