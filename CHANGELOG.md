@@ -1,5 +1,8 @@
 # Soy File Support - What's new?
 
+### [3.16.1] - 2019/01/03
+- fixing outline wrongly showing some non-template related items
+
 ## [3.16.0] - 2018/12/17
 - added a popup with options to open the changelog upon update or not instead of always automatically opening it
 - adding `Soy Extension: About` command to open the extension's readme file

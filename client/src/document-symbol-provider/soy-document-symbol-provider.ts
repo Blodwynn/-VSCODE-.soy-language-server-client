@@ -21,7 +21,7 @@ export class SoyDocumentSymbolProvider implements DocumentSymbolProvider {
     }
 
     private getSymbolData (documentText: string): RegExpMatchArray[] {
-        const pattern: RegExp = /((?:del)?(?:template|call))\s+([\w\d.]+)/gim;
+        const pattern: RegExp = /\{((?:del)?(?:template|call))\s+([\w\d.]+)/gim;
         const matches: RegExpMatchArray[] = [];
         let m: RegExpMatchArray;
 
