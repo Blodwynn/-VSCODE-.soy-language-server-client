@@ -1,5 +1,9 @@
 # Soy File Support - What's new?
 
+## [3.17.0] - 2019/01/11
+- adding `allowemptydefault` snippet
+- adding descriptions for already existing snippets
+
 ### [3.16.1] - 2019/01/03
 - fixing outline wrongly showing some non-template related items
 

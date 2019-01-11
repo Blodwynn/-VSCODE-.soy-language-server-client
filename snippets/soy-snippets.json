@@ -6,7 +6,8 @@
             "    ${3:statements}",
             "{/foreach}",
             ""
-        ]
+        ],
+        "description": "foreach template"
     },
     "if": {
         "prefix": "sif",
@@ -15,7 +16,8 @@
             "    ${2:statements}",
             "{/if}",
             ""
-        ]
+        ],
+        "description": "if template"
     },
     "if-else": {
         "prefix": "sife",
@@ -26,14 +28,16 @@
             "    ${3:statements}",
             "{/if}",
             ""
-        ]
+        ],
+        "description": "if-else template"
     },
     "let": {
         "prefix": "sl",
         "body": [
             "{let $${1:name}: ${2:value} /}",
             ""
-        ]
+        ],
+        "description": "let - one line template"
     },
     "let-block": {
         "prefix": "slb",
@@ -42,13 +46,15 @@
             "    ${4:statements}",
             "{/let}",
             ""
-        ]
+        ],
+        "description": "let block"
     },
     "param": {
         "prefix": "sp",
         "body": [
             "{param ${1:paramName}: ${2:value} /}"
-        ]
+        ],
+        "description": "param - one line template"
     },
     "param-block": {
         "prefix": "spb",
@@ -57,13 +63,15 @@
             "    ${4:statements}",
             "{/param}",
             ""
-        ]
+        ],
+        "description": "param block"
     },
     "param-signature": {
         "prefix": "sps",
         "body": [
             " * @param ${1:paramName}"
-        ]
+        ],
+        "description": "parameter signature template"
     },
     "call": {
         "prefix": "sc",
@@ -72,7 +80,8 @@
             "    ${2:parameters}",
             "{/call}",
             ""
-        ]
+        ],
+        "description": "call template"
     },
     "delcall": {
         "prefix": "sdelc",
@@ -81,13 +90,15 @@
             "    ${2:parameters}",
             "{/delcall}",
             ""
-        ]
+        ],
+        "description": "delcall template"
     },
     "delcall-empty-default": {
         "prefix": "sdelcempty",
         "body": [
             "{delcall ${1:namespace.template.name} allowemptydefault=\"true\" /}"
-        ]
+        ],
+        "description": "deltemplate call with allowemptydefault"
     },
     "template-skeleton": {
         "prefix": "stemp",
@@ -105,7 +116,8 @@
             "    ${6:template content}",
             "{/template}",
             ""
-        ]
+        ],
+        "description": "template skeleton"
     },
     "deltemplate-skeleton": {
         "prefix": "sdeltemp",
@@ -124,20 +136,28 @@
             "    ${7:template content}",
             "{/deltemplate}",
             ""
-        ]
+        ],
+        "description": "deltemplate skeleton"
     },
     "noAutoEscape": {
         "prefix": "|noAutoescape",
         "body": [
             "|noAutoescape"
         ],
-        "description": "noAutoescape tag"
+        "description": "|noAutoescape"
     },
     "autoEscape": {
         "prefix": "autoescape",
         "body": [
             "autoescape=\"strict\""
         ],
-        "description": "strict autoescape"
+        "description": "autoescape=\"strict\""
+    },
+    "allowemptydefault": {
+        "prefix": "allowemptydefault",
+        "body": [
+            "allowemptydefault=\"true\""
+        ],
+        "description": "allowemptydefault=\"true\""
     }
 }
