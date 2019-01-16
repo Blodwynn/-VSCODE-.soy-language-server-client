@@ -118,6 +118,20 @@
 							"match": "\\bnoAutoescape\\b"
 						},
 						{
+							"match": "\\b(truncate)\\s*(:)\\s*(\\d+)\\b",
+							"captures": {
+								"1": {
+									"name": "support.function"
+								},
+								"2": {
+									"name": "support.variable"
+								},
+								"3": {
+									"name": "constant.character.escape"
+								}
+							}
+						},
+						{
 							"include": "#strings"
 						},
 						{

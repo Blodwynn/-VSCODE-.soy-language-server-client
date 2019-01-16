@@ -1,5 +1,8 @@
 # Soy File Support - What's new?
 
+## [3.18.0] - 2019/01/16
+- adding `truncate` highlight
+
 ## [3.17.0] - 2019/01/11
 - adding `allowemptydefault` snippet
 - adding descriptions for already existing snippets
