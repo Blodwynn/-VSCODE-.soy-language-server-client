@@ -1,5 +1,8 @@
 # Soy File Support - What's new?
 
+## [3.19.0] - 2019/02/06
+- adding error highlight for some incorrect typos of `elseif`, eg: `else if`
+
 ## [3.18.0] - 2019/01/16
 - adding `truncate` highlight
 

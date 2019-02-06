@@ -18,8 +18,12 @@ const error: IErrorItem[] = [
     { pattern: /(\{\s*param\s+[\w\d."'=]+\s+[^:\n}]+\/\})/ig,    message: 'Missing colon from PARAM declaration'},
     { pattern: /(\{\s*param\s+\$[\w\d."'=]+)/ig,                 message: 'Unnecessary $ sign for param name'},
 
+    // Templates
     { pattern: /(\{template[^\n]*?\/\s*\})/ig,                   message: 'Self closing is not applicable for templates' },
-    { pattern: /(\{deltemplate[^\n]*?\/\s*\})/ig,                message: 'Self closing is not applicable for deltemplates' }
+    { pattern: /(\{deltemplate[^\n]*?\/\s*\})/ig,                message: 'Self closing is not applicable for deltemplates' },
+
+    // Control structures
+    { pattern: /\{(else\s+if|elif|elsif)/ig,                     message: 'Invalid construct: Do you mean {elseif}?' }
 ];
 
 const breakingChange: IErrorItem[] = [
