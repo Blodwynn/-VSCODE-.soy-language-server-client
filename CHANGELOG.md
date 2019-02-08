@@ -1,5 +1,8 @@
 # Soy File Support - What's new?
 
+### [3.19.1] - 2019/02/08
+- update package dependencies to apply `node.extend` vulnerability fix to prototype pollution [Vulnarability Report](https://hackerone.com/reports/430831)
+
 ## [3.19.0] - 2019/02/06
 - adding error highlight for some incorrect typos of `elseif`, eg: `else if`
 
