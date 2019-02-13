@@ -106,7 +106,7 @@
 						},
 						{
 							"name": "keyword.control",
-							"match": "\\b(isFirst|isLast|index|quoteKeysIfJs|i18n(JS)?|setClientData)\\b"
+							"match": "\\b(isFirst|isLast|index|quoteKeysIfJs|i18n(JS)?|setClientData|injectedData)\\b"
 						},
 						{
 							"comment": "Built-in functions. See https://github.com/google/closure-templates/tree/master/java/src/com/google/template/soy/basicfunctions",

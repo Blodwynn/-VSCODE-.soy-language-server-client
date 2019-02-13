@@ -3,7 +3,7 @@ import { DocumentSymbolProvider, TextDocument, ProviderResult, SymbolInformation
 export class SoyDocumentSymbolProvider implements DocumentSymbolProvider {
 
     public provideDocumentSymbols (document: TextDocument): ProviderResult<SymbolInformation[]> {
-        const matches = this.getSymbolData(document.getText());
+        const matches: RegExpExecArray[] = this.getSymbolData(document.getText());
         let containerName: string = '';
 
         return matches.map(match => {
@@ -20,10 +20,10 @@ export class SoyDocumentSymbolProvider implements DocumentSymbolProvider {
         });
     }
 
-    private getSymbolData (documentText: string): RegExpMatchArray[] {
+    private getSymbolData (documentText: string): RegExpExecArray[] {
         const pattern: RegExp = /\{((?:del)?(?:template|call))\s+([\w\d.]+)/gim;
-        const matches: RegExpMatchArray[] = [];
-        let m: RegExpMatchArray;
+        const matches: RegExpExecArray[] = [];
+        let m: RegExpExecArray;
 
         while (m = pattern.exec(documentText)) {
             matches.push(m);
