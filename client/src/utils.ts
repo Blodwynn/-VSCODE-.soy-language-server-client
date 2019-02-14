@@ -1,6 +1,6 @@
 import vscode = require('vscode');
 
-export function getExtensionConfiguration(): vscode.WorkspaceConfiguration {
+export function getExtensionConfiguration (): vscode.WorkspaceConfiguration {
     return vscode.workspace.getConfiguration('soyLanguageServer');
 }
 
