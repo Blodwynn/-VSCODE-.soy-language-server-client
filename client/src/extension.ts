@@ -4,7 +4,7 @@ import * as path from 'path';
 import vscode = require('vscode');
 import { workspace, ExtensionContext } from 'vscode';
 import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } from 'vscode-languageclient';
-import { showNotification } from './utils';
+import { showNotification, getExtensionConfiguration } from './utils';
 import { SoyDefinitionProvider } from './definition-provider/soy-definition-provider';
 import { SoyReferenceProvider } from './reference-provider/soy-reference-provider';
 import { SoyHoverProvider } from './hover-provider/soy-hover-provider';
@@ -19,6 +19,7 @@ const soyReferenceProvider = new SoyReferenceProvider();
 const soyHoverProvider = new SoyHoverProvider(soyDefinitionProvider, soyReferenceProvider);
 const soyDocumentSymbolProvider = new SoyDocumentSymbolProvider();
 const soyCompletionItemProvider = new SoyCompletionItemProvider(soyDefinitionProvider);
+const extensionConfiguration: vscode.WorkspaceConfiguration = getExtensionConfiguration();
 let client: LanguageClient;
 
 const soyDocFilter: vscode.DocumentFilter = {
@@ -80,13 +81,18 @@ function registerCommands (context: ExtensionContext): void {
     ));
 }
 
-function initalizeProviders (startMessage: string, finishMessage: string): void {
-    showNotification(startMessage);
+function initalizeProviders (startMessage: string, finishMessage: string, noMessages?: boolean): void {
+    if (!noMessages) {
+        showNotification(startMessage);
+    }
+
     getSoyFiles()
         .then(wsFolders => {
             soyDefinitionProvider.parseWorkspaceFolders(wsFolders);
             soyReferenceProvider.parseWorkspaceFolders(wsFolders);
-            showNotification(finishMessage);
+            if (!noMessages) {
+                showNotification(finishMessage);
+            }
         });
 }
 
@@ -124,7 +130,7 @@ export function activate (context: ExtensionContext): void {
 
     registerProviders(context);
     registerCommands(context);
-    initalizeProviders('Starting up...', 'Started.');
+    initalizeProviders('Starting up...', 'Started.', extensionConfiguration.noStartupMessages);
 
     vscode.workspace.onDidSaveTextDocument(e => {
         getSoyFile(e.uri.fsPath)

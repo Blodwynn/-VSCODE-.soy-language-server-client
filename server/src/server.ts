@@ -1,8 +1,5 @@
-/* --------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- * ------------------------------------------------------------------------------------------ */
 'use strict';
+
 import { ISoyConfigSettings, IErrorItem } from './interfaces';
 import patterns from './patterns';
 import {
@@ -59,7 +56,8 @@ connection.onInitialized(() => {
 const defaultSettings: ISoyConfigSettings = {
     ignoreTodo: false,
     ignoreBreakingChange: false,
-    ignoreErrors: false
+    ignoreErrors: false,
+    noStartupMessages: false
 };
 let globalSettings: ISoyConfigSettings = defaultSettings;
 

@@ -1,5 +1,8 @@
 # Soy File Support - What's new?
 
+## [3.20.0] - 2019/02/14
+- adding configuration to hide startup messages: `Soy Language Server: No Startup Messages`
+
 ### [3.19.1] - 2019/02/08
 - update package dependencies to apply `node.extend` vulnerability fix to prototype pollution [Vulnerability Report](https://hackerone.com/reports/430831)
 
@@ -104,9 +107,9 @@
 
 ## [3.4.0] - 2018/10/18
 - adding basic configuration:
-    - ignore errors
-    - ignore Todo comments
-    - ignore breaking change comments
+    - Ignore errors: `Soy Language Server: Ignore Errors`
+    - Ignore Todo comments: `Soy Language Server: Ignore Todo`
+    - Ignore breaking change comments: `Soy Language Server: Ignore Breaking Change`
 
 ### [3.3.1] - 2018/10/18
 - adding missing `data` highlight
