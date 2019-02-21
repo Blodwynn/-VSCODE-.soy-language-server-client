@@ -1,5 +1,8 @@
 # Soy File Support - What's new?
 
+## [3.21.0] - 2019/02/21
+- adding `for .. in` snippet to `sforin` keystroke
+
 ## [3.20.0] - 2019/02/14
 - adding configuration to hide startup messages: `Soy Language Server: No Startup Messages`
 

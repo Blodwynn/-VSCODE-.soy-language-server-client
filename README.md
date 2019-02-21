@@ -48,6 +48,7 @@ All snippets start with the character `s` to be able to quickly search for them.
 
 **Snippets**:
 - **sfor** - `foreach` block
+- **sforin** - `for .. in` block
 - **sif** - `if` block
 - **sife** - `if-else` block
 - **sl** - `let` statement - single line

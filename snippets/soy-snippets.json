@@ -9,6 +9,16 @@
         ],
         "description": "foreach template"
     },
+    "forin": {
+        "prefix": "sforin",
+        "body": [
+            "{for $${1:i} in range(${2:from}, ${3:to}, ${4:step})}",
+            "    ${5:statements}",
+            "{/for}",
+            ""
+        ],
+        "description": "for..in template"
+    },
     "if": {
         "prefix": "sif",
         "body": [
