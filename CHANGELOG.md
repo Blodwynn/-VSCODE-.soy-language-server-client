@@ -1,5 +1,8 @@
 # Soy File Support - What's new?
 
+## [3.22.0] - 2019/02/26
+- adding configuration to disallow `allowemptydefault` of `delcall`s
+
 ## [3.21.0] - 2019/02/21
 - adding `for .. in` snippet to `sforin` keystroke
 

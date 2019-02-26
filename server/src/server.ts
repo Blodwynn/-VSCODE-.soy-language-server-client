@@ -57,6 +57,7 @@ const defaultSettings: ISoyConfigSettings = {
     ignoreTodo: false,
     ignoreBreakingChange: false,
     ignoreErrors: false,
+    disallowAllowemptydefault: false,
     noStartupMessages: false
 };
 let globalSettings: ISoyConfigSettings = defaultSettings;
@@ -150,6 +151,10 @@ async function validateSoyDocument (textDocument: TextDocument): Promise<void> {
 
     if (!settings.ignoreBreakingChange) {
         diagnostics.push(...validatePatterns(patterns.breakingChange, text, textDocument, DiagnosticSeverity.Information));
+    }
+
+    if (settings.disallowAllowemptydefault) {
+        diagnostics.push(...validatePatterns(patterns.allowemptydefault, text, textDocument, DiagnosticSeverity.Error));
     }
 
     connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });

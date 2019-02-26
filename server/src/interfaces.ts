@@ -7,5 +7,6 @@ export interface ISoyConfigSettings {
     ignoreTodo: boolean;
     ignoreBreakingChange: boolean;
     ignoreErrors: boolean;
+    disallowAllowemptydefault: boolean;
     noStartupMessages: boolean;
 }

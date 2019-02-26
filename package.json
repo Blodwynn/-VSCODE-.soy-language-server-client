@@ -4,7 +4,7 @@
     "description": "Full syntax support, Go To Definiton, Find References, snippets and more",
     "author": "Roland Orosz",
     "license": "MIT",
-    "version": "3.21.0",
+    "version": "3.22.0",
     "repository": {
         "type": "git",
         "url": "https://github.com/Blodwynn/-VSCODE-.soy-language-server-client"
@@ -76,6 +76,11 @@
                     "type": "boolean",
                     "default": false,
                     "description": "Ignore all errors in documents."
+                },
+                "soyLanguageServer.disallowAllowemptydefault": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Disallows allowemptydefault in delcalls. It will be marked as an Error."
                 },
                 "soyLanguageServer.noStartupMessages": {
                     "type": "boolean",

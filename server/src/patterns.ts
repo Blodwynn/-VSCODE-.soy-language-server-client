@@ -34,8 +34,13 @@ const todo: IErrorItem[] = [
     { pattern: /\/\/[^\n]*(TO ?DO)/ig, message: 'To be checked for followups' }
 ];
 
+const allowemptydefault: IErrorItem[] = [
+    { pattern: /\{.*?(allowemptydefault="\w+")/ig, message: 'allowemptydefault is disallowed. Create an empty default implementation' }
+];
+
 export default {
     error,
     breakingChange,
-    todo
+    todo,
+    allowemptydefault
 };
