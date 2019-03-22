@@ -57,8 +57,7 @@ const defaultSettings: ISoyConfigSettings = {
     ignoreTodo: false,
     ignoreBreakingChange: false,
     ignoreErrors: false,
-    disallowAllowemptydefault: false,
-    noStartupMessages: false
+    disallowAllowemptydefault: false
 };
 let globalSettings: ISoyConfigSettings = defaultSettings;
 

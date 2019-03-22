@@ -1,5 +1,9 @@
 # Soy File Support - What's new?
 
+## [3.23.0] - 2019/03/22
+- replacing the startup notifications with a process indicator upon startup and reparse command
+- removing the `No Startup Messages` configuration node
+
 ## [3.22.0] - 2019/02/26
 - adding configuration to disallow `allowemptydefault` of `delcall`s
 
