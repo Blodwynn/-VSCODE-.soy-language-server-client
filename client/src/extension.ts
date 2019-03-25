@@ -116,7 +116,7 @@ function showExtensionChanges (): void {
 function showNewChanges (currentVersion: string, previousVersion: string): void {
     if (!previousVersion || (previousVersion !== currentVersion)) {
         vscode.window.showInformationMessage(
-            'Soy Extension just got updated, check out what\'s new!',
+            'Soy File Support just got updated, check out what\'s new!',
             UpdateNotificationItem.SeeUpdates,
             UpdateNotificationItem.Dismiss
         )

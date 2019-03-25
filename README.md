@@ -24,9 +24,9 @@ Add full file support for `.soy` files. See section below. :)
 - Autocomplete for template calls
 
 ### Commands
-- `Soy Extension: Reparse workspace`: Useful after external changes (eg: switching branches) to find all new template data
-- `Soy Extension: Show extension changes`: Opens your favourite changelog to show what's new :)
-- `Soy Extension: About`: Opens the readme file
+- `Soy File Support: Reparse workspace`: Useful after external changes (eg: switching branches) to find all new template data
+- `Soy File Support: Show extension changes`: Opens your favourite changelog to show what's new :)
+- `Soy File Support: About`: Opens the readme file
 
 ### Error highlights
 - Missing `$` sign in variable declarations

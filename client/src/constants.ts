@@ -3,7 +3,7 @@ export enum GlobalState {
 }
 
 export enum Commands {
-    // Soy Extension commands
+    // Soy File Support commands
     ReparseWorkSpace     = 'soyfilesupport.reparse.workspace',
     ShowExtensionChanges = 'soyfilesupport.showExtensionChanges',
     About                = 'soyfilesupport.about',

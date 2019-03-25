@@ -4,7 +4,7 @@
     "description": "Full syntax support, Go To Definiton, Find References, snippets and more",
     "author": "Roland Orosz",
     "license": "MIT",
-    "version": "3.23.0",
+    "version": "3.24.0",
     "repository": {
         "type": "git",
         "url": "https://github.com/Blodwynn/-VSCODE-.soy-language-server-client"
@@ -100,15 +100,15 @@
         "commands": [
             {
                 "command": "soyfilesupport.reparse.workspace",
-                "title": "Soy Extension: Reparse workspace"
+                "title": "Soy File Support: Reparse workspace"
             },
             {
                 "command": "soyfilesupport.showExtensionChanges",
-                "title": "Soy Extension: Show extension changes"
+                "title": "Soy File Support: Show extension changes"
             },
             {
                 "command": "soyfilesupport.about",
-                "title": "Soy Extension: About"
+                "title": "Soy File Support: About"
             }
         ]
     },

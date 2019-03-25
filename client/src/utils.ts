@@ -5,7 +5,7 @@ export function getExtensionConfiguration (): vscode.WorkspaceConfiguration {
 }
 
 export function showNotification (message: string): void {
-    const prefix: string = 'Soy Extension:';
+    const prefix: string = 'Soy File Support:';
 
     vscode.window.showInformationMessage(`${prefix} ${message}`);
 }

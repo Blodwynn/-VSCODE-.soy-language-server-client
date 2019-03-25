@@ -1,5 +1,8 @@
 # Soy File Support - What's new?
 
+## [3.24.0] - 2019/03/25
+- rewording commands and notifications to start with `Soy File Support` instead of using `Extension`
+
 ## [3.23.0] - 2019/03/22
 - replacing the startup notifications with a process indicator upon startup and reparse command
 - removing the `No Startup Messages` configuration node
