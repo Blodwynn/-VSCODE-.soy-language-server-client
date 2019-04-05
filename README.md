@@ -1,5 +1,5 @@
-# Google closure template full file support (.soy)
-Add full file support for `.soy` files. See section below. :)
+# Soy file support (Google closure template)
+General file support for `.soy` files. See section below for details.
 
 ## Functionality
 - Syntax highlight
@@ -11,14 +11,14 @@ Add full file support for `.soy` files. See section below. :)
 - Outline
 
 ### Syntax highlight
-- Highlights keywords, variables and so :)
+- Highlight of keywords, variables, html entities, comments, etc.
 
-### Go To Definition / Peek definition
-- `Go to definion` of given template with F12 / ctrl+click
-- `Peek definition` support
+### Definition lookup
+- `Go to definion`
+- `Peek definition`
 
-### Find All References
-- `Find all references` with shortcut or from context menu
+### References lookup
+- `Find all references`
 
 ### Code Autocompletion
 - Autocomplete for template calls
@@ -36,6 +36,7 @@ Add full file support for `.soy` files. See section below. :)
 - Self closing for `template`s and `deltemplate`s
 - Empty declaration
 - Missing colon
+- Some common wrong stuctures of `{elseif}`, eg: `{else if}`
 
 ### Information highlights
 - `TODO` comments
@@ -61,4 +62,3 @@ All snippets start with the character `s` to be able to quickly search for them.
 - **sdelcempty** - `delcall` block with `allowemptydefault="true"`
 - **stemp** - `template` skeleton
 - **sdeltemp** - `deltemplate` skeleton
-
