@@ -1,5 +1,8 @@
 # Soy File Support - What's new?
 
+## [3.24.2] - 2019/05/31
+- dependency update due to vulnerability
+
 ### [3.24.1] - 2019/04/05
 - readme cleanup, rewording
 
