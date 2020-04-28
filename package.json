@@ -81,6 +81,14 @@
                     "type": "boolean",
                     "default": false,
                     "description": "Disallows allowemptydefault in delcalls. It will be marked as an Error."
+                },
+                "soyLanguageServer.excludePaths": {
+                    "type": "array",
+                    "default": [],
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Configure glob patterns for excluding files and folders from being indexed for template definitions."
                 }
             }
         },

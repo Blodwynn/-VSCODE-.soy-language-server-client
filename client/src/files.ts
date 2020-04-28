@@ -2,10 +2,14 @@ import vscode = require('vscode');
 import fg = require('fast-glob');
 import path = require('path');
 import { ExtensionData } from './constants';
+import { getExtensionConfiguration } from './utils';
 
-const excludeFromFileSearch: string[] = [
-    path.join('!**', 'node_modules')
-];
+function excludeFromFileSearch(wsPath:string): string[] {
+    return [
+        path.join('!**', 'node_modules'),
+        ...getExtensionConfiguration().excludePaths.map(excludedPath => path.join('!',wsPath,excludedPath))
+    ]
+};
 
 export function getSoyFiles (): Thenable<string[][]> {
     const promises = [];
@@ -13,7 +17,7 @@ export function getSoyFiles (): Thenable<string[][]> {
     vscode.workspace.workspaceFolders.forEach(wsFolder => {
         const globalSoyFilesPath = path.join(wsFolder.uri.fsPath, '**', '*.soy');
 
-        promises.push(fg.async([globalSoyFilesPath, ...excludeFromFileSearch]));
+        promises.push(fg.async([globalSoyFilesPath, ...excludeFromFileSearch(wsFolder.uri.fsPath)]));
     });
 
     return Promise.all(promises);
