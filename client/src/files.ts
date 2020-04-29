@@ -7,7 +7,7 @@ import { getExtensionConfiguration } from './utils';
 function excludeFromFileSearch(wsPath:string): string[] {
     return [
         path.join('!**', 'node_modules'),
-        ...getExtensionConfiguration().excludePaths.map(excludedPath => path.join('!',wsPath,excludedPath))
+        ...getExtensionConfiguration().excludePaths.map(excludedPath => '!' + path.join(wsPath,excludedPath))
     ]
 };
 
