@@ -1,6 +1,12 @@
 # Soy File Support - What's new?
 
-## [3.24.2] - 2019/05/31
+## [3.25.0] - 2020/05/03
+- adding support to exlude files / folders from being parsed, available in the settings; Thanks to [Ben Haines](https://github.com/bhainesva) [PR](https://github.com/Blodwynn/-VSCODE-.soy-language-server-client/pull/8)
+    - a file eg: `path/to/my/file.soy`
+    - a folder eg: `myExludedFolder/**/*.soy`
+- dependency updates
+
+### [3.24.2] - 2019/05/31
 - dependency update due to vulnerability
 
 ### [3.24.1] - 2019/04/05
