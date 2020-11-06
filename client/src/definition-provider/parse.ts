@@ -12,7 +12,7 @@ function insertElementWithKey (templateName: string, element: ITemplatePathDescr
 
 export function parseFile (file: string, allTemplatePathMaps: ITemplatePathMap) {
     const namespacePattern: RegExp = /\{namespace ([\w\d.]+)/;
-    const templatePattern: RegExp = /\{(del)?template ([\w\d.]+)([^\w\d.]).*/gm;
+    const templatePattern: RegExp = /\{(del)?template ([\w\d.]+)[^\}]*\}/gm;
     const content: string = fs.readFileSync(file, 'utf8');
     let m, n: RegExpExecArray;
 
@@ -27,7 +27,7 @@ export function parseFile (file: string, allTemplatePathMaps: ITemplatePathMap) 
 
             const newItem: ITemplatePathDescription = {
                 path: file,
-                line: lineNr[0].line - 1
+                line: lineNr ? lineNr[0].line - 1 : 1
             };
 
             if (isDeltemplate) {
