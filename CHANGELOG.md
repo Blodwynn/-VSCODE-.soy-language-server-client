@@ -1,5 +1,9 @@
 # Soy File Support - What's new?
 
+### [3.25.1] - 2020/11/06
+- fixing parsing error; Thanks to [Adam Graf](https://github.com/netgrafe) [PR](https://github.com/Blodwynn/-VSCODE-.soy-language-server-client/pull/10)
+
+
 ## [3.25.0] - 2020/05/03
 - adding support to exlude files / folders from being parsed, available in the settings; Thanks to [Ben Haines](https://github.com/bhainesva) [PR](https://github.com/Blodwynn/-VSCODE-.soy-language-server-client/pull/8)
     - a file eg: `path/to/my/file.soy`

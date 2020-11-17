@@ -9,6 +9,7 @@ General file support for `.soy` files. See section below for details.
 - Code autocompletion
 - Snippets
 - Outline
+- File/folder excludes from parsing
 
 ### Syntax highlight
 - Highlight of keywords, variables, html entities, comments, etc.
