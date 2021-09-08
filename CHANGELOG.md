@@ -1,5 +1,9 @@
 # Soy File Support - What's new?
 
+## [3.26.0] - 2021/09/08
+- Add support for new grammar; Thanks to [Axel Lewenhaupt](https://github.com/axellew) [PR](https://github.com/Blodwynn/-VSCODE-.soy-language-server-client/pull/12)
+
+
 ### [3.25.1] - 2020/11/06
 - fixing parsing error; Thanks to [Adam Graf](https://github.com/netgrafe) [PR](https://github.com/Blodwynn/-VSCODE-.soy-language-server-client/pull/10)
 
