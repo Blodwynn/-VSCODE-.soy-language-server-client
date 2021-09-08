@@ -13,6 +13,9 @@
 		},
 		{
 			"include": "#html"
+		},
+		{
+			"include": "#import"
 		}
 	],
 	"repository": {
@@ -34,27 +37,27 @@
 					"patterns": [
 						{
 							"name": "entity.name.tag",
-							"match": "\\b(and|case|default|elseif|else|fallbackmsg|false|foreach|for|ifempty|if|in|lb|let|literal|msg|nil|not|null|or|print|rb|sp|switch|true)\\b"
+							"match": "\\b(and|case|debugger|default|const|elseif|else|export|extern|fallbackmsg|false|foreach|for|ifempty|if|in|javaimpl|jsimpl|lb|let|literal|log|key|msg|nil|not|null|or|plural|print|rb|sp|switch|true|velog)\\b"
 						},
 						{
-							"match": "(@param\\??)\\s+([\\w\\d]+)\\s*:\\s*(?:([\\w\\d.]+)(?:<([\\w\\d.]+)>)?)?",
+							"match": "(@(param|inject|state|attribute)\\??)\\s+([\\w\\d]+)\\s*:\\s*(?:([\\w\\d.]+)(?:<([\\w\\d.]+)>)?)?",
 							"captures": {
 								"1": {
 									"name": "entity.name.type"
 								},
-								"2": {
+								"3": {
 									"name": "variable.parameter"
 								},
-								"3": {
+								"4": {
 									"name": "support.function"
 								},
-								"4": {
+								"5": {
 									"name": "support.function"
 								}
 							}
 						},
 						{
-							"match": "\\b(deltemplate|template|call|delcall|dynacall|namespace|delpackage|package)\\b(?:\\s+([\\w\\d.]+))?",
+							"match": "\\b(deltemplate|template|element|call|delcall|dynacall|namespace|delpackage|package)\\b(?:\\s+([\\w\\d.]+))?",
 							"captures": {
 								"1": {
 									"name": "entity.name.tag"
@@ -76,7 +79,7 @@
 							}
 						},
 						{
-							"match": "\\b(kind|autoescape|allowemptydefault|variant|data)=",
+							"match": "\\b(kind|autoescape|allowemptydefault|variant|data|requirecsspath|cssprefix|cssbase|visibility|method|params|return|type|namespace|function|component|whitespace|meaning|desc|genders|alternateId)=",
 							"captures": {
 								"1": {
 									"name": "support.function"
@@ -210,6 +213,78 @@
 				},
 				{
 					"include": "#strings"
+				}
+			]
+		},
+		"import": {
+			"name": "support.function",
+			"begin": "import",
+			"end": ";",
+			"beginCaptures": {
+				"0": {
+					"name": "entity.name.tag"
+				}
+			},
+			"endCaptures": {
+				"0": {
+					"name": "entity.name.tag"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#comments"
+				},
+				{
+					"include": "#strings"
+				},
+				{
+					"match": "\\s+(\\*)\\s+(as)\\s+(\\w+)\\s+(from)\\b",
+					"captures": {
+						"1": {
+							"name": "support.variable"
+						},
+						"2": {
+							"name": "entity.name.tag"
+						},
+						"3": {
+							"name": "variable.parameter"
+						},
+						"4": {
+							"name": "entity.name.tag"
+						}
+					}
+				},
+				{
+					"match": "({)\\s*((\\w+)(\\s+(as)\\s+(\\w+))?)(\\s*,\\s*(\\w+)(\\s+(as)\\s+(\\w+))?)*\\s*(})\\s*(from)\\b",
+					"captures": {
+						"1": {
+							"name": "support.variable"
+						},
+						"3": {
+							"name": "variable.parameter"
+						},
+						"5": {
+							"name": "entity.name.tag"
+						},
+						"6": {
+							"name": "variable.parameter"
+						},
+						"8": {
+							"name": "variable.parameter"
+						},
+						"10": {
+							"name": "entity.name.tag"
+						},
+						"11": {
+							"name": "variable.parameter"
+						},
+						"12": {
+							"name": "support.variable"
+						},
+						"13": {
+							"name": "entity.name.tag"
+						}
+					}
 				}
 			]
 		},
