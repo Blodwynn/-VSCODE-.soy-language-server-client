@@ -22,6 +22,32 @@
 		"soy": {
 			"patterns": [
 				{
+					"begin": "({)(literal)(})",
+					"end": "({/)(literal)(})",
+					"beginCaptures": {
+						"1": {
+							"name": "support.variable"
+						},
+						"2": {
+							"name": "entity.name.tag"
+						},
+						"3": {
+							"name": "support.variable"
+						}
+					},
+					"endCaptures": {
+						"1": {
+							"name": "support.variable"
+						},
+						"2": {
+							"name": "entity.name.tag"
+						},
+						"3": {
+							"name": "support.variable"
+						}
+					}
+				},
+				{
 					"begin": "{",
 					"end": "}",
 					"beginCaptures": {
@@ -37,7 +63,7 @@
 					"patterns": [
 						{
 							"name": "entity.name.tag",
-							"match": "\\b(and|case|debugger|default|const|elseif|else|export|extern|fallbackmsg|false|foreach|for|ifempty|if|in|javaimpl|jsimpl|lb|let|literal|log|key|msg|nil|not|null|or|plural|print|rb|sp|switch|true|velog)\\b"
+							"match": "\\b(and|case|debugger|default|elseif|else|export|extern|fallbackmsg|false|foreach|for|ifempty|if|in|javaimpl|jsimpl|lb|let|log|key|msg|nil|not|null|or|plural|print|rb|sp|switch|true|velog)\\b"
 						},
 						{
 							"match": "(@(param|inject|state|attribute)\\??)\\s+([\\w\\d]+)\\s*:\\s*(?:([\\w\\d.]+)(?:<([\\w\\d.]+)>)?)?",
@@ -53,6 +79,17 @@
 								},
 								"5": {
 									"name": "support.function"
+								}
+							}
+						},
+						{
+							"match": "(@attribute)\\s+(\\*)",
+							"captures": {
+								"1": {
+									"name": "entity.name.type"
+								},
+								"2": {
+									"name": "support.variable"
 								}
 							}
 						},
@@ -90,7 +127,7 @@
 							"match": "\\b(alias)\\s+([\\w\\d.]*)(?:\\s+(as)\\s+([\\w\\d.]*))?",
 							"captures": {
 								"1": {
-									"name": "entity.name.type"
+									"name": "entity.name.tag"
 								},
 								"2": {
 									"name": "variable.parameter"
@@ -99,6 +136,17 @@
 									"name": "entity.name.type"
 								},
 								"4": {
+									"name": "variable.parameter"
+								}
+							}
+						},
+						{
+							"match": "\\b(const)\\s+(\\w+)",
+							"captures": {
+								"1": {
+									"name": "entity.name.tag"
+								},
+								"2": {
 									"name": "variable.parameter"
 								}
 							}
