@@ -1,138 +1,138 @@
 {
-    "name": "soysyntaxchecker",
-    "displayName": "Soy file support (Google closure template)",
-    "description": "Full syntax support, Go To Definiton, Find References, snippets and more",
-    "author": "Roland Orosz",
-    "license": "MIT",
-    "version": "3.26.0",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/Blodwynn/-VSCODE-.soy-language-server-client"
-    },
-    "publisher": "Blodwynn",
-    "categories": [
-        "Programming Languages",
-        "Snippets",
-        "Themes",
-        "Linters"
-    ],
-    "keywords": [
-        "soy",
-        "closure template",
-        "syntax",
-        "snippets",
-        "definition"
-    ],
-    "engines": {
-        "vscode": "^1.23.0"
-    },
-    "activationEvents": [
-        "onLanguage:soy",
-        "onCommand:soyfilesupport.reparse.workspace",
-        "onCommand:soyfilesupport.showExtensionChanges",
-        "onCommand:soyfilesupport.showReadme"
-    ],
-    "main": "./client/out/extension",
-    "icon": "images/google_closure.png",
-    "homepage": "https://github.com/Blodwynn/-VSCODE-.soy-language-server-client",
-    "bugs": {
-        "url": "https://github.com/Blodwynn/-VSCODE-.soy-language-server-client/issues"
-    },
-    "maintainers": [
-        "Roland Orosz"
-    ],
-    "contributes": {
-        "languages": [
-            {
-                "id": "soy",
-                "aliases": [
-                    "soy",
-                    "google closure",
-                    "closure template",
-                    "google closure template",
-                    ".soy"
-                ],
-                "extensions": [
-                    ".soy"
-                ],
-                "configuration": "./language-configuration.json"
-            }
+  "name": "soysyntaxchecker",
+  "displayName": "Soy file support (Google closure template)",
+  "description": "Full syntax support, Go To Definiton, Find References, snippets and more",
+  "author": "Roland Orosz",
+  "license": "MIT",
+  "version": "3.27.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Blodwynn/-VSCODE-.soy-language-server-client"
+  },
+  "publisher": "Blodwynn",
+  "categories": [
+    "Programming Languages",
+    "Snippets",
+    "Themes",
+    "Linters"
+  ],
+  "keywords": [
+    "soy",
+    "closure template",
+    "syntax",
+    "snippets",
+    "definition"
+  ],
+  "engines": {
+    "vscode": "^1.23.0"
+  },
+  "activationEvents": [
+    "onLanguage:soy",
+    "onCommand:soyfilesupport.reparse.workspace",
+    "onCommand:soyfilesupport.showExtensionChanges",
+    "onCommand:soyfilesupport.showReadme"
+  ],
+  "main": "./client/out/extension",
+  "icon": "images/google_closure.png",
+  "homepage": "https://github.com/Blodwynn/-VSCODE-.soy-language-server-client",
+  "bugs": {
+    "url": "https://github.com/Blodwynn/-VSCODE-.soy-language-server-client/issues"
+  },
+  "maintainers": [
+    "Roland Orosz"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "soy",
+        "aliases": [
+          "soy",
+          "google closure",
+          "closure template",
+          "google closure template",
+          ".soy"
         ],
-        "configuration": {
-            "type": "object",
-            "title": "Soy file support",
-            "properties": {
-                "soyLanguageServer.ignoreTodo": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Ignore TODO comments in documents."
-                },
-                "soyLanguageServer.ignoreBreakingChange": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Ignore breaking change comments in documents."
-                },
-                "soyLanguageServer.ignoreErrors": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Ignore all errors in documents."
-                },
-                "soyLanguageServer.disallowAllowemptydefault": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Disallows allowemptydefault in delcalls. It will be marked as an Error."
-                },
-                "soyLanguageServer.excludePaths": {
-                    "type": "array",
-                    "default": [],
-                    "items": {
-                        "type": "string"
-                    },
-                    "description": "Configure glob patterns for excluding files and folders from being indexed for template definitions."
-                }
-            }
+        "extensions": [
+          ".soy"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "Soy file support",
+      "properties": {
+        "soyLanguageServer.ignoreTodo": {
+          "type": "boolean",
+          "default": false,
+          "description": "Ignore TODO comments in documents."
         },
-        "snippets": [
-            {
-                "language": "soy",
-                "path": "./snippets/soy-snippets.json"
-            }
-        ],
-        "grammars": [
-            {
-                "language": "soy",
-                "scopeName": "source.soy",
-                "path": "./syntax/soy.tmLanguage.json"
-            }
-        ],
-        "commands": [
-            {
-                "command": "soyfilesupport.reparse.workspace",
-                "title": "Soy File Support: Reparse workspace"
-            },
-            {
-                "command": "soyfilesupport.showExtensionChanges",
-                "title": "Soy File Support: Show extension changes"
-            },
-            {
-                "command": "soyfilesupport.about",
-                "title": "Soy File Support: About"
-            }
-        ]
+        "soyLanguageServer.ignoreBreakingChange": {
+          "type": "boolean",
+          "default": false,
+          "description": "Ignore breaking change comments in documents."
+        },
+        "soyLanguageServer.ignoreErrors": {
+          "type": "boolean",
+          "default": false,
+          "description": "Ignore all errors in documents."
+        },
+        "soyLanguageServer.disallowAllowemptydefault": {
+          "type": "boolean",
+          "default": false,
+          "description": "Disallows allowemptydefault in delcalls. It will be marked as an Error."
+        },
+        "soyLanguageServer.excludePaths": {
+          "type": "array",
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "description": "Configure glob patterns for excluding files and folders from being indexed for template definitions."
+        }
+      }
     },
-    "scripts": {
-        "vscode:prepublish": "cd client && npm run update-vscode && cd .. && npm run compile",
-        "compile:client": "tsc -p ./client/tsconfig.json",
-        "compile:server": "tsc -p ./server/tsconfig.json",
-        "watch:client": "tsc -w -p ./client/tsconfig.json",
-        "watch:server": "tsc -w -p ./server/tsconfig.json",
-        "compile": "npm run compile:client && npm run compile:server",
-        "postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
-        "test": "sh ./scripts/e2e.sh"
-    },
-    "devDependencies": {
-        "@types/mocha": "^5.2.7",
-        "@types/node": "^8.10.60",
-        "typescript": "2.8.3"
-    }
+    "snippets": [
+      {
+        "language": "soy",
+        "path": "./snippets/soy-snippets.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "soy",
+        "scopeName": "source.soy",
+        "path": "./syntax/soy.tmLanguage.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "soyfilesupport.reparse.workspace",
+        "title": "Soy File Support: Reparse workspace"
+      },
+      {
+        "command": "soyfilesupport.showExtensionChanges",
+        "title": "Soy File Support: Show extension changes"
+      },
+      {
+        "command": "soyfilesupport.about",
+        "title": "Soy File Support: About"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "cd client && npm run update-vscode && cd .. && npm run compile",
+    "compile:client": "tsc -p ./client/tsconfig.json",
+    "compile:server": "tsc -p ./server/tsconfig.json",
+    "watch:client": "tsc -w -p ./client/tsconfig.json",
+    "watch:server": "tsc -w -p ./server/tsconfig.json",
+    "compile": "npm run compile:client && npm run compile:server",
+    "postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
+    "test": "sh ./scripts/e2e.sh"
+  },
+  "devDependencies": {
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^8.10.60",
+    "typescript": "2.8.3"
+  }
 }
