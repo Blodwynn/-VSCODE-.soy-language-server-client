@@ -1,5 +1,8 @@
 # Soy File Support - What's new?
 
+## [3.28.0] - 2021/10/31
+- Add syntax highlighting for types in @param; Thanks to [Axel Lewenhaupt](https://github.com/axellew) [PR](https://github.com/Blodwynn/-VSCODE-.soy-language-server-client/pull/16)
+
 ### [3.27.1] - 2021/10/29
 
 - Fix highlighting when there is more than two imported symbols Thanks to [Axel Lewenhaupt](https://github.com/axellew) [PR](https://github.com/Blodwynn/-VSCODE-.soy-language-server-client/pull/15)
