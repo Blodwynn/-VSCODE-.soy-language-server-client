@@ -267,7 +267,7 @@
 		},
 		"import": {
 			"name": "support.function",
-			"begin": "import",
+			"begin": "^import\\b",
 			"end": ";",
 			"beginCaptures": {
 				"0": {
