@@ -1,27 +1,32 @@
 # Soy File Support - What's new?
 
+### [3.28.1] - 2021.11.23
+
+- [Fix 'import' being matched mid sentence](https://github.com/Blodwynn/-VSCODE-.soy-language-server-client/pull/17); Thanks to [Axel Lewenhaupt](https://github.com/axellew)
+
 ## [3.28.0] - 2021/10/31
-- Add syntax highlighting for types in @param; Thanks to [Axel Lewenhaupt](https://github.com/axellew) [PR](https://github.com/Blodwynn/-VSCODE-.soy-language-server-client/pull/16)
+
+- [Add syntax highlighting for types in @param](https://github.com/Blodwynn/-VSCODE-.soy-language-server-client/pull/16); Thanks to [Axel Lewenhaupt](https://github.com/axellew)
 
 ### [3.27.1] - 2021/10/29
 
-- Fix highlighting when there is more than two imported symbols Thanks to [Axel Lewenhaupt](https://github.com/axellew) [PR](https://github.com/Blodwynn/-VSCODE-.soy-language-server-client/pull/15)
+- [Fix highlighting when there is more than two imported symbols](https://github.com/Blodwynn/-VSCODE-.soy-language-server-client/pull/15); Thanks to [Axel Lewenhaupt](https://github.com/axellew)
 
 ## [3.27.0] - 2021/09/21
 
-- Improve highlighting for literal, attribute and const; Thanks to [Axel Lewenhaupt](https://github.com/axellew) [PR](https://github.com/Blodwynn/-VSCODE-.soy-language-server-client/pull/14)
+- [Improve highlighting for literal, attribute and const](https://github.com/Blodwynn/-VSCODE-.soy-language-server-client/pull/14); Thanks to [Axel Lewenhaupt](https://github.com/axellew)
 
 ## [3.26.0] - 2021/09/08
 
-- Add support for new grammar; Thanks to [Axel Lewenhaupt](https://github.com/axellew) [PR](https://github.com/Blodwynn/-VSCODE-.soy-language-server-client/pull/12)
+- [Add support for new grammar](https://github.com/Blodwynn/-VSCODE-.soy-language-server-client/pull/12); Thanks to [Axel Lewenhaupt](https://github.com/axellew)
 
 ### [3.25.1] - 2020/11/06
 
-- fixing parsing error; Thanks to [Adam Graf](https://github.com/netgrafe) [PR](https://github.com/Blodwynn/-VSCODE-.soy-language-server-client/pull/10)
+- [Fixing parsing error](https://github.com/Blodwynn/-VSCODE-.soy-language-server-client/pull/10); Thanks to [Adam Graf](https://github.com/netgrafe)
 
 ## [3.25.0] - 2020/05/03
 
-- adding support to exlude files / folders from being parsed, available in the settings; Thanks to [Ben Haines](https://github.com/bhainesva) [PR](https://github.com/Blodwynn/-VSCODE-.soy-language-server-client/pull/8)
+- [Adding support to exlude files / folders from being parsed, available in the settings](https://github.com/Blodwynn/-VSCODE-.soy-language-server-client/pull/8); Thanks to [Ben Haines](https://github.com/bhainesva)
   - a file eg: `path/to/my/file.soy`
   - a folder eg: `myExludedFolder/**/*.soy`
 - dependency updates
