@@ -1,5 +1,10 @@
 # Soy File Support - What's new?
 
+### [3.29.0] - 2022.02.09
+
+- [Improve wordpattern](https://github.com/Blodwynn/-VSCODE-.soy-language-server-client/pull/18); Thanks to [Axel Lewenhaupt](https://github.com/axellew)
+- Fixing broken `About` activation event
+
 ### [3.28.1] - 2021.11.23
 
 - [Fix 'import' being matched mid sentence](https://github.com/Blodwynn/-VSCODE-.soy-language-server-client/pull/17); Thanks to [Axel Lewenhaupt](https://github.com/axellew)
