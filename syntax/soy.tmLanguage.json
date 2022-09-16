@@ -95,7 +95,7 @@
 							}
 						},
 						{
-							"match": "\\b(deltemplate|template|element|call|delcall|dynacall|namespace|modname|package)\\b(?:\\s+([\\w\\d.]+))?",
+							"match": "\\b(deltemplate|template|element|call|delcall|dynacall|namespace|delpackage|modname|package)\\b(?:\\s+([\\w\\d.]+))?",
 							"captures": {
 								"1": {
 									"name": "entity.name.tag"
