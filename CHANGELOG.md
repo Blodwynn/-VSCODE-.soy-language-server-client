@@ -1,5 +1,9 @@
 # Soy File Support - What's new?
 
+### [3.30.0] - 2022.09.16
+
+- [Improve wordpattern](https://github.com/Blodwynn/-VSCODE-.soy-language-server-client/pull/19); Thanks to [Axel Lewenhaupt](https://github.com/axellew)
+
 ### [3.29.0] - 2022.02.09
 
 - [Improve wordpattern](https://github.com/Blodwynn/-VSCODE-.soy-language-server-client/pull/18); Thanks to [Axel Lewenhaupt](https://github.com/axellew)
