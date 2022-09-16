@@ -17,7 +17,7 @@
 		"postinstall": "vscode-install"
 	},
 	"dependencies": {
-		"fast-glob": "^2.2.7",
+		"fast-glob": "^3.2.12",
 		"linenumber": "^1.0.1",
 		"vscode": "^1.1.37",
 		"vscode-languageclient": "^4.4.2"
